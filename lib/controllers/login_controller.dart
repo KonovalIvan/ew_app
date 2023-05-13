@@ -14,9 +14,10 @@ class LoginController {
   bool get getShowLoginError => _showLoginError;
 
   void login(BuildContext context) {
-    if (validateInputs()) {
-      Navigator.pushNamed(context, '/home');
-    }
+    // if (validateInputs()) {
+    //   Navigator.pushNamed(context, '/home');
+    // }
+    Navigator.pushNamed(context, '/home');
   }
 
   bool validateInputs() {
