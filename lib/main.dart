@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ew_app/routes.dart';
+import 'package:ew_app/config/routes.dart';
 void main() {
   runApp(const EwApp()
   );

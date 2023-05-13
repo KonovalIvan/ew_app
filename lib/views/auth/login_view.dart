@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ew_app/controllers/login_controller.dart';
 
-import '../styles.dart';
+import 'package:ew_app/constants/styles.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView(LoginController loginController, {super.key});

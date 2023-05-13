@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ew_app/styles.dart';
+import 'package:ew_app/constants/styles.dart';
 
 import 'package:ew_app/controllers/register_controller.dart';
 

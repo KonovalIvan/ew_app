@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ew_app/consts.dart' as consts;
+import 'package:ew_app/constants/url.dart' as consts;
 import 'package:ew_app/api/project_api_service.dart';
 
 class HomeView extends StatefulWidget {
@@ -17,8 +17,8 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    // get all active prijects
-    projectsList = getProjectList(consts.Constants.apiProjectsActiveGet);
+    // get all active projects
+    projectsList = getProjectList(consts.apiProjectsActiveGet);
   }
 
   @override
