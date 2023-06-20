@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ew_app/config/routes.dart';
+
 void main() {
-  runApp(const EwApp()
-  );
+  runApp(const EwApp());
 }
 
 class EwApp extends StatelessWidget {

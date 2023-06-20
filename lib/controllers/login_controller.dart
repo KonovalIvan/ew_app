@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:ew_app/api/user_api_service.dart';
+import 'package:ew_app/constants/url.dart' as url;
+
 class LoginController {
   late TextEditingController emailController;
   late TextEditingController passwordController;
@@ -15,6 +18,11 @@ class LoginController {
 
   void login(BuildContext context) {
     // if (validateInputs()) {
+    //   getBeaverToken(
+    //     url.Constants.apiLoginPost,
+    //     emailController.text,
+    //     passwordController.text,
+    //   );
     //   Navigator.pushNamed(context, '/home');
     // }
     Navigator.pushNamed(context, '/home');

@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
+import 'package:flutter/material.dart';
 
 import 'package:ew_app/controllers/landing_controller.dart';
+import 'package:flutter_svg/svg.dart';
 
 class LandingView extends StatefulWidget {
   const LandingView(LandingController landingController, {super.key});
@@ -21,104 +23,92 @@ class _LandingViewState extends State<LandingView> {
 
   @override
   Widget build(BuildContext context) {
-    double baseWidth = 375;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
-    return SizedBox(
-      width: double.infinity,
-      child: Container(
-        padding: EdgeInsets.fromLTRB(43*fem, 185*fem, 43*fem, 159*fem),
+    return Scaffold(
+      body: Container(
+        decoration: backgroundDecorationGradient,
         width: double.infinity,
-        decoration: BoxDecoration (
-          color: const Color(0xffffffff),
-          gradient: const LinearGradient (
-            begin: Alignment(-1, -1),
-            end: Alignment(1, 1),
-            colors: <Color>[Color(0xff572885), Color(0xff250d67)],
-            stops: <double>[0, 1],
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0x66360ca7),
-              offset: Offset(5*fem, 5*fem),
-              blurRadius: 20*fem,
-            ),
-          ],
+        height: double.infinity,
+        padding: const EdgeInsets.only(
+          left: 43.0,
+          right: 43.0,
+          top: 185.0,
+          bottom: 159,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(0.13*fem, 0*fem, 0*fem, 113.25*fem),
-              width: 119.13*fem,
-              height: 195.75*fem,
-              child: Image.asset(
-                'assets/views/landing_view/images/logo.png',
-                width: 119.13*fem,
-                height: 195.75*fem,
-              ),
+            SvgPicture.asset(
+              'assets/icons/logo.svg',
+              height: 196.0,
+              width: 120.0,
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 0*fem, 29*fem),
-              width: double.infinity,
-              height: 65*fem,
-              decoration: BoxDecoration (
-                color: const Color(0xfffffafa),
-                borderRadius: BorderRadius.circular(40*fem),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0x3f000000),
-                    offset: Offset(0*fem, 4*fem),
-                    blurRadius: 2*fem,
+            Column(
+              children: [
+                Container(
+                  width: 289.0,
+                  height: 65.0,
+                  decoration: BoxDecoration(
+                    color: buttonGreyColor,
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.width / 2.0),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.25),
+                        blurRadius: 4,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Center(
-                child: Text(
-                  'Sign in',
-                  style: SafeGoogleFont (
-                    'Poppins',
-                    fontSize: 33*ffem,
-                    fontWeight: FontWeight.w400,
-                    height: 1.5*ffem/fem,
-                    color: const Color(0xd6260975),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: 65*fem,
-              decoration: BoxDecoration (
-                color: const Color(0xfffffafa),
-                borderRadius: BorderRadius.circular(40*fem),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0x3f000000),
-                    offset: Offset(0*fem, 4*fem),
-                    blurRadius: 2*fem,
-                  ),
-                ],
-              ),
-              child: Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
+                  child: TextButton(
+                    onPressed: () {
                       _landingController.login(context);
-                    });
-                  },
-                  child: Text(
-                    'Sign up',
-                    style: SafeGoogleFont (
-                      'Poppins',
-                      fontSize: 33*ffem,
-                      fontWeight: FontWeight.w400,
-                      height: 1.5*ffem/fem,
-                      color: const Color(0xd8097541),
+                    },
+                    child: Text(
+                      'Sign in',
+                      style: SafeGoogleFont(
+                        'Poppins',
+                        fontSize: 33,
+                        fontWeight: FontWeight.w400,
+                        color: buttonLoginTextColor,
+                      ),
                     ),
                   ),
                 ),
-              ),
+                Container(
+                  width: 289.0,
+                  height: 65.0,
+                  margin: const EdgeInsets.only(
+                    top: 30.0,
+                  ),
+                  decoration: BoxDecoration(
+                    color: buttonGreyColor,
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.width / 2.0),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.25),
+                        blurRadius: 4,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      _landingController.register(context);
+                    },
+                    child: Text(
+                      'Sign up',
+                      style: SafeGoogleFont(
+                        'Poppins',
+                        fontSize: 33,
+                        fontWeight: FontWeight.w400,
+                        color: buttonRegisterTextColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
