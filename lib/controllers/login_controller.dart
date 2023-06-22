@@ -25,7 +25,24 @@ class LoginController {
     //   );
     //   Navigator.pushNamed(context, '/home');
     // }
-    Navigator.pushNamed(context, '/home');
+    Navigator.pushNamed(context, '/soon');
+  }
+
+  void register(BuildContext context) {
+    // if (validateInputs()) {
+    //   getBeaverToken(
+    //     url.Constants.apiLoginPost,
+    //     emailController.text,
+    //     passwordController.text,
+    //   );
+    //   Navigator.pushNamed(context, '/home');
+    // }
+    Navigator.pushNamed(context, '/register');
+  }
+
+  void forgotPassword(BuildContext context) {
+
+    Navigator.pushNamed(context, '/forgot_password');
   }
 
   bool validateInputs() {

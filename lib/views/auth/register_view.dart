@@ -1,7 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
-
+import 'package:ew_app/constants/widgets.dart';
 import 'package:ew_app/controllers/register_controller.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:ew_app/controllers/login_controller.dart';
+
+import 'package:flutter_svg/svg.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView(RegisterController registerController, {super.key});
@@ -12,249 +17,232 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-
   final RegisterController _registerController = RegisterController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    double baseWidth = 375;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
-    return SizedBox(
-      width: double.infinity,
-      child: Container(
-        padding: EdgeInsets.fromLTRB(30*fem, 157*fem, 27.99*fem, 126*fem),
-        width: double.infinity,
-        decoration: BoxDecoration (
-          color: const Color(0xffffffff),
-          gradient: const LinearGradient (
-            begin: Alignment(-1, -1),
-            end: Alignment(1, 1),
-            colors: <Color>[Color(0xff572885), Color(0xff250d67)],
-            stops: <double>[0, 1],
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0x66360ca7),
-              offset: Offset(5*fem, 5*fem),
-              blurRadius: 20*fem,
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+  void initState() {
+    super.initState();
+  }
+
+  bool showPassword = false;
+  bool isCheckedTermsAndConditions = false;
+
+  @override
+  void dispose() {
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build (BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(child: Stack(
           children: [
             Container(
-              margin: EdgeInsets.fromLTRB(93*fem, 0*fem, 94.01*fem, 20*fem),
-              padding: EdgeInsets.fromLTRB(21.67*fem, 16.25*fem, 21.67*fem, 16.25*fem),
-              width: double.infinity,
-              decoration: BoxDecoration (
-                border: Border.all(color: const Color(0xffffffff)),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0x3f000000),
-                    offset: Offset(0*fem, 4*fem),
-                    blurRadius: 2*fem,
-                  ),
-                ],
+              decoration: backgroundDecorationGradient,
+              padding: const EdgeInsets.only(
+                left: 43.0,
+                right: 43.0,
+                top: 140.0,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 0*fem, 21.67*fem),
-                    width: 43.33*fem,
-                    height: 43.33*fem,
-                    child: Image.asset(
-                      'assets/views/register_view/images/vector-head.png',
-                      width: 43.33*fem,
-                      height: 43.33*fem,
+                  SvgPicture.asset(
+                    'assets/icons/user.svg',
+                    height: 130.0,
+                    width: 130.0,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20.0),
+                    child: Text(
+                      'Create account',
+                      style: SafeGoogleFont('Poppins',
+                          fontSize: 40.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
-                  SizedBox(
-                    width: 86.67*fem,
-                    height: 32.5*fem,
-                    child: Image.asset(
-                      'assets/views/register_view/images/vector-body.png',
-                      width: 86.67*fem,
-                      height: 32.5*fem,
+                  const Padding(
+                    padding: EdgeInsets.only(top: 50.0),
+                    child: InputFieldWidget(
+                      fieldHeight: 33,
+                      iconPath: 'assets/icons/user.svg',
+                      helpText: 'E-mail',
+                      obscureText: true,
                     ),
                   ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 2.01*fem, 95*fem),
-              child: Text(
-                'Create account',
-                style: SafeGoogleFont (
-                  'Poppins',
-                  fontSize: 40*ffem,
-                  fontWeight: FontWeight.w400,
-                  height: 1.5*ffem/fem,
-                  color: const Color(0xffffffff),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(13*fem, 0*fem, 0*fem, 46*fem),
-              width: 304.01*fem,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 0*fem, 20*fem),
-                    padding: EdgeInsets.fromLTRB(0*fem, 0*fem, 0*fem, 0*fem),
-                    width: double.infinity,
-                    height: 30*fem,
-                    child: SizedBox(
-                      width: 73.12*fem,
-                      height: 20*fem,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 11.12*fem, 0*fem),
-                            width: 20*fem,
-                            height: 20*fem,
-                            child: Image.asset(
-                              'assets/views/register_view/images/icons-login.png',
-                              width: 20*fem,
-                              height: 20*fem,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 21.0),
+                    child: InputFieldWidget(
+                      fieldHeight: 33,
+                      iconPath: 'assets/icons/password.svg',
+                      helpText: 'Password',
+                      obscureText: !showPassword,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 21.0),
+                    child: InputFieldWidget(
+                      fieldHeight: 33,
+                      iconPath: 'assets/icons/password.svg',
+                      helpText: 'Confirm password',
+                      obscureText: !showPassword,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 18,
+                      left: 2,
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 15,
+                          height: 15,
+                          child: Checkbox(
+                            value: showPassword,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                showPassword = value ?? true;
+                              });
+                            },
+                            checkColor: Colors.black,
+                            activeColor: Colors.white,
+                            side: const BorderSide(
+                              color: Colors.white,
+                              width: 2,
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 0*fem, 0.35*fem),
-                            child: Text(
-                              'E-mail',
-                              style: SafeGoogleFont (
-                                'Roboto',
-                                fontSize: 15*ffem,
-                                fontWeight: FontWeight.w400,
-                                height: 1.1725*ffem/fem,
-                                color: const Color(0xffffffff),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8,
+                          ),
+                          child: Text(
+                            'Show password',
+                            style: SafeGoogleFont('Roboto',
+                                fontSize: 12.0, color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 18,
+                      left: 2,
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 15,
+                          height: 15,
+                          child: Checkbox(
+                            value: isCheckedTermsAndConditions,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                isCheckedTermsAndConditions = value ?? false;
+                              });
+                            },
+                            checkColor: Colors.black,
+                            activeColor: Colors.white,
+                            side: const BorderSide(
+                              color: Colors.white,
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8,
+                          ),
+                          child: Text(
+                            'Terms and conditions',
+                            style: SafeGoogleFont('Roboto',
+                                fontSize: 12.0, color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 289.0,
+                    height: 65.0,
+                    margin: const EdgeInsets.only(
+                      top: 30.0,
+                    ),
+                    decoration: BoxDecoration(
+                      color: buttonGreyColor,
+                      borderRadius: BorderRadius.circular(
+                          MediaQuery.of(context).size.width / 2.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromRGBO(0, 0, 0, 0.25),
+                          blurRadius: 4,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        _registerController.register(context);
+                      },
+                      child: Text(
+                        'Sign up',
+                        style: SafeGoogleFont(
+                          'Poppins',
+                          fontSize: 33,
+                          fontWeight: FontWeight.w400,
+                          color: buttonRegisterTextColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 17.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            style: SafeGoogleFont(
+                              'Poppins',
+                              fontSize: 12.0,
+                              color: Colors.white,
+                            ),
+                            children: const [
+                              TextSpan(
+                                text: 'Already have an account? ',
                               ),
+                            ],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            _registerController.login(context);
+                          },
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 12.0,
+                              color: textLinkColor,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(3.75*fem, 1.65*fem, 3.75*fem, 1.65*fem),
-                    width: double.infinity,
-                    height: 30*fem,
-                    child: SizedBox(
-                      width: 94.37*fem,
-                      height: 18*fem,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0*fem, 0.22*fem, 14.87*fem, 0*fem),
-                            width: 12.5*fem,
-                            height: 16.88*fem,
-                            child: Image.asset(
-                              'assets/views/register_view/images/icons-password.png',
-                              width: 12.5*fem,
-                              height: 16.88*fem,
-                            ),
-                          ),
-                          Text(
-                            'Password',
-                            style: SafeGoogleFont (
-                              'Roboto',
-                              fontSize: 15*ffem,
-                              fontWeight: FontWeight.w400,
-                              height: 1.1725*ffem/fem,
-                              color: const Color(0xffffffff),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(13*fem, 0*fem, 15.01*fem, 18*fem),
-              width: double.infinity,
-              height: 65*fem,
-              decoration: BoxDecoration (
-                color: const Color(0xfffffafa),
-                borderRadius: BorderRadius.circular(40*fem),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0x3f000000),
-                    offset: Offset(0*fem, 4*fem),
-                    blurRadius: 2*fem,
-                  ),
-                ],
-              ),
-              child: Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      _registerController.login(context);
-                    });
-                  },
-                child: Text(
-                  'Sign up',
-                  style: SafeGoogleFont (
-                    'Poppins',
-                    fontSize: 33*ffem,
-                    fontWeight: FontWeight.w400,
-                    height: 1.5*ffem/fem,
-                    color: const Color(0xd8097541),
-                  ),
-                ),
-              ),
-            ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 1.01*fem, 0*fem),
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: SafeGoogleFont (
-                    'Roboto',
-                    fontSize: 12*ffem,
-                    fontWeight: FontWeight.w400,
-                    height: 1.1725*ffem/fem,
-                    color: const Color(0xff6c7b79),
-                  ),
-                  children: [
-                    TextSpan(
-                      text: 'Already have a account?',
-                      style: SafeGoogleFont (
-                        'Roboto',
-                        fontSize: 12*ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.1725*ffem/fem,
-                        color: const Color(0xffffffff),
-                      ),
-                    ),
-                    const TextSpan(
-                      text: ' ',
-                    ),
-                    TextSpan(
-                      text: 'Login',
-                      style: SafeGoogleFont (
-                        'Roboto',
-                        fontSize: 12*ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.1725*ffem/fem,
-                        color: const Color(0xff3ca8ca),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            const BackArrowWidget(),
           ],
         ),
-      ),
-    );
+    ),);
   }
 }

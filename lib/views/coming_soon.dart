@@ -1,12 +1,13 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/sizes.dart';
 import 'package:ew_app/constants/styles.dart';
+import 'package:ew_app/constants/widgets.dart';
 import 'package:ew_app/controllers/coming_soon_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ComingSoonView extends StatefulWidget {
-  const ComingSoonView(ComingSoonController comingSoonController, {super.key});
+  const ComingSoonView({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -14,7 +15,6 @@ class ComingSoonView extends StatefulWidget {
 }
 
 class _ComingSoonViewState extends State<ComingSoonView> {
-  final ComingSoonController _comingSoonController = ComingSoonController();
 
   @override
   void initState() {
@@ -56,28 +56,11 @@ class _ComingSoonViewState extends State<ComingSoonView> {
                     ),
                   ),
                 ),
+
               ],
             ),
           ),
-          Positioned(
-            top: backMarginTop,
-            left: backMarginLeft,
-            child: GestureDetector(
-              onTap: () {
-                _comingSoonController.back(context);
-              },
-              child: Container(
-                width: 40,
-                height: 40,
-                color: Colors.transparent,
-                child: SvgPicture.asset(
-                  'assets/icons/back.svg',
-                  height: 25.0,
-                  width: 19.0,
-                ),
-              ),
-            ),
-          ),
+          const BackArrowWidget(),
         ],
       ),
     );

@@ -13,6 +13,7 @@ class EwApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: routes,
+      debugShowCheckedModeBanner: false
     );
   }
 }
