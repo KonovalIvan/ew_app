@@ -1,6 +1,6 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets.dart';
+import 'package:ew_app/constants/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:ew_app/controllers/login_controller.dart';
 
@@ -25,6 +25,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   bool showPassword = false;
+  bool showError = false;
 
   @override
   void dispose() {
@@ -35,6 +36,8 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBarWidget(),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -64,9 +67,18 @@ class _LoginViewState extends State<LoginView> {
                           fontWeight: FontWeight.w400),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 50.0),
-                    child: InputFieldWidget(
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: _loginController.showError
+                        ? const CustomErrorWidget()
+                        : const SizedBox(
+                            height: 0,
+                            width: 0,
+                          ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: _loginController.showError ? 10.0 : 50.0),
+                    child: const InputFieldWidget(
                       fieldHeight: 33,
                       iconPath: 'assets/icons/user.svg',
                       helpText: 'E-mail',
@@ -135,8 +147,11 @@ class _LoginViewState extends State<LoginView> {
                             ),
                             child: Text(
                               'Forgot Password?',
-                              style: SafeGoogleFont('Roboto',
-                                fontSize: 12.0, color: Colors.white,),
+                              style: SafeGoogleFont(
+                                'Roboto',
+                                fontSize: 12.0,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         )
@@ -163,7 +178,9 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     child: TextButton(
                       onPressed: () {
-                        _loginController.login(context);
+                        setState(() {
+                          _loginController.login(context);
+                        });
                       },
                       child: Text(
                         'Sign in',
@@ -215,7 +232,6 @@ class _LoginViewState extends State<LoginView> {
               ),
             ),
           ),
-          const BackArrowWidget(),
         ],
       ),
     );

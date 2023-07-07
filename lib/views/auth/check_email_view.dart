@@ -1,6 +1,6 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets.dart';
+import 'package:ew_app/constants/widgets/widgets.dart';
 import 'package:ew_app/controllers/check_email_controller.dart';
 import 'package:ew_app/controllers/forgot_password_controller.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +32,8 @@ class _CheckEmailViewState extends State<CheckEmailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBarWidget(),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -65,7 +67,7 @@ class _CheckEmailViewState extends State<CheckEmailView> {
                   Container(
                     padding: const EdgeInsets.only(top: 26.0),
                     child: Text(
-                      'Further instructions were sent to the provided email address. Please check your mail',
+                      'Instructions were sent to the provided email address. Please check your mail',
                       textAlign: TextAlign.center,
                       style: SafeGoogleFont(
                         'Poppins',
@@ -111,7 +113,6 @@ class _CheckEmailViewState extends State<CheckEmailView> {
               ),
             ),
           ),
-          const BackArrowWidget(),
         ],
       ),
     );

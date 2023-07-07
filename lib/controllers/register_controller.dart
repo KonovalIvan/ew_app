@@ -9,6 +9,6 @@ class RegisterController {
 
   void register(BuildContext context) {
     // logic for pressed button register
-    Navigator.pushNamed(context, '/soon');
+    Navigator.pushNamed(context, '/almost_done');
   }
 }

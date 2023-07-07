@@ -1,7 +1,7 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/sizes.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets.dart';
+import 'package:ew_app/constants/widgets/widgets.dart';
 import 'package:ew_app/controllers/coming_soon_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -24,6 +24,8 @@ class _ComingSoonViewState extends State<ComingSoonView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBarWidget(),
       body: Stack(
         children: [
           Container(
@@ -60,7 +62,6 @@ class _ComingSoonViewState extends State<ComingSoonView> {
               ],
             ),
           ),
-          const BackArrowWidget(),
         ],
       ),
     );

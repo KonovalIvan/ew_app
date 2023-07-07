@@ -1,7 +1,8 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets.dart';
+import 'package:ew_app/constants/widgets/widgets.dart';
 import 'package:ew_app/controllers/register_controller.dart';
+import 'package:ew_app/controllers/widget_controller.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ew_app/controllers/login_controller.dart';
@@ -20,6 +21,7 @@ class _RegisterViewState extends State<RegisterView> {
   final RegisterController _registerController = RegisterController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+  final BackArrowController _backArrowController = BackArrowController();
 
   @override
   void initState() {
@@ -36,9 +38,12 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   @override
-  Widget build (BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(child: Stack(
+      extendBodyBehindAppBar: true,
+      appBar: const AppBarWidget(text: Text('asd')),
+      body: SingleChildScrollView(
+        child: Stack(
           children: [
             Container(
               decoration: backgroundDecorationGradient,
@@ -240,9 +245,9 @@ class _RegisterViewState extends State<RegisterView> {
                 ],
               ),
             ),
-            const BackArrowWidget(),
           ],
         ),
-    ),);
+      ),
+    );
   }
 }

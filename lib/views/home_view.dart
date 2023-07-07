@@ -1,3 +1,4 @@
+import 'package:ew_app/constants/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ew_app/constants/url.dart' as consts;
@@ -24,28 +25,39 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-        future: projectsList,
-        builder: (context, snapshot) {
-          if (snapshot.data != null) {
-            return ListView.builder(
-              itemCount: snapshot.data.projects.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    title: Text('${snapshot.data.projects[index].name}'),
-                    subtitle:
-                        Text('${snapshot.data.projects[index].description}'),
-                    isThreeLine: true,
+      backgroundColor: Colors.white,
+      body: Container(
+        margin: EdgeInsets.only(top: 150, left: 75),
+        child: Column(
+          children: [
+            Container(
+              child: Column(
+                children: const [
+                  HomeButtonWidget(
+                    buttonColor: Color(0xFFBB6BD9),
+                    textColor: Colors.white,
+                    buttonText: 'Task',
                   ),
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return const Text('Error');
-          }
-          return const Center(child: CircularProgressIndicator());
-        },
+                  HomeButtonWidget(
+                    buttonColor: Color(0xFF2F80ED),
+                    textColor: Colors.white,
+                    buttonText: 'Current projects',
+                  ),
+                  HomeButtonWidget(
+                    buttonColor: Color(0xFF27AE60),
+                    textColor: Colors.white,
+                    buttonText: 'Finished projects',
+                  ),
+                  HomeButtonWidget(
+                    buttonColor: Color(0xFFF2994A),
+                    textColor: Colors.white,
+                    buttonText: 'Calculator',
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

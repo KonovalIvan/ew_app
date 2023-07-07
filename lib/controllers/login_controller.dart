@@ -1,65 +1,22 @@
 import 'package:flutter/material.dart';
 
-import 'package:ew_app/api/user_api_service.dart';
-import 'package:ew_app/constants/url.dart' as url;
-
 class LoginController {
-  late TextEditingController emailController;
-  late TextEditingController passwordController;
-  bool _showPasswordError = false;
-  final String _passwordErrorText = 'Incorrect password';
-  bool _showLoginError = false;
-  final String _loginErrorText = 'Incorrect login';
 
-  String get getPasswordErrorText => _passwordErrorText;
-  bool get getShowPasswordError => _showPasswordError;
-  String get getLoginErrorText => _loginErrorText;
-  bool get getShowLoginError => _showLoginError;
+  bool _showError = false;
+
+  bool get showError => _showError;
 
   void login(BuildContext context) {
-    // if (validateInputs()) {
-    //   getBeaverToken(
-    //     url.Constants.apiLoginPost,
-    //     emailController.text,
-    //     passwordController.text,
-    //   );
-    //   Navigator.pushNamed(context, '/home');
-    // }
-    Navigator.pushNamed(context, '/soon');
+    // TODO: check password and login and if ok pushName if not set _showError = true
+    // _showError = true;
+    Navigator.pushNamed(context, '/home');
   }
 
   void register(BuildContext context) {
-    // if (validateInputs()) {
-    //   getBeaverToken(
-    //     url.Constants.apiLoginPost,
-    //     emailController.text,
-    //     passwordController.text,
-    //   );
-    //   Navigator.pushNamed(context, '/home');
-    // }
     Navigator.pushNamed(context, '/register');
   }
 
   void forgotPassword(BuildContext context) {
-
     Navigator.pushNamed(context, '/forgot_password');
-  }
-
-  bool validateInputs() {
-    bool returningValue = true;
-    _showPasswordError = false;
-    _showLoginError = false;
-
-    if (emailController.text.isEmpty) {
-      _showLoginError = true;
-      returningValue = false;
-    }
-
-    if (passwordController.text.isEmpty) {
-      _showPasswordError = true;
-      returningValue = false;
-    }
-
-    return returningValue;
   }
 }
