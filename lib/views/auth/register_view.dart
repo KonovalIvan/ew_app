@@ -41,7 +41,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const AppBarWidget(text: Text('asd')),
+      appBar: const AppBarWidget(leftIcon: BackArrowWidget(),),
       body: SingleChildScrollView(
         child: Stack(
           children: [

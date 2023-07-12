@@ -33,7 +33,7 @@ class _CheckEmailViewState extends State<CheckEmailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBarWidget(),
+      appBar: const AppBarWidget(leftIcon: BackArrowWidget(),),
       body: Stack(
         children: [
           SingleChildScrollView(

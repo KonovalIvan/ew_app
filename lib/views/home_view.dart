@@ -1,4 +1,10 @@
+import 'package:ew_app/constants/colors.dart';
+import 'package:ew_app/constants/styles.dart';
+import 'package:ew_app/constants/widgets/admin.dart';
 import 'package:ew_app/constants/widgets/buttons.dart';
+import 'package:ew_app/constants/widgets/menu.dart';
+import 'package:ew_app/constants/widgets/widgets.dart';
+import 'package:ew_app/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ew_app/constants/url.dart' as consts;
@@ -14,6 +20,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   late Future projectsList = Future.value(null);
+  final HomeController _homeController = HomeController();
 
   @override
   void initState() {
@@ -25,39 +32,61 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        margin: EdgeInsets.only(top: 150, left: 75),
-        child: Column(
-          children: [
-            Container(
-              child: Column(
-                children: const [
-                  HomeButtonWidget(
-                    buttonColor: Color(0xFFBB6BD9),
+      extendBodyBehindAppBar: true,
+      appBar: const AppBarWidget(rightIconMenu: MenuWidget(),),
+      drawer: const Menu(),
+      body: Column(
+        children: [
+          const AdminShadeWidget(),
+          Container(
+            padding: const EdgeInsets.only(top: 28.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 44.0),
+                  child: HomeButtonWidget(
+                    buttonColor: const Color(0xFFBB6BD9),
                     textColor: Colors.white,
                     buttonText: 'Task',
+                    onPressed: () {
+                      _homeController.task(context);
+                    },
                   ),
-                  HomeButtonWidget(
-                    buttonColor: Color(0xFF2F80ED),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 44.0),
+                  child: HomeButtonWidget(
+                    buttonColor: const Color(0xFF2F80ED),
                     textColor: Colors.white,
                     buttonText: 'Current projects',
+                    onPressed: () {
+                      _homeController.currentProjects(context);
+                    },
                   ),
-                  HomeButtonWidget(
-                    buttonColor: Color(0xFF27AE60),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 44.0),
+                  child: HomeButtonWidget(
+                    buttonColor: const Color(0xFF27AE60),
                     textColor: Colors.white,
                     buttonText: 'Finished projects',
+                    onPressed: () {
+                      _homeController.finishedProjects(context);
+                    },
                   ),
-                  HomeButtonWidget(
-                    buttonColor: Color(0xFFF2994A),
-                    textColor: Colors.white,
-                    buttonText: 'Calculator',
-                  ),
-                ],
-              ),
+                ),
+                HomeButtonWidget(
+                  buttonColor: const Color(0xFFF2994A),
+                  textColor: Colors.white,
+                  buttonText: 'Calculator',
+                  onPressed: () {
+                    _homeController.calculator(context);
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

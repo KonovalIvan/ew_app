@@ -69,7 +69,7 @@ class _InputFieldWidgetState extends State<InputFieldWidget> {
 class BackArrowWidget extends StatefulWidget {
   const BackArrowWidget({
     Key? key,
-    this.fieldHeight = 19,
+    this.fieldHeight = 21,
     this.arrowColor = Colors.white,
     this.fieldWidth = 25,
   }) : super(key: key);
@@ -88,31 +88,79 @@ class _BackArrowWidgetState extends State<BackArrowWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: widget.fieldWidth,
-      height: widget.fieldHeight,
-      color: Colors.transparent,
-      child: IconButton(
-        onPressed: () {
-          _backArrowController.back(context);
+    return IconButton(
+      onPressed: () {
+        _backArrowController.back(context);
+      },
+      icon: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return Container(
+            width: widget.fieldWidth,
+            height: widget.fieldHeight,
+            child: SvgPicture.asset(
+              'assets/icons/back.svg',
+              fit: BoxFit.fill,
+            ),
+          );
         },
-        icon: SvgPicture.asset(
-          'assets/icons/back.svg',
-        ),
       ),
     );
   }
 }
 
+class MenuWidget extends StatefulWidget {
+  const MenuWidget({
+    Key? key,
+    this.fieldHeight = 16,
+    this.fieldWidth = 23,
+    this.menuColor = Colors.white,
+  }) : super(key: key);
+
+  final double fieldHeight;
+  final double fieldWidth;
+  final Color menuColor;
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _MenuWidgetState createState() => _MenuWidgetState();
+}
+
+class _MenuWidgetState extends State<MenuWidget> {
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        Scaffold.of(context).openDrawer();
+      },
+      icon: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return Container(
+            width: widget.fieldWidth,
+            height: widget.fieldHeight,
+            child: SvgPicture.asset(
+              'assets/icons/menu.svg',
+              fit: BoxFit.fill,
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+//TODO: transport AppBar and related widgets to other file
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   const AppBarWidget({
     Key? key,
     this.leftIcon,
-    this.text,
+    this.rightIconMenu,
+    this.title,
   }) : super(key: key);
 
   final BackArrowWidget? leftIcon;
-  final Text? text;
+  final MenuWidget? rightIconMenu;
+  final Text? title;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -127,15 +175,26 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      title: widget.text,
+      title: widget.title,
       backgroundColor: Colors.transparent,
-      leading: widget.leftIcon != null
-          ? widget.leftIcon!
-          : const BackArrowWidget(),
+      leading:
+          widget.leftIcon != null ? widget.leftIcon! : const SizedBox(
+      width: 0,
+      height: 0,
+    ),
+      actions: [
+        widget.rightIconMenu != null
+            ? widget.rightIconMenu!
+            : const SizedBox(
+                width: 0,
+                height: 0,
+              ),
+      ],
     );
   }
 }
 
+//TODO: transport Error widget to separate file
 class CustomErrorWidget extends StatefulWidget {
   const CustomErrorWidget({
     Key? key,
@@ -173,7 +232,7 @@ class _CustomErrorWidgetState extends State<CustomErrorWidget> {
                   ? SvgPicture.asset(
                       'assets/icons/warning.svg',
                     )
-                  : SizedBox(
+                  : const SizedBox(
                       width: 0,
                       height: 0,
                     ),

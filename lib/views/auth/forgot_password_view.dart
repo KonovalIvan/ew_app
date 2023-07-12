@@ -23,7 +23,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBarWidget(),
+      appBar: const AppBarWidget(leftIcon: BackArrowWidget(),),
       body: Stack(
         children: [
           SingleChildScrollView(

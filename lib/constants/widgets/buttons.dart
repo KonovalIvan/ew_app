@@ -10,13 +10,16 @@ class HomeButtonWidget extends StatefulWidget {
     Key? key,
     this.buttonColor,
     this.textColor = buttonGreyColor,
-    this.fontSize = 20, this.buttonText = '',
+    this.fontSize = 20,
+    this.buttonText = '',
+    required this.onPressed,
   }) : super(key: key);
 
   final Color? buttonColor;
   final String buttonText;
   final Color textColor;
   final double fontSize;
+  final VoidCallback onPressed;
 
   @override
 // ignore: library_private_types_in_public_api
@@ -42,9 +45,7 @@ class _HomeButtonWidgetState extends State<HomeButtonWidget> {
       ),
       child: TextButton(
         onPressed: () {
-          setState(() {
-            // _loginController.login(context);
-          });
+          widget.onPressed();
         },
         child: Text(
           widget.buttonText,
@@ -59,3 +60,5 @@ class _HomeButtonWidgetState extends State<HomeButtonWidget> {
     );
   }
 }
+
+//TODO: Transport here account_views buttons

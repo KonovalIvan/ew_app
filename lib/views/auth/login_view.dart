@@ -37,7 +37,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBarWidget(),
+      appBar: const AppBarWidget(leftIcon: BackArrowWidget(),),
       body: Stack(
         children: [
           SingleChildScrollView(

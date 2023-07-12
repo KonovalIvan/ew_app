@@ -25,7 +25,7 @@ class _NotFoundViewState extends State<NotFoundView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBarWidget(),
+      appBar: const AppBarWidget(leftIcon: BackArrowWidget(),),
       body: Stack(
         children: [
           Container(
