@@ -213,7 +213,6 @@ class CustomErrorWidget extends StatefulWidget {
 }
 
 class _CustomErrorWidgetState extends State<CustomErrorWidget> {
-  //TODO: pin back arrow into top of screen
   @override
   Widget build(BuildContext context) {
     return Positioned(

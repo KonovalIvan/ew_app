@@ -1,0 +1,1 @@
+const menuIconPath = 'assets/icons/menu';
