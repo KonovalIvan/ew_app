@@ -1,9 +1,9 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets/admin.dart';
-import 'package:ew_app/constants/widgets/buttons.dart';
-import 'package:ew_app/constants/widgets/menu.dart';
-import 'package:ew_app/constants/widgets/widgets.dart';
+import 'package:ew_app/constants/widgets/admin_widget.dart';
+import 'package:ew_app/constants/widgets/buttons_widget.dart';
+import 'package:ew_app/constants/widgets/menu_widget.dart';
+import 'package:ew_app/constants/widgets/widgets_widget.dart';
 import 'package:ew_app/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -19,15 +19,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  late Future projectsList = Future.value(null);
   final HomeController _homeController = HomeController();
-
-  @override
-  void initState() {
-    super.initState();
-    // get all active projects
-    projectsList = getProjectList(consts.apiProjectsActiveGet);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,20 +50,9 @@ class _HomeViewState extends State<HomeView> {
                   child: HomeButtonWidget(
                     buttonColor: const Color(0xFF2F80ED),
                     textColor: Colors.white,
-                    buttonText: 'Current projects',
+                    buttonText: 'Projects',
                     onPressed: () {
-                      _homeController.currentProjects(context);
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 44.0),
-                  child: HomeButtonWidget(
-                    buttonColor: const Color(0xFF27AE60),
-                    textColor: Colors.white,
-                    buttonText: 'Finished projects',
-                    onPressed: () {
-                      _homeController.finishedProjects(context);
+                      _homeController.projects(context);
                     },
                   ),
                 ),

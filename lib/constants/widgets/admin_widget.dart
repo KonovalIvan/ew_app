@@ -2,7 +2,6 @@ import 'package:ew_app/constants/styles.dart';
 import 'package:flutter/material.dart';
 
 class AdminShadeWidget extends StatefulWidget {
-
   const AdminShadeWidget({super.key});
 
   @override
@@ -17,8 +16,9 @@ class _AdminShadeWidgetState extends State<AdminShadeWidget> {
       // TODO: add background from const
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(40.0),
-            bottomRight: Radius.circular(40.0)),
+          bottomLeft: Radius.circular(40.0),
+          bottomRight: Radius.circular(40.0),
+        ),
         gradient: LinearGradient(
           begin: Alignment.bottomRight,
           end: Alignment.topLeft,
@@ -27,6 +27,13 @@ class _AdminShadeWidgetState extends State<AdminShadeWidget> {
             Color(0xFF572886),
           ],
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(54, 12, 167, 0.4),
+            blurRadius: 40,
+            offset: Offset(5, 5),
+          ),
+        ],
       ),
       width: double.infinity,
       height: 360.0,
@@ -72,7 +79,7 @@ class _AdminShadeWidgetState extends State<AdminShadeWidget> {
                   ),
                   // TODO: add progress bar
                   child: Image.asset(
-                    'assets/images/user_profile.png',
+                    'assets/images/base_user_profile.png',
                   ),
                 ),
                 Text(

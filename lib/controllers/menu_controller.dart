@@ -9,7 +9,7 @@ class MainMenuController {
 
   void projects(BuildContext context) {
     Navigator.pop(context);
-    Navigator.pushNamed(context, '/soon');
+    Navigator.pushNamed(context, '/projects');
   }
 
   void account(BuildContext context) {

@@ -1,7 +1,6 @@
-import 'package:ew_app/controllers/404_controller.dart';
 import 'package:ew_app/controllers/additional_information_controller.dart';
-import 'package:ew_app/controllers/coming_soon_controller.dart';
 import 'package:ew_app/controllers/forgot_password_controller.dart';
+import 'package:ew_app/controllers/projects_controller.dart';
 import 'package:ew_app/views/404.dart';
 import 'package:ew_app/views/auth/additional_information_view.dart';
 import 'package:ew_app/views/auth/almost_done_view.dart';
@@ -21,6 +20,8 @@ import 'package:ew_app/views/auth/register_view.dart';
 
 import 'package:ew_app/controllers/register_controller.dart';
 
+import '../views/projects/projects_view.dart';
+
 final Map<String, WidgetBuilder> routes = {
   '/': (BuildContext context) => LandingView(LandingController()),
   '/login': (BuildContext context) => LoginView(LoginController()),
@@ -32,4 +33,5 @@ final Map<String, WidgetBuilder> routes = {
   '/check_email': (BuildContext context) => const CheckEmailView(),
   '/almost_done': (BuildContext context) => const AlmostDoneView(),
   '/additional_information': (BuildContext context) => AdditionalInformationView(AdditionalInformationController()),
+  '/projects': (BuildContext context) => const ProjectsView(),
 };

@@ -1,5 +1,10 @@
 const String appName = 'ew_app';
-const String apiUrl = 'https://api.myapp.com';
+const String baseApiUrl = 'https://api.ew_app.com';
 
-// todo: temporary solution, for use ngrock
-const String apiProjectsActiveGet = 'http://127.0.0.1:8000/api_projects_active_retrieve';
+// Projects url`s
+const String baseProjectsUrl = '/projects';
+String apiProjectsAllUrl = "$baseApiUrl$baseProjectsUrl/";
+String apiProjectsActiveUrl = "$baseApiUrl$baseProjectsUrl/active/";
+String apiProjectsFinishedUrl = "$baseApiUrl$baseProjectsUrl/finished/";
+
+//TODO: Rewrite http for projects

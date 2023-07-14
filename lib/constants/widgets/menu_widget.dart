@@ -1,4 +1,3 @@
-import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/patches.dart';
 import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/controllers/menu_controller.dart';
@@ -55,7 +54,7 @@ class _MenuState extends State<Menu> {
                             MediaQuery.of(context).size.width / 2.0),
                       ),
                       child: Image.asset(
-                        'assets/images/user_profile.png',
+                        'assets/images/base_user_profile.png',
                       ),
                     ),
                   ),
@@ -173,7 +172,7 @@ class _MenuState extends State<Menu> {
                         },
                         child: const MenuElementWidget(
                           elementText: 'FAQ',
-                          // elementIconPath: '$menuIconPath/faq.svg',
+                          elementIconPath: '$menuIconPath/faq.svg',
                         ),
                       ),
                     ],
@@ -234,7 +233,7 @@ class _MenuElementWidgetState extends State<MenuElementWidget> {
         children: [
           widget.elementIconPath != null
               ? Padding(
-                  padding: const EdgeInsets.only(left: 6),
+                  padding: const EdgeInsets.only(left: 6, right: 6),
                   child: SvgPicture.asset(
                     '${widget.elementIconPath}',
                     height: 16.0,

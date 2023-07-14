@@ -7,14 +7,11 @@ class HomeController {
     Navigator.pushNamed(context, '/soon');
   }
 
-  void currentProjects(BuildContext context) {
+  void projects(BuildContext context) {
 
-    Navigator.pushNamed(context, '/soon');
+    Navigator.pushNamed(context, '/projects');
   }
-  void finishedProjects(BuildContext context) {
 
-    Navigator.pushNamed(context, '/soon');
-  }
   void calculator(BuildContext context) {
 
     Navigator.pushNamed(context, '/soon');

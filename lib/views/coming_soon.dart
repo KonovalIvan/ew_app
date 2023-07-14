@@ -1,7 +1,7 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/sizes.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets/widgets.dart';
+import 'package:ew_app/constants/widgets/widgets_widget.dart';
 import 'package:ew_app/controllers/coming_soon_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

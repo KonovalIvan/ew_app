@@ -1,6 +1,6 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets/widgets.dart';
+import 'package:ew_app/constants/widgets/widgets_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:ew_app/controllers/login_controller.dart';
 
