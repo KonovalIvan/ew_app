@@ -10,15 +10,15 @@ import 'package:ew_app/constants/url.dart' as consts;
 import 'package:ew_app/api/project_api_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ProjectsView extends StatefulWidget {
-  const ProjectsView({Key? key}) : super(key: key);
+class ProjectsListView extends StatefulWidget {
+  const ProjectsListView({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _ProjectsViewState createState() => _ProjectsViewState();
+  _ProjectsListViewState createState() => _ProjectsListViewState();
 }
 
-class _ProjectsViewState extends State<ProjectsView> {
+class _ProjectsListViewState extends State<ProjectsListView> {
   late Future allProjectsList = Future.value(null);
   final ProjectsController _projectsController = ProjectsController();
   bool _isExpanded = false;
@@ -48,7 +48,9 @@ class _ProjectsViewState extends State<ProjectsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const AppBarWidget(leftIcon: BackArrowWidget()),
+      // TODO: Add search field and icon
+      appBar: const AppBarWidget(leftIcon: BackArrowWidget(), rightIconMenu: MenuWidget(),),
+      drawer: const Menu(),
       body: SingleChildScrollView(
         child: Stack(
           children: [
@@ -97,7 +99,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                                 ),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               width: 10,
                               height: 10,
                               child: SvgPicture.asset(

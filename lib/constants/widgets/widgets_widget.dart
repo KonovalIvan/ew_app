@@ -158,8 +158,8 @@ class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
     this.title,
   }) : super(key: key);
 
-  final BackArrowWidget? leftIcon;
-  final MenuWidget? rightIconMenu;
+  final Widget? leftIcon;
+  final Widget? rightIconMenu;
   final Text? title;
 
   @override

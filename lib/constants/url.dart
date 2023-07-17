@@ -6,5 +6,6 @@ const String baseProjectsUrl = '/projects';
 String apiProjectsAllUrl = "$baseApiUrl$baseProjectsUrl/";
 String apiProjectsActiveUrl = "$baseApiUrl$baseProjectsUrl/active/";
 String apiProjectsFinishedUrl = "$baseApiUrl$baseProjectsUrl/finished/";
+String apiProjectsUrl = "$baseApiUrl$baseProjectsUrl/";  // TODO: Id here
 
 //TODO: Rewrite http for projects

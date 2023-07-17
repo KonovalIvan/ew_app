@@ -9,7 +9,7 @@ class HomeController {
 
   void projects(BuildContext context) {
 
-    Navigator.pushNamed(context, '/projects');
+    Navigator.pushNamed(context, '/projects_list');
   }
 
   void calculator(BuildContext context) {
