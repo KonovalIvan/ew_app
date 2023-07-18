@@ -1,13 +1,16 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets/widgets_widget.dart';
+import 'package:ew_app/widgets/appbar_widget.dart';
+import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
+import 'package:ew_app/widgets/custom_error_widget.dart';
+import 'package:ew_app/widgets/fields/auth_input_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:ew_app/controllers/login_controller.dart';
 
 import 'package:flutter_svg/svg.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView(LoginController loginController, {super.key});
+  const LoginView({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -37,7 +40,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const AppBarWidget(leftIcon: BackArrowWidget(),),
+      appBar: const AppBarWidget(leftIcon: BackArrowButtonWidget(),),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -78,7 +81,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: _loginController.showError ? 10.0 : 50.0),
-                    child: const InputFieldWidget(
+                    child: const AuthInputFieldWidget(
                       fieldHeight: 33,
                       iconPath: 'assets/icons/user.svg',
                       helpText: 'E-mail',
@@ -87,7 +90,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 21.0),
-                    child: InputFieldWidget(
+                    child: AuthInputFieldWidget(
                       fieldHeight: 33,
                       iconPath: 'assets/icons/password.svg',
                       helpText: 'Password',

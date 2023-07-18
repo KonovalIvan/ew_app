@@ -1,14 +1,10 @@
-import 'package:ew_app/constants/colors.dart';
-import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets/admin_widget.dart';
-import 'package:ew_app/constants/widgets/buttons_widget.dart';
-import 'package:ew_app/constants/widgets/menu_widget.dart';
-import 'package:ew_app/constants/widgets/widgets_widget.dart';
 import 'package:ew_app/controllers/home_controller.dart';
+import 'package:ew_app/widgets/appbar_widget.dart';
+import 'package:ew_app/widgets/buttons/menu_button_widget.dart';
+import 'package:ew_app/widgets/buttons/home_button_widget.dart';
+import 'package:ew_app/widgets/main_drawer_widget.dart';
+import 'package:ew_app/widgets/views/user_card_widget.dart';
 import 'package:flutter/material.dart';
-
-import 'package:ew_app/constants/url.dart' as consts;
-import 'package:ew_app/api/project_api_service.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -25,11 +21,11 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const AppBarWidget(rightIconMenu: MenuWidget(),),
-      drawer: const Menu(),
+      appBar: const AppBarWidget(rightIconMenu: MenuButtonWidget(),),
+      drawer: const MainDrawer(),
       body: Column(
         children: [
-          const AdminShadeWidget(),
+          const UserCardWidget(),
           Container(
             padding: const EdgeInsets.only(top: 28.0),
             child: Column(

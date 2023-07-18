@@ -1,15 +1,15 @@
 import 'package:ew_app/constants/styles.dart';
 import 'package:flutter/material.dart';
 
-class AdminShadeWidget extends StatefulWidget {
-  const AdminShadeWidget({super.key});
+class UserCardWidget extends StatefulWidget {
+  const UserCardWidget({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _AdminShadeWidgetState createState() => _AdminShadeWidgetState();
+  _UserCardWidgetState createState() => _UserCardWidgetState();
 }
 
-class _AdminShadeWidgetState extends State<AdminShadeWidget> {
+class _UserCardWidgetState extends State<UserCardWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(

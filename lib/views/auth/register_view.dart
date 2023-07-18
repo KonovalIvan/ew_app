@@ -1,16 +1,15 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets/widgets_widget.dart';
+import 'package:ew_app/widgets/appbar_widget.dart';
+import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:ew_app/controllers/register_controller.dart';
-import 'package:ew_app/controllers/widget_controller.dart';
-import 'package:flutter/gestures.dart';
+import 'package:ew_app/widgets/fields/auth_input_field_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:ew_app/controllers/login_controller.dart';
 
 import 'package:flutter_svg/svg.dart';
 
 class RegisterView extends StatefulWidget {
-  const RegisterView(RegisterController registerController, {super.key});
+  const RegisterView({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -21,7 +20,6 @@ class _RegisterViewState extends State<RegisterView> {
   final RegisterController _registerController = RegisterController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-  final BackArrowController _backArrowController = BackArrowController();
 
   @override
   void initState() {
@@ -41,7 +39,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const AppBarWidget(leftIcon: BackArrowWidget(),),
+      appBar: const AppBarWidget(leftIcon: BackArrowButtonWidget(),),
       body: SingleChildScrollView(
         child: Stack(
           children: [
@@ -62,7 +60,7 @@ class _RegisterViewState extends State<RegisterView> {
                     width: 130.0,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 20.0),
+                    padding: const EdgeInsets.only(top: 20.0),
                     child: Text(
                       'Create account',
                       style: SafeGoogleFont('Poppins',
@@ -73,7 +71,7 @@ class _RegisterViewState extends State<RegisterView> {
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 50.0),
-                    child: InputFieldWidget(
+                    child: AuthInputFieldWidget(
                       fieldHeight: 33,
                       iconPath: 'assets/icons/user.svg',
                       helpText: 'E-mail',
@@ -82,7 +80,7 @@ class _RegisterViewState extends State<RegisterView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 21.0),
-                    child: InputFieldWidget(
+                    child: AuthInputFieldWidget(
                       fieldHeight: 33,
                       iconPath: 'assets/icons/password.svg',
                       helpText: 'Password',
@@ -90,8 +88,8 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 21.0),
-                    child: InputFieldWidget(
+                    padding: const EdgeInsets.only(top: 21.0),
+                    child: AuthInputFieldWidget(
                       fieldHeight: 33,
                       iconPath: 'assets/icons/password.svg',
                       helpText: 'Confirm password',
@@ -208,7 +206,7 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 17.0),
+                    padding: const EdgeInsets.only(top: 17.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

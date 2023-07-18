@@ -1,8 +1,8 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets/widgets_widget.dart';
+import 'package:ew_app/widgets/appbar_widget.dart';
+import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:ew_app/controllers/check_email_controller.dart';
-import 'package:ew_app/controllers/forgot_password_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
@@ -33,7 +33,7 @@ class _CheckEmailViewState extends State<CheckEmailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const AppBarWidget(leftIcon: BackArrowWidget(),),
+      appBar: const AppBarWidget(leftIcon: BackArrowButtonWidget(),),
       body: Stack(
         children: [
           SingleChildScrollView(

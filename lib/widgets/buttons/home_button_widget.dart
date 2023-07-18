@@ -1,9 +1,6 @@
 import 'package:ew_app/constants/colors.dart';
-import 'package:ew_app/constants/sizes.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/controllers/widget_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class HomeButtonWidget extends StatefulWidget {
   const HomeButtonWidget({
@@ -60,5 +57,3 @@ class _HomeButtonWidgetState extends State<HomeButtonWidget> {
     );
   }
 }
-
-//TODO: Transport here account_views buttons

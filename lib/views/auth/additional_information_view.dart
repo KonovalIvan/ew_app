@@ -1,14 +1,14 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets/widgets_widget.dart';
 import 'package:ew_app/controllers/additional_information_controller.dart';
+import 'package:ew_app/widgets/appbar_widget.dart';
+import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
+import 'package:ew_app/widgets/fields/auth_input_field_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_svg/svg.dart';
 
 class AdditionalInformationView extends StatefulWidget {
   const AdditionalInformationView(
-      AdditionalInformationController additionalInformationController,
       {super.key});
 
   @override
@@ -30,7 +30,7 @@ class _AdditionalInformationViewState extends State<AdditionalInformationView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const AppBarWidget(leftIcon: BackArrowWidget(),),
+      appBar: const AppBarWidget(leftIcon: BackArrowButtonWidget(),),
       body: SingleChildScrollView(
         child: Stack(
           children: [
@@ -47,7 +47,7 @@ class _AdditionalInformationViewState extends State<AdditionalInformationView> {
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(top: 50.0),
-                    child: InputFieldWidget(
+                    child: AuthInputFieldWidget(
                       fieldHeight: 33,
                       helpText: 'Name *',
                       obscureText: true,
@@ -55,42 +55,42 @@ class _AdditionalInformationViewState extends State<AdditionalInformationView> {
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 21.0),
-                    child: InputFieldWidget(
+                    child: AuthInputFieldWidget(
                       fieldHeight: 33,
                       helpText: 'Surname',
                     ),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 21.0),
-                    child: InputFieldWidget(
+                    child: AuthInputFieldWidget(
                       fieldHeight: 33,
                       helpText: 'Company name',
                     ),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 21.0),
-                    child: InputFieldWidget(
+                    child: AuthInputFieldWidget(
                       fieldHeight: 33,
                       helpText: 'Address',
                     ),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 21.0),
-                    child: InputFieldWidget(
+                    child: AuthInputFieldWidget(
                       fieldHeight: 33,
                       helpText: 'Building / Apartment',
                     ),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 21.0),
-                    child: InputFieldWidget(
+                    child: AuthInputFieldWidget(
                       fieldHeight: 33,
                       helpText: 'Post code',
                     ),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 21.0),
-                    child: InputFieldWidget(
+                    child: AuthInputFieldWidget(
                       fieldHeight: 33,
                       helpText: 'City',
                     ),

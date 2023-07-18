@@ -6,7 +6,7 @@ import 'package:ew_app/controllers/landing_controller.dart';
 import 'package:flutter_svg/svg.dart';
 
 class LandingView extends StatefulWidget {
-  const LandingView(LandingController landingController, {super.key});
+  const LandingView({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -51,7 +51,8 @@ class _LandingViewState extends State<LandingView> {
                   decoration: BoxDecoration(
                     color: buttonGreyColor,
                     borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.width / 2.0),
+                      MediaQuery.of(context).size.width / 2.0,
+                    ),
                     boxShadow: const [
                       BoxShadow(
                         color: Color.fromRGBO(0, 0, 0, 0.25),

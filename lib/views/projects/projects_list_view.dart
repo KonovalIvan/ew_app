@@ -1,13 +1,13 @@
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets/admin_widget.dart';
-import 'package:ew_app/constants/widgets/menu_widget.dart';
-import 'package:ew_app/constants/widgets/project_widget.dart';
-import 'package:ew_app/constants/widgets/widgets_widget.dart';
-import 'package:ew_app/controllers/projects_controller.dart';
+import 'package:ew_app/controllers/projects_list_controller.dart';
+import 'package:ew_app/widgets/appbar_widget.dart';
+import 'package:ew_app/widgets/buttons/menu_button_widget.dart';
+import 'package:ew_app/widgets/main_drawer_widget.dart';
+import 'package:ew_app/widgets/views/project_widget.dart';
+import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
+import 'package:ew_app/widgets/views/user_card_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ew_app/constants/url.dart' as consts;
-import 'package:ew_app/api/project_api_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProjectsListView extends StatefulWidget {
@@ -20,7 +20,7 @@ class ProjectsListView extends StatefulWidget {
 
 class _ProjectsListViewState extends State<ProjectsListView> {
   late Future allProjectsList = Future.value(null);
-  final ProjectsController _projectsController = ProjectsController();
+  final ProjectsListController _projectsListController = ProjectsListController();
   bool _isExpanded = false;
 
   bool _showAllProjects = false;
@@ -32,6 +32,7 @@ class _ProjectsListViewState extends State<ProjectsListView> {
     super.initState();
     // get all projects
     // allProjectsList = getProjectList(consts.apiProjectsAllUrl);
+    // TODO: refactor all get / post ... send to controller, not to view!
   }
 
   void updateProjectFilters(
@@ -49,15 +50,15 @@ class _ProjectsListViewState extends State<ProjectsListView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       // TODO: Add search field and icon
-      appBar: const AppBarWidget(leftIcon: BackArrowWidget(), rightIconMenu: MenuWidget(),),
-      drawer: const Menu(),
+      appBar: const AppBarWidget(leftIcon: BackArrowButtonWidget(), rightIconMenu: MenuButtonWidget(),),
+      drawer: const MainDrawer(),
       body: SingleChildScrollView(
         child: Stack(
           children: [
             Column(
               children: [
                 // TODO: Fix pinning AdminShadeWidget at height 65
-                const AdminShadeWidget(),
+                const UserCardWidget(),
                 Padding(
                   padding: const EdgeInsets.only(top: 38, left: 36, right: 36),
                   child: Row(
@@ -82,7 +83,7 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(right: 8),
+                              padding: const EdgeInsets.only(right: 8),
                               child: Text(
                                 _showAllProjects
                                     ? 'All projects'
@@ -118,7 +119,7 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                         height: 22,
                         child: GestureDetector(
                           onTap: () {
-                            _projectsController.newProject(context);
+                            _projectsListController.newProject(context);
                           },
                           child: SvgPicture.asset(
                             'assets/icons/add.svg',

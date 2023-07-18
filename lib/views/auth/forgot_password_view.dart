@@ -1,13 +1,15 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets/widgets_widget.dart';
+import 'package:ew_app/widgets/appbar_widget.dart';
+import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:ew_app/controllers/forgot_password_controller.dart';
+import 'package:ew_app/widgets/fields/auth_input_field_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 
 class ForgotPasswordView extends StatefulWidget {
-  const ForgotPasswordView(ForgotPasswordController forgotPasswordController,
+  const ForgotPasswordView(
       {super.key});
 
   @override
@@ -23,7 +25,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const AppBarWidget(leftIcon: BackArrowWidget(),),
+      appBar: const AppBarWidget(leftIcon: BackArrowButtonWidget(),),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -55,7 +57,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 50.0, bottom: 50.0),
-                    child: InputFieldWidget(
+                    child: AuthInputFieldWidget(
                       fieldHeight: 33,
                       iconPath: 'assets/icons/user.svg',
                       helpText: 'E-mail',

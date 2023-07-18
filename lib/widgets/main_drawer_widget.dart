@@ -1,18 +1,18 @@
 import 'package:ew_app/constants/patches.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/controllers/menu_controller.dart';
+import 'package:ew_app/controllers/main_menu_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Menu extends StatefulWidget {
-  const Menu({super.key});
+class MainDrawer extends StatefulWidget {
+  const MainDrawer({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _MenuState createState() => _MenuState();
+  _MainDrawerState createState() => _MainDrawerState();
 }
 
-class _MenuState extends State<Menu> {
+class _MainDrawerState extends State<MainDrawer> {
   final MainMenuController _menuController = MainMenuController();
 
   @override
@@ -98,7 +98,7 @@ class _MenuState extends State<Menu> {
                         onTap: () {
                           _menuController.home(context);
                         },
-                        child: const MenuElementWidget(
+                        child: const MainDrawerElement(
                           elementText: 'Home',
                           elementIconPath: '$menuIconPath/home.svg',
                         ),
@@ -107,7 +107,7 @@ class _MenuState extends State<Menu> {
                         onTap: () {
                           _menuController.projects(context);
                         },
-                        child: const MenuElementWidget(
+                        child: const MainDrawerElement(
                           elementText: 'Projects',
                           elementIconPath: '$menuIconPath/board.svg',
                         ),
@@ -116,7 +116,7 @@ class _MenuState extends State<Menu> {
                         onTap: () {
                           _menuController.account(context);
                         },
-                        child: const MenuElementWidget(
+                        child: const MainDrawerElement(
                           elementText: 'Account',
                           elementIconPath: '$menuIconPath/account.svg',
                         ),
@@ -125,7 +125,7 @@ class _MenuState extends State<Menu> {
                         onTap: () {
                           _menuController.currentTask(context);
                         },
-                        child: const MenuElementWidget(
+                        child: const MainDrawerElement(
                           elementText: 'Current task',
                           elementIconPath: '$menuIconPath/current.svg',
                         ),
@@ -134,7 +134,7 @@ class _MenuState extends State<Menu> {
                         onTap: () {
                           _menuController.finishedProjects(context);
                         },
-                        child: const MenuElementWidget(
+                        child: const MainDrawerElement(
                           elementText: 'Finished projects',
                           elementIconPath: '$menuIconPath/finished.svg',
                         ),
@@ -143,7 +143,7 @@ class _MenuState extends State<Menu> {
                         onTap: () {
                           _menuController.buildingRegulations(context);
                         },
-                        child: const MenuElementWidget(
+                        child: const MainDrawerElement(
                           elementText: 'Building regulations',
                           elementIconPath: '$menuIconPath/rules.svg',
                         ),
@@ -152,7 +152,7 @@ class _MenuState extends State<Menu> {
                         onTap: () {
                           _menuController.settings(context);
                         },
-                        child: const MenuElementWidget(
+                        child: const MainDrawerElement(
                           elementText: 'Settings',
                           elementIconPath: '$menuIconPath/settings.svg',
                         ),
@@ -161,7 +161,7 @@ class _MenuState extends State<Menu> {
                         onTap: () {
                           _menuController.push(context);
                         },
-                        child: const MenuElementWidget(
+                        child: const MainDrawerElement(
                           elementText: 'Push',
                           elementIconPath: '$menuIconPath/push.svg',
                         ),
@@ -170,7 +170,7 @@ class _MenuState extends State<Menu> {
                         onTap: () {
                           _menuController.faq(context);
                         },
-                        child: const MenuElementWidget(
+                        child: const MainDrawerElement(
                           elementText: 'FAQ',
                           elementIconPath: '$menuIconPath/faq.svg',
                         ),
@@ -183,7 +183,7 @@ class _MenuState extends State<Menu> {
                       onTap: () {
                         _menuController.logOut(context);
                       },
-                      child: const MenuElementWidget(
+                      child: const MainDrawerElement(
                         elementText: 'Log out',
                         elementIconPath: '$menuIconPath/logout.svg',
                         paddingBottom: 24,
@@ -200,8 +200,8 @@ class _MenuState extends State<Menu> {
   }
 }
 
-class MenuElementWidget extends StatefulWidget {
-  const MenuElementWidget(
+class MainDrawerElement extends StatefulWidget {
+  const MainDrawerElement(
       {super.key,
       this.elementText,
       this.elementIconPath,
@@ -217,10 +217,10 @@ class MenuElementWidget extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _MenuElementWidgetState createState() => _MenuElementWidgetState();
+  _MainDrawerElementState createState() => _MainDrawerElementState();
 }
 
-class _MenuElementWidgetState extends State<MenuElementWidget> {
+class _MainDrawerElementState extends State<MainDrawerElement> {
   @override
   Widget build(BuildContext context) {
     return Padding(

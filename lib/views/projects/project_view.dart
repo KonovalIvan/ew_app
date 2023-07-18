@@ -1,14 +1,9 @@
-import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/constants/widgets/admin_widget.dart';
-import 'package:ew_app/constants/widgets/menu_widget.dart';
-import 'package:ew_app/constants/widgets/project_widget.dart';
-import 'package:ew_app/constants/widgets/widgets_widget.dart';
-import 'package:ew_app/controllers/projects_controller.dart';
+import 'package:ew_app/widgets/appbar_widget.dart';
+import 'package:ew_app/widgets/buttons/menu_button_widget.dart';
+import 'package:ew_app/widgets/main_drawer_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ew_app/constants/url.dart' as consts;
-import 'package:ew_app/api/project_api_service.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 
 class ProjectView extends StatefulWidget {
   const ProjectView({Key? key}) : super(key: key);
@@ -31,10 +26,10 @@ class _ProjectViewState extends State<ProjectView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const AppBarWidget(
-        leftIcon: BackArrowWidget(),
-        rightIconMenu: MenuWidget(),
+        leftIcon: BackArrowButtonWidget(),
+        rightIconMenu: MenuButtonWidget(),
       ),
-      drawer: const Menu(),
+      drawer: const MainDrawer(),
       body: Container(color: Colors.blue,),
     );
   }

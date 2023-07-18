@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ProjectsController {
+class ProjectsListController {
 
   void newProject(BuildContext context) {
     Navigator.pushNamed(context, '/project');
