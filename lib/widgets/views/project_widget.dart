@@ -52,12 +52,18 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                 children: [
                   Image.asset(
                     'assets/images/base_project.jpg',
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.fill,
                   ),
                   widget.finished != null
                       ? Opacity(
                           opacity: 0.8,
                           child: Image.asset(
                             'assets/images/done_project.png',
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.fill,
                           ),
                         )
                       : Container(),

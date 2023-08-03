@@ -6,11 +6,13 @@ class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
     this.leftIcon,
     this.rightIconMenu,
     this.title,
+    this.onRightIconPressed,
   }) : super(key: key);
 
   final Widget? leftIcon;
   final Widget? rightIconMenu;
   final Text? title;
+  final VoidCallback? onRightIconPressed;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -35,7 +37,14 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             ),
       actions: [
         widget.rightIconMenu != null
-            ? widget.rightIconMenu!
+            ? IconButton(
+                icon: widget.rightIconMenu!,
+                onPressed: () {
+                  if (widget.onRightIconPressed != null) {
+                    widget.onRightIconPressed!();
+                  }
+                },
+              )
             : const SizedBox(
                 width: 0,
                 height: 0,
