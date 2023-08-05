@@ -12,7 +12,8 @@ import 'package:ew_app/widgets/buttons/add_file_button_widget.dart';
 import 'package:ew_app/widgets/buttons/options_button_widget.dart';
 import 'package:ew_app/widgets/small_gallery_widget.dart';
 
-import '../../widgets/buttons/done_button_widget.dart';
+import '../../controllers/dashboard_controller.dart';
+import '../../widgets/buttons/main_button_widget.dart';
 
 class ProjectView extends StatefulWidget {
   const ProjectView({Key? key}) : super(key: key);
@@ -246,8 +247,10 @@ class _ProjectViewState extends State<ProjectView> {
                     ),
                   ),
                   _editable
-                      ? DoneButtonWidget(
-                          onPressedDone: updateProject,
+                      ? MainButtonWidget(
+                          buttonColor: const Color(0x9037E888),
+                          pathToSvg: 'assets/icons/done.svg',
+                          onPressed: updateProject,
                         )
                       : const SizedBox(
                           width: 0,
@@ -284,6 +287,8 @@ class DashboardWidget extends StatefulWidget {
 }
 
 class _DashboardWidgetState extends State<DashboardWidget> {
+  final DashboardController _dashboardController = DashboardController();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -297,7 +302,9 @@ class _DashboardWidgetState extends State<DashboardWidget> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: TextButton(
-          onPressed: () {},
+          onPressed: () {
+            _dashboardController.push(context);
+          },
           style: TextButton.styleFrom(
             visualDensity: VisualDensity.compact,
           ),

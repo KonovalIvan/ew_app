@@ -130,10 +130,10 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                     ],
                   ),
                 ),
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   // TODO: Create generating of Projects and pages
-                  children: const [
+                  children: [
                     Padding(
                       padding: EdgeInsets.all(20),
                       child: ProjectWidget(
