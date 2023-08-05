@@ -34,18 +34,17 @@ class _CheckEmailViewState extends State<CheckEmailView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const AppBarWidget(leftIcon: BackArrowButtonWidget(),),
-      body: Stack(
-        children: [
+      body: Container(
+        decoration: backgroundDecorationGradient,
+        padding: const EdgeInsets.only(
+          left: 43.0,
+          right: 43.0,
+          top: 140.0,
+        ),
+        height: double.infinity,
+        child:
           SingleChildScrollView(
-            child: Container(
-              width: double.infinity,
-              decoration: backgroundDecorationGradient,
-              padding: const EdgeInsets.only(
-                left: 43.0,
-                right: 43.0,
-                top: 140.0,
-              ),
-              child: Column(
+            child:  Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -59,7 +58,7 @@ class _CheckEmailViewState extends State<CheckEmailView> {
                     child: Text(
                       'Check your email',
                       style: SafeGoogleFont('Poppins',
-                          fontSize: 35.0,
+                          fontSize: 33.0,
                           color: Colors.white,
                           fontWeight: FontWeight.w400),
                     ),
@@ -67,7 +66,7 @@ class _CheckEmailViewState extends State<CheckEmailView> {
                   Container(
                     padding: const EdgeInsets.only(top: 26.0),
                     child: Text(
-                      'Instructions were sent to the provided email address. Please check your mail',
+                      'Instructions were send to the provided email address. Please check your mail',
                       textAlign: TextAlign.center,
                       style: SafeGoogleFont(
                         'Poppins',
@@ -112,8 +111,7 @@ class _CheckEmailViewState extends State<CheckEmailView> {
                 ],
               ),
             ),
-          ),
-        ],
+
       ),
     );
   }

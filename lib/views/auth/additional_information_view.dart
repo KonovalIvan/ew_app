@@ -48,8 +48,7 @@ class _AdditionalInformationViewState extends State<AdditionalInformationView> {
                 padding: EdgeInsets.only(top: 50.0),
                 child: AuthInputFieldWidget(
                   fieldHeight: 33,
-                  helpText: 'Name *',
-                  obscureText: true,
+                  helpText: 'Name',
                 ),
               ),
               const Padding(
