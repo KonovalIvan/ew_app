@@ -28,17 +28,17 @@ class _AlmostDoneState extends State<AlmostDoneView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
+      body: Container(
+      width: double.infinity,
+      decoration: backgroundDecorationGradient,
+      padding: const EdgeInsets.only(
+        left: 43.0,
+        right: 43.0,
+        top: 140.0,
+      ),
+      height: double.infinity,
+      child:
           SingleChildScrollView(
-            child: Container(
-              width: double.infinity,
-              decoration: backgroundDecorationGradient,
-              padding: const EdgeInsets.only(
-                left: 43.0,
-                right: 43.0,
-                top: 140.0,
-              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -74,8 +74,6 @@ class _AlmostDoneState extends State<AlmostDoneView> {
               ),
             ),
           ),
-        ],
-      ),
     );
   }
 }

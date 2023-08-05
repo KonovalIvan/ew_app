@@ -32,14 +32,14 @@ dependencies:
     sdk: flutter
   mvc_pattern: ^8.12.0
   json_annotation: ^4.8.0
-  flutter_svg: ^0.22.0
+  flutter_svg: ^2.0.7
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  http: ^0.13.5
+  http: ^1.1.0
   build_runner: ^2.3.3
-  google_fonts: ^3.0.1
+  google_fonts: ^5.1.0
   auto_size_text_field: ^2.2.1
 
 dev_dependencies:
