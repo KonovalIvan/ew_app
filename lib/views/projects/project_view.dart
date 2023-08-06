@@ -3,7 +3,7 @@ import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:ew_app/widgets/buttons/delete_confirm_button_widget.dart';
-import 'package:ew_app/widgets/fields/project_input_field.dart';
+import 'package:ew_app/widgets/fields/editable_resized_field_widget.dart';
 import 'package:ew_app/widgets/main_drawer_widget.dart';
 import 'package:ew_app/widgets/options_widget.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +84,6 @@ class _ProjectViewState extends State<ProjectView> {
           });
         },
       ),
-      drawer: const MainDrawer(),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -120,32 +119,28 @@ class _ProjectViewState extends State<ProjectView> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(top: 27),
-                            child: ProjectInputFieldWidget(
-                              textEditingController: TextEditingController(),
+                            child: EditableResizedFieldWidget(
                               editable: _editable,
                               helpText: 'Address',
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 9),
-                            child: ProjectInputFieldWidget(
-                              textEditingController: TextEditingController(),
+                            child: EditableResizedFieldWidget(
                               editable: _editable,
                               helpText: 'Client',
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 9),
-                            child: ProjectInputFieldWidget(
-                              textEditingController: TextEditingController(),
+                            child: EditableResizedFieldWidget(
                               editable: _editable,
                               helpText: 'Owner',
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 9),
-                            child: ProjectInputFieldWidget(
-                              textEditingController: _textEditingController,
+                            child: EditableResizedFieldWidget(
                               editable: _editable,
                               helpText: 'Description',
                             ),

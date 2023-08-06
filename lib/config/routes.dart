@@ -14,7 +14,8 @@ import 'package:ew_app/views/auth/register_view.dart';
 
 import 'package:ew_app/views/projects/projects_list_view.dart';
 
-import '../views/dashboards/dashboard_view.dart';
+import 'package:ew_app/views/dashboards/dashboard_view.dart';
+import 'package:ew_app/views/tasks/task_view.dart';
 
 final Map<String, WidgetBuilder> routes = {
   '/': (BuildContext context) => const LandingView(),
@@ -31,4 +32,5 @@ final Map<String, WidgetBuilder> routes = {
   '/projects_list': (BuildContext context) => const ProjectsListView(),
   '/project': (BuildContext context) => const ProjectView(),
   '/dashboard': (BuildContext context) => const DashboardView(),
+  '/task': (BuildContext context) => const TaskView(),
 };
