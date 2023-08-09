@@ -2,18 +2,11 @@ import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
-import 'package:ew_app/widgets/buttons/delete_confirm_button_widget.dart';
-import 'package:ew_app/widgets/fields/project_input_field.dart';
-import 'package:ew_app/widgets/main_drawer_widget.dart';
-import 'package:ew_app/widgets/options_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ew_app/widgets/buttons/add_file_button_widget.dart';
-import 'package:ew_app/widgets/buttons/options_button_widget.dart';
-import 'package:ew_app/widgets/small_gallery_widget.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../widgets/buttons/main_button_widget.dart';
+import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({Key? key}) : super(key: key);
@@ -24,8 +17,8 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-  void updateVisibleDeleteMenu() {
-    setState(() {});
+  void newTask() {
+    Navigator.pushNamed(context, '/task');
   }
 
   @override
@@ -47,9 +40,8 @@ class _DashboardViewState extends State<DashboardView> {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: Expanded(
                 child: Text(
-                  'Disassembly work work work work work work work ',
+                  'Disassembly work',
                   style: SafeGoogleFont('Poppins',
                       fontSize: 24.0,
                       color: Colors.white,
@@ -58,74 +50,13 @@ class _DashboardViewState extends State<DashboardView> {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-              ),
             ),
             const Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 26),
+                  padding: EdgeInsets.only(top: 26),
                   child: Column(
                     children: [
-                      TaskShortDescriptionWidget(
-                        taskName: 'Zaprojektowanie układu pomieszczeń',
-                        done: false,
-                        projectName: 'Nowa Siedziba Firmy XYZ',
-                        lastActivity: '10:00',
-                      ),
-                      TaskShortDescriptionWidget(
-                        taskName: 'Zaprojektowanie układu pomieszczeń',
-                        done: true,
-                        projectName: 'Nowa Siedziba Firmy XYZ',
-                        lastActivity: '10:00',
-                      ),
-                      TaskShortDescriptionWidget(
-                        taskName: 'Zaprojektowanie układu pomieszczeń',
-                        done: false,
-                        projectName: 'Nowa Siedziba Firmy XYZ',
-                        lastActivity: '10:00',
-                      ),
-                      TaskShortDescriptionWidget(
-                        taskName: 'Zaprojektowanie układu pomieszczeń',
-                        done: true,
-                        projectName: 'Nowa Siedziba Firmy XYZ',
-                        lastActivity: '10:00',
-                      ),
-                      TaskShortDescriptionWidget(
-                        taskName: 'Zaprojektowanie układu pomieszczeń',
-                        done: false,
-                        projectName: 'Nowa Siedziba Firmy XYZ',
-                        lastActivity: '10:00',
-                      ),
-                      TaskShortDescriptionWidget(
-                        taskName: 'Zaprojektowanie układu pomieszczeń',
-                        done: true,
-                        projectName: 'Nowa Siedziba Firmy XYZ',
-                        lastActivity: '10:00',
-                      ),
-                      TaskShortDescriptionWidget(
-                        taskName: 'Zaprojektowanie układu pomieszczeń',
-                        done: false,
-                        projectName: 'Nowa Siedziba Firmy XYZ',
-                        lastActivity: '10:00',
-                      ),
-                      TaskShortDescriptionWidget(
-                        taskName: 'Zaprojektowanie układu pomieszczeń',
-                        done: true,
-                        projectName: 'Nowa Siedziba Firmy XYZ',
-                        lastActivity: '10:00',
-                      ),
-                      TaskShortDescriptionWidget(
-                        taskName: 'Zaprojektowanie układu pomieszczeń',
-                        done: false,
-                        projectName: 'Nowa Siedziba Firmy XYZ',
-                        lastActivity: '10:00',
-                      ),
-                      TaskShortDescriptionWidget(
-                        taskName: 'Zaprojektowanie układu pomieszczeń',
-                        done: true,
-                        projectName: 'Nowa Siedziba Firmy XYZ',
-                        lastActivity: '10:00',
-                      ),
                       TaskShortDescriptionWidget(
                         taskName: 'Zaprojektowanie układu pomieszczeń',
                         done: false,
@@ -144,7 +75,7 @@ class _DashboardViewState extends State<DashboardView> {
               ),
             ),
             MainButtonWidget(
-              onPressed: updateVisibleDeleteMenu,
+              onPressed: newTask,
               buttonColor: const Color(0x9037E888),
               buttonText: 'New',
             ),
@@ -205,7 +136,7 @@ class _TaskShortDescriptionWidgetState
                     widget.taskName,
                     style: SafeGoogleFont('Poppins',
                         fontSize: 20.0,
-                        color: widget.done ? Color(0x80FFFFFF) : Colors.white,
+                        color: widget.done ? const Color(0x80FFFFFF) : Colors.white,
                         fontWeight: FontWeight.w400,
                         decoration:
                             widget.done ? TextDecoration.lineThrough : null,
