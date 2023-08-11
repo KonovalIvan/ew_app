@@ -134,7 +134,7 @@ class _TaskViewState extends State<TaskView> {
                           ' i profesjonalizm w działaniu.'
                     ),
                   ),
-                  const Padding(padding: EdgeInsets.only(top: 1), child: TaskGalleryWidget(galleryCountElements: 21),),
+                  const Padding(padding: EdgeInsets.only(top: 1), child: TaskGalleryWidget(galleryCountElements: 8),),
                   const Padding(
                     padding: EdgeInsets.only(top: 18),
                     child: CommentWidget(),
