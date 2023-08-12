@@ -23,6 +23,7 @@ class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _AppBarWidgetState extends State<AppBarWidget> {
+  //FIXME: Fix size of back arrow
   @override
   Widget build(BuildContext context) {
     return AppBar(
