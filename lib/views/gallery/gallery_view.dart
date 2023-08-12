@@ -51,6 +51,8 @@ class _GalleryViewState extends State<GalleryView> {
     });
   }
 
+  // TODO: add transferred images list
+  // TODO: add button to switching images
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -11,7 +11,7 @@ class SmallGalleryWidget extends StatefulWidget {
 }
 
 class _SmallGalleryWidgetState extends State<SmallGalleryWidget> {
-  List imagepath = [
+  List imagePath = [
     'assets/images/base_project.jpg',
     'assets/images/base_project.jpg',
     'assets/images/base_project.jpg',
@@ -21,31 +21,36 @@ class _SmallGalleryWidgetState extends State<SmallGalleryWidget> {
   Widget build(BuildContext context) {
     // TODO: Create swiper
     return Container(
-        width: 150,
-        margin: EdgeInsets.only(right: 10),
-        child: ClipRRect(
-          child: Align(
-            child: Swiper(
-              itemWidth: 100,
-              itemHeight: 100,
-              loop: true,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Container(
+      width: 150,
+      margin: EdgeInsets.only(right: 10),
+      child: ClipRRect(
+        child: Align(
+          child: Swiper(
+            itemWidth: 100,
+            itemHeight: 100,
+            loop: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/gallery');
+                },
+                child: Container(
                   width: 400,
                   height: 400,
                   decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage(imagepath[index])),
-                      borderRadius: BorderRadius.circular(
-                          MediaQuery.of(context).size.width / 2.0),
+                    image: DecorationImage(image: AssetImage(imagePath[index])),
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.width / 2.0),
                   ),
-                );
-              },
-              itemCount: imagepath.length,
-              layout: SwiperLayout.STACK,
-            ),
+                ),
+              );
+            },
+            itemCount: imagePath.length,
+            layout: SwiperLayout.STACK,
           ),
         ),
+      ),
     );
   }
 }
