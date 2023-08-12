@@ -3,11 +3,15 @@ import 'package:ew_app/controllers/widget_controller.dart';
 import 'package:flutter/material.dart';
 
 class DeleteConfirmButtonWidget extends StatefulWidget {
-
   final VoidCallback onPressedNo;
   final VoidCallback onPressedYes;
+  final double? positionTop;
 
-  const DeleteConfirmButtonWidget({super.key, required this.onPressedNo, required this.onPressedYes});
+  const DeleteConfirmButtonWidget(
+      {super.key,
+      required this.onPressedNo,
+      required this.onPressedYes,
+      this.positionTop = 0});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -18,7 +22,8 @@ class DeleteConfirmButtonWidget extends StatefulWidget {
 class _DeleteConfirmButtonWidgetState extends State<DeleteConfirmButtonWidget> {
   @override
   Widget build(BuildContext context) {
-    return Positioned.fill(
+    return Positioned(
+      top: widget.positionTop! + 400,
       child: Align(
         alignment: Alignment.center,
         child: Container(

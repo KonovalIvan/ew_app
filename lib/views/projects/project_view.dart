@@ -24,10 +24,21 @@ class ProjectView extends StatefulWidget {
 
 class _ProjectViewState extends State<ProjectView> {
   final TextEditingController _textEditingController = TextEditingController();
+  ScrollController _scrollController = ScrollController();
 
   bool _editable = false;
   bool _visibleOptionsMenu = false;
   bool _visibleDeleteMenu = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    double currentPosition = _scrollController.offset;
+  }
 
   void updateEditable() {
     setState(() {
@@ -64,13 +75,6 @@ class _ProjectViewState extends State<ProjectView> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    // get current projects
-    // currentProject = getCurrentProject(consts.apiProjectsAllUrl, id);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -87,12 +91,14 @@ class _ProjectViewState extends State<ProjectView> {
         width: double.infinity,
         height: double.infinity,
         decoration: backgroundDecorationGradient,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
-          child: SingleChildScrollView(
-            child: Stack(
-              children: [
-                Column(
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 100),
@@ -265,32 +271,34 @@ class _ProjectViewState extends State<ProjectView> {
                     const DashboardWidget(),
                     const DashboardWidget(),
                     const DashboardWidget(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Container(
-                        padding: EdgeInsets.zero,
-                        height: 21,
-                        width: 64,
-                        decoration: BoxDecoration(
-                          color: const Color(0x40FFFFFF),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            visualDensity: VisualDensity.compact,
-                          ),
-                          child: Text(
-                            'Edit',
-                            style: SafeGoogleFont(
-                              'Poppins',
-                              fontSize: 12.0,
-                              color: Colors.white,
+                    _editable
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Container(
+                              padding: EdgeInsets.zero,
+                              height: 21,
+                              width: 64,
+                              decoration: BoxDecoration(
+                                color: const Color(0x40FFFFFF),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: TextButton(
+                                onPressed: () {},
+                                style: TextButton.styleFrom(
+                                  visualDensity: VisualDensity.compact,
+                                ),
+                                child: Text(
+                                  '+',
+                                  style: SafeGoogleFont(
+                                    'Poppins',
+                                    fontSize: 12.0,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ),
+                          )
+                        : Container(),
                     _editable
                         ? MainButtonWidget(
                             buttonColor: const Color(0x9037E888),
@@ -303,20 +311,29 @@ class _ProjectViewState extends State<ProjectView> {
                           )
                   ],
                 ),
-                _visibleOptionsMenu
-                    ? OptionsWidget(
-                        onPressedEdit: updateEditable,
-                        onPressedDelete: updateVisibleDeleteMenu,
-                      )
-                    : Container(),
-                _visibleDeleteMenu
-                    ? DeleteConfirmButtonWidget(
-                        onPressedNo: pressNoDelete,
-                        onPressedYes: pressYesDelete,
-                      )
-                    : Container(),
-              ],
-            ),
+              ),
+              _visibleOptionsMenu
+                  ? Positioned.fill(
+                      child: Container(
+                        color: const Color(0x70000000),
+                      ),
+                    )
+                  : Container(),
+              _visibleOptionsMenu
+                  ? OptionsWidget(
+                      positionTop: _scrollController.offset,
+                      onPressedEdit: updateEditable,
+                      onPressedDelete: updateVisibleDeleteMenu,
+                    )
+                  : Container(),
+              _visibleDeleteMenu
+                  ? DeleteConfirmButtonWidget(
+                      positionTop: _scrollController.offset,
+                      onPressedNo: pressNoDelete,
+                      onPressedYes: pressYesDelete,
+                    )
+                  : Container(),
+            ],
           ),
         ),
       ),
