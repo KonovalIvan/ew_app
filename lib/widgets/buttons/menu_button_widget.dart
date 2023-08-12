@@ -22,6 +22,7 @@ class MenuButtonWidget extends StatefulWidget {
 class _MenuButtonWidgetState extends State<MenuButtonWidget> {
   final MenuButtonController _menuButtonController = MenuButtonController();
 
+  //FIXME: Fix size of back arrow
   @override
   Widget build(BuildContext context) {
     return IconButton(

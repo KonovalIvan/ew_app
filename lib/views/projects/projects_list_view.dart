@@ -142,6 +142,18 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                     ),
                     Padding(
                       padding: EdgeInsets.all(20),
+                      child: ProjectWidget(
+                        finished: true,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(20),
+                      child: ProjectWidget(
+                        finished: true,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(20),
                       child: ProjectWidget(),
                     ),
                   ],

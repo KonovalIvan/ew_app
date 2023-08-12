@@ -56,16 +56,16 @@ class _TaskGalleryWidgetState extends State<TaskGalleryWidget> {
                     if (index == 3) {
                       return Stack(
                         children: [
-                          galleryIcon(context),
                           Positioned.fill(
                             child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _showAllContainers = true;
-                                  });
-                                },
-                                child: galleryIcon(context,
-                                    'assets/icons/gallery_expand.svg')),
+                              onTap: () {
+                                setState(() {
+                                  _showAllContainers = true;
+                                });
+                              },
+                              child: galleryIcon(
+                                  context, 'assets/icons/gallery_expand.svg'),
+                            ),
                           ),
                         ],
                       );
@@ -83,14 +83,23 @@ class _TaskGalleryWidgetState extends State<TaskGalleryWidget> {
                       onTap: () {
                         Navigator.pushNamed(context, '/soon');
                       },
-                      child:
-                      galleryIcon(context, 'assets/icons/add_image.svg'),
+                      child: galleryIcon(context, 'assets/icons/add_image.svg'),
                     );
                   } else {
-                    return galleryIcon(context);
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/gallery');
+                      },
+                      child: galleryIcon(context),
+                    );
                   }
                 } else {
-                  return galleryIcon(context);
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/gallery');
+                    },
+                    child: galleryIcon(context),
+                  );
                 }
               }),
         ],
