@@ -27,6 +27,17 @@ class _TaskViewState extends State<TaskView> {
   bool _visibleDeleteMenu = false;
   bool _visibleStatusList = false;
   String taskStatus = 'In progress';
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    double currentPosition = _scrollController.offset;
+  }
 
   void updateVisibleStatusList(String res) {
     setState(() {
@@ -85,137 +96,148 @@ class _TaskViewState extends State<TaskView> {
       ),
       body: Container(
         decoration: backgroundDecorationGradient,
-        padding: const EdgeInsets.only(
-          left: 14.0,
-          right: 14.0,
-          top: 100.0,
-        ),
         height: double.infinity,
         width: double.infinity,
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Column(
-                children: [
-                  EditableResizedFieldWidget(
-                    editable: _editable,
-                    helpText: 'New task',
-                    helpTextSize: 20,
-                    inputTextSize: 20,
-                    buttonColor: const Color(0x00FFFFFF),
-                    fieldWidth: 330,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 28),
-                    child: EditableResizedFieldWidget(
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 14.0,
+                  right: 14.0,
+                  top: 100.0,
+                ),
+                child: Column(
+                  children: [
+                    EditableResizedFieldWidget(
                       editable: _editable,
-                      helpText: 'Description',
-                      helpTextSize: 15,
-                      inputTextSize: 15,
-                      helpTextColor: const Color(0xFF000000),
-                      inputTextColor: const Color(0xFF000000),
-                      buttonColor: const Color(0xFFDFDCE5),
+                      helpText: 'New task',
+                      helpTextSize: 20,
+                      inputTextSize: 20,
+                      buttonColor: const Color(0x00FFFFFF),
                       fieldWidth: 330,
-                      initialText: 'Projekt budowlany "Nowa Siedziba Firmy XYZ"'
-                          ' wymaga natychmiastowej uwagi w związku z widocznymi'
-                          ' opóźnieniami w pracach montażowych dotyczących'
-                          ' stropu. Klient zgłasza, że proces montażu nie'
-                          ' przebiega zgodnie z planem i może to wpłynąć na '
-                          'termin realizacji całego projektu. Prosimy o '
-                          'bezzwłoczne działania w celu zidentyfikowania '
-                          'przyczyny opóźnień oraz podjęcia środków naprawczych'
-                          ' w celu usprawnienia procesu montażu. W razie'
-                          ' potrzeby prosimy o skonsultowanie się z'
-                          ' odpowiednimi specjalistami i zarządem projektu w'
-                          ' celu znalezienia optymalnych rozwiązań. Terminowość'
-                          ' i jakość realizacji są kluczowe dla sukcesu tego'
-                          ' projektu, dlatego liczymy na Państwa zaangażowanie'
-                          ' i profesjonalizm w działaniu.'
                     ),
-                  ),
-                  const Padding(padding: EdgeInsets.only(top: 1), child: TaskGalleryWidget(galleryCountElements: 8),),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 18),
-                    child: CommentWidget(),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 18),
-                    child: CommentWidget(),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 18),
-                    child: AddCommentFieldWidget(fieldWidth: 312),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    width: 312,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _visibleStatusList == false
-                            ? GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _visibleStatusList = !_visibleStatusList;
-                                  });
-                                },
-                                child: taskStatusView(taskStatus))
-                            : taskStatusListView(updateVisibleStatusList),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Created by Ivan',
-                              style: SafeGoogleFont(
-                                'Poppins',
-                                fontSize: 13.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            Text(
-                              '27.05.23',
-                              style: SafeGoogleFont(
-                                'Poppins',
-                                fontSize: 13.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 28),
+                      child: EditableResizedFieldWidget(
+                          editable: _editable,
+                          helpText: 'Description',
+                          helpTextSize: 15,
+                          inputTextSize: 15,
+                          helpTextColor: const Color(0xFF000000),
+                          inputTextColor: const Color(0xFF000000),
+                          buttonColor: const Color(0xFFDFDCE5),
+                          fieldWidth: 330,
+                          initialText:
+                              'Projekt budowlany "Nowa Siedziba Firmy XYZ"'
+                              ' wymaga natychmiastowej uwagi w związku z widocznymi'
+                              ' opóźnieniami w pracach montażowych dotyczących'
+                              ' stropu. Klient zgłasza, że proces montażu nie'
+                              ' przebiega zgodnie z planem i może to wpłynąć na '
+                              'termin realizacji całego projektu. Prosimy o '
+                              'bezzwłoczne działania w celu zidentyfikowania '
+                              'przyczyny opóźnień oraz podjęcia środków naprawczych'
+                              ' w celu usprawnienia procesu montażu. W razie'
+                              ' potrzeby prosimy o skonsultowanie się z'
+                              ' odpowiednimi specjalistami i zarządem projektu w'
+                              ' celu znalezienia optymalnych rozwiązań. Terminowość'
+                              ' i jakość realizacji są kluczowe dla sukcesu tego'
+                              ' projektu, dlatego liczymy na Państwa zaangażowanie'
+                              ' i profesjonalizm w działaniu.'),
                     ),
-                  ),
-                  _editable
-                      ? MainButtonWidget(
-                          buttonColor: const Color(0x9037E888),
-                          pathToSvg: 'assets/icons/done.svg',
-                          onPressed: updateProject,
-                        )
-                      : const SizedBox(
-                          width: 0,
-                          height: 0,
-                        )
-                ],
+                    const Padding(
+                      padding: EdgeInsets.only(top: 1),
+                      child: TaskGalleryWidget(galleryCountElements: 8),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 18),
+                      child: CommentWidget(),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 18),
+                      child: CommentWidget(),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 18),
+                      child: AddCommentFieldWidget(fieldWidth: 312),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      width: 312,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _visibleStatusList == false
+                              ? GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _visibleStatusList = !_visibleStatusList;
+                                    });
+                                  },
+                                  child: taskStatusView(taskStatus))
+                              : taskStatusListView(updateVisibleStatusList),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Created by Ivan',
+                                style: SafeGoogleFont(
+                                  'Poppins',
+                                  fontSize: 13.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Text(
+                                '27.05.23',
+                                style: SafeGoogleFont(
+                                  'Poppins',
+                                  fontSize: 13.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    _editable
+                        ? MainButtonWidget(
+                            buttonColor: const Color(0x9037E888),
+                            pathToSvg: 'assets/icons/done.svg',
+                            onPressed: updateProject,
+                          )
+                        : const SizedBox(
+                            width: 0,
+                            height: 0,
+                          )
+                  ],
+                ),
               ),
-              // TODO: set this menus in middle of screen, not view.
+              _visibleOptionsMenu
+                  ? Positioned.fill(
+                      child: Container(
+                        color: const Color(0x70000000),
+                      ),
+                    )
+                  : Container(),
               _visibleOptionsMenu
                   ? OptionsWidget(
+                      positionTop: _scrollController.offset,
                       onPressedEdit: updateEditable,
                       onPressedDelete: updateVisibleDeleteMenu,
                     )
                   : Container(),
               _visibleDeleteMenu
                   ? DeleteConfirmButtonWidget(
+                      positionTop: _scrollController.offset,
                       onPressedNo: pressNoDelete,
                       onPressedYes: pressYesDelete,
                     )
-                  : const SizedBox(
-                      width: 0,
-                      height: 0,
-                    ),
+                  : Container(),
             ],
           ),
         ),

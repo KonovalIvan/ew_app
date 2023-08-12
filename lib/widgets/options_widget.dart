@@ -4,8 +4,13 @@ import 'package:flutter/material.dart';
 class OptionsWidget extends StatefulWidget {
   final VoidCallback onPressedEdit;
   final VoidCallback onPressedDelete;
+  final double? positionTop;
 
-  const OptionsWidget({super.key, required this.onPressedEdit, required this.onPressedDelete});
+  const OptionsWidget(
+      {super.key,
+      required this.onPressedEdit,
+      required this.onPressedDelete,
+      this.positionTop = 0});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -13,12 +18,11 @@ class OptionsWidget extends StatefulWidget {
 }
 
 class _OptionsWidgetState extends State<OptionsWidget> {
-
   @override
   Widget build(BuildContext context) {
     // TODO: add background filter
     return Positioned(
-      top: 100,
+      top: widget.positionTop! + 100,
       right: 0,
       child: Container(
         padding: const EdgeInsets.only(left: 10),
