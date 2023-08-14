@@ -8,6 +8,8 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
+import '../../controllers/tasks/task_short_description_controller.dart';
+
 class DashboardView extends StatefulWidget {
   const DashboardView({Key? key}) : super(key: key);
 
@@ -108,10 +110,15 @@ class TaskShortDescriptionWidget extends StatefulWidget {
 
 class _TaskShortDescriptionWidgetState
     extends State<TaskShortDescriptionWidget> {
+
+  final TaskShortDescriptionController _taskShortDescriptionController = TaskShortDescriptionController();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        _taskShortDescriptionController.openTask(context);
+      },
       child: Container(
         padding: const EdgeInsets.only(bottom: 7),
         child: Row(

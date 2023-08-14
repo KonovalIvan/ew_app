@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 
 import 'package:ew_app/widgets/buttons/options_button_widget.dart';
 
+import '../../controllers/projects/project_controller.dart';
+import '../../controllers/tasks/task_controller.dart';
 import '../../widgets/buttons/main_button_widget.dart';
 import '../../widgets/comment_widget.dart';
 import '../../widgets/task_gallery_widget.dart';
@@ -22,51 +24,12 @@ class TaskView extends StatefulWidget {
 }
 
 class _TaskViewState extends State<TaskView> {
-  bool _editable = false;
-  bool _visibleOptionsMenu = false;
-  bool _visibleDeleteMenu = false;
-  bool _visibleStatusList = false;
-  String taskStatus = 'In progress';
+  final ProjectController _projectController = ProjectController();
+  final TaskController _taskController = TaskController();
 
-  void updateVisibleStatusList(String res) {
+  void updateVisibleStatusList(String status) {
     setState(() {
-      _visibleStatusList = false;
-      taskStatus = res;
-    });
-  }
-
-  void updateEditable() {
-    setState(() {
-      _editable = true;
-      _visibleOptionsMenu = !_visibleOptionsMenu;
-    });
-  }
-
-  // FIXME: The same voids here and in project_view. Add some controller for 3 dots
-  void updateVisibleDeleteMenu() {
-    setState(() {
-      _visibleDeleteMenu = !_visibleDeleteMenu;
-    });
-  }
-
-  void updateProject() {
-    setState(() {
-      // TODO: send saved project to backend
-      _editable = false;
-    });
-  }
-
-  void pressNoDelete() {
-    setState(() {
-      _visibleDeleteMenu = false;
-      _visibleOptionsMenu = false;
-    });
-  }
-
-  void pressYesDelete() {
-    setState(() {
-      // TODO: logic for delete task
-      Navigator.pop(context);
+      _taskController.updateVisibleStatusList(status: status);
     });
   }
 
@@ -79,7 +42,7 @@ class _TaskViewState extends State<TaskView> {
         rightIconMenu: OptionsButtonWidget(),
         onRightIconPressed: () {
           setState(() {
-            _visibleOptionsMenu = !_visibleOptionsMenu;
+            _projectController.updateVisibleMenu();
           });
         },
       ),
@@ -99,7 +62,7 @@ class _TaskViewState extends State<TaskView> {
               Column(
                 children: [
                   EditableResizedFieldWidget(
-                    editable: _editable,
+                    editable: _projectController.editable,
                     helpText: 'New task',
                     helpTextSize: 20,
                     inputTextSize: 20,
@@ -109,32 +72,35 @@ class _TaskViewState extends State<TaskView> {
                   Padding(
                     padding: const EdgeInsets.only(top: 28),
                     child: EditableResizedFieldWidget(
-                      editable: _editable,
-                      helpText: 'Description',
-                      helpTextSize: 15,
-                      inputTextSize: 15,
-                      helpTextColor: const Color(0xFF000000),
-                      inputTextColor: const Color(0xFF000000),
-                      buttonColor: const Color(0xFFDFDCE5),
-                      fieldWidth: 330,
-                      initialText: 'Projekt budowlany "Nowa Siedziba Firmy XYZ"'
-                          ' wymaga natychmiastowej uwagi w związku z widocznymi'
-                          ' opóźnieniami w pracach montażowych dotyczących'
-                          ' stropu. Klient zgłasza, że proces montażu nie'
-                          ' przebiega zgodnie z planem i może to wpłynąć na '
-                          'termin realizacji całego projektu. Prosimy o '
-                          'bezzwłoczne działania w celu zidentyfikowania '
-                          'przyczyny opóźnień oraz podjęcia środków naprawczych'
-                          ' w celu usprawnienia procesu montażu. W razie'
-                          ' potrzeby prosimy o skonsultowanie się z'
-                          ' odpowiednimi specjalistami i zarządem projektu w'
-                          ' celu znalezienia optymalnych rozwiązań. Terminowość'
-                          ' i jakość realizacji są kluczowe dla sukcesu tego'
-                          ' projektu, dlatego liczymy na Państwa zaangażowanie'
-                          ' i profesjonalizm w działaniu.'
-                    ),
+                        editable: _projectController.editable,
+                        helpText: 'Description',
+                        helpTextSize: 15,
+                        inputTextSize: 15,
+                        helpTextColor: const Color(0xFF000000),
+                        inputTextColor: const Color(0xFF000000),
+                        buttonColor: const Color(0xFFDFDCE5),
+                        fieldWidth: 330,
+                        initialText:
+                            'Projekt budowlany "Nowa Siedziba Firmy XYZ"'
+                            ' wymaga natychmiastowej uwagi w związku z widocznymi'
+                            ' opóźnieniami w pracach montażowych dotyczących'
+                            ' stropu. Klient zgłasza, że proces montażu nie'
+                            ' przebiega zgodnie z planem i może to wpłynąć na '
+                            'termin realizacji całego projektu. Prosimy o '
+                            'bezzwłoczne działania w celu zidentyfikowania '
+                            'przyczyny opóźnień oraz podjęcia środków naprawczych'
+                            ' w celu usprawnienia procesu montażu. W razie'
+                            ' potrzeby prosimy o skonsultowanie się z'
+                            ' odpowiednimi specjalistami i zarządem projektu w'
+                            ' celu znalezienia optymalnych rozwiązań. Terminowość'
+                            ' i jakość realizacji są kluczowe dla sukcesu tego'
+                            ' projektu, dlatego liczymy na Państwa zaangażowanie'
+                            ' i profesjonalizm w działaniu.'),
                   ),
-                  const Padding(padding: EdgeInsets.only(top: 1), child: TaskGalleryWidget(galleryCountElements: 21),),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 1),
+                    child: TaskGalleryWidget(galleryCountElements: 21),
+                  ),
                   const Padding(
                     padding: EdgeInsets.only(top: 18),
                     child: CommentWidget(),
@@ -153,14 +119,15 @@ class _TaskViewState extends State<TaskView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _visibleStatusList == false
+                        _taskController.visibleStatusList == false
                             ? GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    _visibleStatusList = !_visibleStatusList;
+                                    _taskController.updateVisibleStatusList();
                                   });
                                 },
-                                child: taskStatusView(taskStatus))
+                                child:
+                                    taskStatusView(_taskController.taskStatus))
                             : taskStatusListView(updateVisibleStatusList),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -188,11 +155,15 @@ class _TaskViewState extends State<TaskView> {
                       ],
                     ),
                   ),
-                  _editable
+                  _projectController.editable
                       ? MainButtonWidget(
                           buttonColor: const Color(0x9037E888),
                           pathToSvg: 'assets/icons/done.svg',
-                          onPressed: updateProject,
+                          onPressed: () {
+                            setState(() {
+                              _projectController.updateProject();
+                            });
+                          },
                         )
                       : const SizedBox(
                           width: 0,
@@ -201,17 +172,30 @@ class _TaskViewState extends State<TaskView> {
                 ],
               ),
               // TODO: set this menus in middle of screen, not view.
-              _visibleOptionsMenu
+              _projectController.visibleOptionsMenu
                   ? OptionsWidget(
-                      onPressedEdit: updateEditable,
-                      onPressedDelete: updateVisibleDeleteMenu,
+                      onPressedEdit: () {
+                        setState(() {
+                          _projectController.updateEditable();
+                        });
+                      },
+                      onPressedDelete: () {
+                        setState(() {
+                          _projectController.updateVisibleDeleteMenu();
+                        });
+                      },
                     )
                   : Container(),
-              _visibleDeleteMenu
-                  ? DeleteConfirmButtonWidget(
-                      onPressedNo: pressNoDelete,
-                      onPressedYes: pressYesDelete,
-                    )
+              _projectController.visibleDeleteMenu
+                  ? DeleteConfirmButtonWidget(onPressedNo: () {
+                      setState(() {
+                        _projectController.pressNoDelete();
+                      });
+                    }, onPressedYes: () {
+                      setState(() {
+                        _projectController.pressYesDelete(context);
+                      });
+                    })
                   : const SizedBox(
                       width: 0,
                       height: 0,
@@ -242,30 +226,30 @@ Widget taskStatusView(String status) {
     text = 'Unknown';
   }
 
-  return Container(
-    width: 130,
-    height: 32,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10),
-      boxShadow: const [
-        BoxShadow(
-          color: Color.fromRGBO(0, 0, 0, 0.25),
-          blurRadius: 4,
-          offset: Offset(0, 4),
-        ),
-      ],
-      color: color,
-    ),
-    alignment: Alignment.center,
-    child: Text(
-      text,
-      style: SafeGoogleFont(
-        'Poppins',
-        fontSize: 14.0,
-        color: Colors.black,
-        fontWeight: FontWeight.w400,
+  return  Container(
+      width: 130,
+      height: 32,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.25),
+            blurRadius: 4,
+            offset: Offset(0, 4),
+          ),
+        ],
+        color: color,
       ),
-    ),
+      alignment: Alignment.center,
+      child: Text(
+        text,
+        style: SafeGoogleFont(
+          'Poppins',
+          fontSize: 14.0,
+          color: Colors.black,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
   );
 }
 

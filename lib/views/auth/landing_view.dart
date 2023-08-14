@@ -2,8 +2,9 @@ import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ew_app/controllers/landing_controller.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../controllers/auth/landing_controller.dart';
 
 class LandingView extends StatefulWidget {
   const LandingView({super.key});

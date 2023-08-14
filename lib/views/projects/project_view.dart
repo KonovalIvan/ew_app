@@ -4,7 +4,6 @@ import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:ew_app/widgets/buttons/delete_confirm_button_widget.dart';
 import 'package:ew_app/widgets/fields/editable_resized_field_widget.dart';
-import 'package:ew_app/widgets/main_drawer_widget.dart';
 import 'package:ew_app/widgets/options_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +11,8 @@ import 'package:ew_app/widgets/buttons/add_file_button_widget.dart';
 import 'package:ew_app/widgets/buttons/options_button_widget.dart';
 import 'package:ew_app/widgets/small_gallery_widget.dart';
 
-import '../../controllers/dashboard_controller.dart';
+import '../../controllers/dashboards/dashboard_controller.dart';
+import '../../controllers/projects/project_controller.dart';
 import '../../widgets/buttons/main_button_widget.dart';
 
 class ProjectView extends StatefulWidget {
@@ -24,52 +24,7 @@ class ProjectView extends StatefulWidget {
 }
 
 class _ProjectViewState extends State<ProjectView> {
-  final TextEditingController _textEditingController = TextEditingController();
-
-  bool _editable = false;
-  bool _visibleOptionsMenu = false;
-  bool _visibleDeleteMenu = false;
-
-  void updateEditable() {
-    setState(() {
-      _editable = true;
-      _visibleOptionsMenu = !_visibleOptionsMenu;
-    });
-  }
-
-  void updateVisibleDeleteMenu() {
-    setState(() {
-      _visibleDeleteMenu = !_visibleDeleteMenu;
-    });
-  }
-
-  void updateProject() {
-    setState(() {
-      // TODO: send saved project to backend
-      _editable = false;
-    });
-  }
-
-  void pressNoDelete() {
-    setState(() {
-      _visibleDeleteMenu = false;
-      _visibleOptionsMenu = false;
-    });
-  }
-
-  void pressYesDelete() {
-    setState(() {
-      // TODO: logic for delete project
-      Navigator.pop(context);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // get current projects
-    // currentProject = getCurrentProject(consts.apiProjectsAllUrl, id);
-  }
+  final ProjectController _projectController = ProjectController();
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +35,7 @@ class _ProjectViewState extends State<ProjectView> {
         rightIconMenu: OptionsButtonWidget(),
         onRightIconPressed: () {
           setState(() {
-            _visibleOptionsMenu = !_visibleOptionsMenu;
+            _projectController.updateVisibleMenu();
           });
         },
       ),
@@ -120,28 +75,28 @@ class _ProjectViewState extends State<ProjectView> {
                           Padding(
                             padding: const EdgeInsets.only(top: 27),
                             child: EditableResizedFieldWidget(
-                              editable: _editable,
+                              editable: _projectController.editable,
                               helpText: 'Address',
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
-                              editable: _editable,
+                              editable: _projectController.editable,
                               helpText: 'Client',
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
-                              editable: _editable,
+                              editable: _projectController.editable,
                               helpText: 'Owner',
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
-                              editable: _editable,
+                              editable: _projectController.editable,
                               helpText: 'Description',
                             ),
                           ),
@@ -241,11 +196,15 @@ class _ProjectViewState extends State<ProjectView> {
                       ),
                     ),
                   ),
-                  _editable
+                  _projectController.editable
                       ? MainButtonWidget(
                           buttonColor: const Color(0x9037E888),
                           pathToSvg: 'assets/icons/done.svg',
-                          onPressed: updateProject,
+                          onPressed: () {
+                            setState(() {
+                              _projectController.updateProject();
+                            });
+                          },
                         )
                       : const SizedBox(
                           width: 0,
@@ -253,16 +212,32 @@ class _ProjectViewState extends State<ProjectView> {
                         )
                 ],
               ),
-              _visibleOptionsMenu
+              _projectController.visibleOptionsMenu
                   ? OptionsWidget(
-                      onPressedEdit: updateEditable,
-                      onPressedDelete: updateVisibleDeleteMenu,
+                      onPressedEdit: () {
+                        setState(() {
+                          _projectController.updateEditable();
+                        });
+                      },
+                      onPressedDelete: () {
+                        setState(() {
+                          _projectController.updateVisibleDeleteMenu();
+                        });
+                      },
                     )
                   : Container(),
-              _visibleDeleteMenu
+              _projectController.visibleDeleteMenu
                   ? DeleteConfirmButtonWidget(
-                      onPressedNo: pressNoDelete,
-                      onPressedYes: pressYesDelete,
+                      onPressedNo: () {
+                        setState(() {
+                          _projectController.pressNoDelete();
+                        });
+                      },
+                      onPressedYes: () {
+                        setState(() {
+                          _projectController.pressYesDelete(context);
+                        });
+                      },
                     )
                   : Container(),
             ],

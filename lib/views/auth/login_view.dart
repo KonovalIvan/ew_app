@@ -5,9 +5,10 @@ import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:ew_app/widgets/custom_error_widget.dart';
 import 'package:ew_app/widgets/fields/auth_input_field_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:ew_app/controllers/login_controller.dart';
 
 import 'package:flutter_svg/svg.dart';
+
+import 'package:ew_app/controllers/auth/login_controller.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
