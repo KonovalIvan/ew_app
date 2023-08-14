@@ -11,10 +11,8 @@ import 'package:ew_app/widgets/buttons/add_file_button_widget.dart';
 import 'package:ew_app/widgets/buttons/options_button_widget.dart';
 import 'package:ew_app/widgets/small_gallery_widget.dart';
 
-import '../../controllers/dashboards/dashboard_controller.dart';
-import '../../controllers/projects/project_controller.dart';
-import '../../widgets/buttons/main_button_widget.dart';
-import 'package:ew_app/controllers/dashboard_controller.dart';
+import 'package:ew_app/controllers/dashboards/dashboard_controller.dart';
+import 'package:ew_app/controllers/projects/project_controller.dart';
 import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
 class ProjectView extends StatefulWidget {

@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 
 import 'package:ew_app/widgets/buttons/options_button_widget.dart';
 
-import '../../controllers/projects/project_controller.dart';
-import '../../controllers/tasks/task_controller.dart';
-import '../../widgets/buttons/main_button_widget.dart';
-import '../../widgets/comment_widget.dart';
-import '../../widgets/task_gallery_widget.dart';
+import 'package:ew_app/controllers/projects/project_controller.dart';
+import 'package:ew_app/controllers/tasks/task_controller.dart';
+import 'package:ew_app/widgets/buttons/main_button_widget.dart';
+import 'package:ew_app/widgets/comment_widget.dart';
+import 'package:ew_app/widgets/task_gallery_widget.dart';
 
 class TaskView extends StatefulWidget {
   const TaskView({Key? key}) : super(key: key);
