@@ -1,6 +1,6 @@
 import 'package:ew_app/constants/sizes.dart';
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/controllers/widget_controller.dart';
+import 'package:ew_app/controllers/widgets/buttons_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

@@ -1,23 +1,17 @@
 import 'package:ew_app/constants/colors.dart';
-import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:ew_app/widgets/buttons/delete_confirm_button_widget.dart';
-import 'package:ew_app/widgets/fields/editable_resized_field_widget.dart';
 import 'package:ew_app/widgets/options_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ew_app/widgets/buttons/add_file_button_widget.dart';
 import 'package:ew_app/widgets/buttons/options_button_widget.dart';
-import 'package:ew_app/widgets/small_gallery_widget.dart';
-
-import 'package:ew_app/controllers/dashboard_controller.dart';
-import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
 class GalleryView extends StatefulWidget {
   const GalleryView({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _GalleryViewState createState() => _GalleryViewState();
 }
 

@@ -9,13 +9,15 @@ class TaskShortDescriptionWidget extends StatefulWidget {
         required this.done,
         required this.taskName,
         required this.projectName,
-        required this.lastActivity})
+        required this.lastActivity, required this.onPressed})
       : super(key: key);
 
   final String taskName;
   final String projectName;
   final String lastActivity;
+  final VoidCallback onPressed;
   final bool done;
+
 
   @override
   // ignore: library_private_types_in_public_api
@@ -28,7 +30,9 @@ class _TaskShortDescriptionWidgetState
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        widget.onPressed();
+      },
       child: Container(
         padding: const EdgeInsets.only(bottom: 7),
         child: Row(

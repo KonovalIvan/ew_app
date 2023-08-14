@@ -1,5 +1,5 @@
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/controllers/projects_list_controller.dart';
+import 'package:ew_app/controllers/projects/project_controller.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/menu_button_widget.dart';
 import 'package:ew_app/widgets/main_drawer_widget.dart';

@@ -2,7 +2,7 @@ import 'package:ew_app/constants/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../controllers/comment_controller.dart';
+import '../controllers/tasks/comment_controller.dart';
 import 'fields/editable_resized_field_widget.dart';
 
 class CommentWidget extends StatefulWidget {

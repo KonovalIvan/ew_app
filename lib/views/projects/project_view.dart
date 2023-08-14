@@ -11,7 +11,8 @@ import 'package:ew_app/widgets/buttons/add_file_button_widget.dart';
 import 'package:ew_app/widgets/buttons/options_button_widget.dart';
 import 'package:ew_app/widgets/small_gallery_widget.dart';
 
-import 'package:ew_app/controllers/dashboard_controller.dart';
+import 'package:ew_app/controllers/dashboards/dashboard_controller.dart';
+import 'package:ew_app/controllers/projects/project_controller.dart';
 import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
 class ProjectView extends StatefulWidget {
@@ -25,6 +26,7 @@ class ProjectView extends StatefulWidget {
 class _ProjectViewState extends State<ProjectView> {
   final TextEditingController _textEditingController = TextEditingController();
   ScrollController _scrollController = ScrollController();
+  final ProjectController _projectController = ProjectController();
 
   bool _editable = false;
   bool _visibleOptionsMenu = false;
@@ -83,7 +85,7 @@ class _ProjectViewState extends State<ProjectView> {
         rightIconMenu: OptionsButtonWidget(),
         onRightIconPressed: () {
           setState(() {
-            _visibleOptionsMenu = !_visibleOptionsMenu;
+            _projectController.updateVisibleMenu();
           });
         },
       ),
@@ -299,11 +301,15 @@ class _ProjectViewState extends State<ProjectView> {
                             ),
                           )
                         : Container(),
-                    _editable
+                    _projectController.editable
                         ? MainButtonWidget(
                             buttonColor: const Color(0x9037E888),
                             pathToSvg: 'assets/icons/done.svg',
-                            onPressed: updateProject,
+                            onPressed: () {
+                              setState(() {
+                                _projectController.updateProject();
+                              });
+                            },
                           )
                         : const SizedBox(
                             width: 0,
@@ -312,25 +318,34 @@ class _ProjectViewState extends State<ProjectView> {
                   ],
                 ),
               ),
-              _visibleOptionsMenu
-                  ? Positioned.fill(
-                      child: Container(
-                        color: const Color(0x70000000),
-                      ),
-                    )
-                  : Container(),
-              _visibleOptionsMenu
+              _projectController.visibleOptionsMenu
                   ? OptionsWidget(
                       positionTop: _scrollController.offset,
-                      onPressedEdit: updateEditable,
-                      onPressedDelete: updateVisibleDeleteMenu,
+                      onPressedEdit: () {
+                        setState(() {
+                          _projectController.updateEditable();
+                        });
+                      },
+                      onPressedDelete: () {
+                        setState(() {
+                          _projectController.updateVisibleDeleteMenu();
+                        });
+                      },
                     )
                   : Container(),
-              _visibleDeleteMenu
+              _projectController.visibleDeleteMenu
                   ? DeleteConfirmButtonWidget(
                       positionTop: _scrollController.offset,
-                      onPressedNo: pressNoDelete,
-                      onPressedYes: pressYesDelete,
+                      onPressedNo: () {
+                        setState(() {
+                          _projectController.pressNoDelete();
+                        });
+                      },
+                      onPressedYes: () {
+                        setState(() {
+                          _projectController.pressYesDelete(context);
+                        });
+                      },
                     )
                   : Container(),
             ],

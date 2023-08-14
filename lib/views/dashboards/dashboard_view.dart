@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
+import '../../controllers/tasks/task_short_description_controller.dart';
 import '../../widgets/views/task_short_description_widget.dart';
 
 class DashboardView extends StatefulWidget {
@@ -20,6 +21,10 @@ class DashboardView extends StatefulWidget {
 
 class _DashboardViewState extends State<DashboardView> {
   void newTask() {
+    Navigator.pushNamed(context, '/task');
+  }
+
+  void openTask() {
     Navigator.pushNamed(context, '/task');
   }
 
@@ -53,19 +58,21 @@ class _DashboardViewState extends State<DashboardView> {
                   overflow: TextOverflow.ellipsis,
                 ),
             ),
-            const Expanded(
+            Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.only(top: 26),
+                  padding: const EdgeInsets.only(top: 26),
                   child: Column(
                     children: [
                       TaskShortDescriptionWidget(
+                        onPressed: openTask,
                         taskName: 'Zaprojektowanie układu pomieszczeń',
                         done: false,
                         projectName: 'Nowa Siedziba Firmy XYZ',
                         lastActivity: '10:00',
                       ),
                       TaskShortDescriptionWidget(
+                        onPressed: openTask,
                         taskName: 'Zaprojektowanie układu pomieszczeń',
                         done: true,
                         projectName: 'Nowa Siedziba Firmy XYZ',
@@ -87,5 +94,3 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 }
-
-

@@ -23,6 +23,10 @@ class MyTaskView extends StatefulWidget {
 }
 
 class _MyTaskViewState extends State<MyTaskView> {
+  void openTask() {
+    Navigator.pushNamed(context, '/task');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,70 +42,81 @@ class _MyTaskViewState extends State<MyTaskView> {
           top: 100.0,
         ),
         height: double.infinity,
-        child: const SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Column(
             children: [
               TaskShortDescriptionWidget(
+                onPressed: openTask,
                 taskName: 'Zaprojektowanie układu pomieszczeń',
                 done: false,
                 projectName: 'Nowa Siedziba Firmy XYZ',
                 lastActivity: '10:00',
               ),
               TaskShortDescriptionWidget(
+                onPressed: openTask,
                 taskName: 'Zaprojektowanie układu pomieszczeń',
                 done: false,
                 projectName: 'Nowa Siedziba Firmy XYZ',
                 lastActivity: '10:00',
               ),
               TaskShortDescriptionWidget(
+                onPressed: openTask,
                 taskName: 'Zaprojektowanie układu pomieszczeń',
                 done: false,
                 projectName: 'Nowa Siedziba Firmy XYZ',
                 lastActivity: '10:00',
               ),
               TaskShortDescriptionWidget(
+                onPressed: openTask,
                 taskName: 'Zaprojektowanie układu pomieszczeń',
                 done: false,
                 projectName: 'Nowa Siedziba Firmy XYZ',
                 lastActivity: '10:00',
               ),
               TaskShortDescriptionWidget(
+                onPressed: openTask,
                 taskName: 'Zaprojektowanie układu pomieszczeń',
                 done: false,
                 projectName: 'Nowa Siedziba Firmy XYZ',
                 lastActivity: '10:00',
               ),
               TaskShortDescriptionWidget(
+                onPressed: openTask,
                 taskName: 'Zaprojektowanie układu pomieszczeń',
                 done: false,
                 projectName: 'Nowa Siedziba Firmy XYZ',
                 lastActivity: '10:00',
               ),
               TaskShortDescriptionWidget(
+                onPressed: openTask,
                 taskName: 'Zaprojektowanie układu pomieszczeń',
                 done: false,
                 projectName: 'Nowa Siedziba Firmy XYZ',
                 lastActivity: '10:00',
               ),
               TaskShortDescriptionWidget(
+                onPressed: openTask,
                 taskName: 'Zaprojektowanie układu pomieszczeń',
                 done: false,
                 projectName: 'Nowa Siedziba Firmy XYZ',
                 lastActivity: '10:00',
               ),
               TaskShortDescriptionWidget(
+                onPressed: openTask,
                 taskName: 'Zaprojektowanie układu pomieszczeń',
                 done: false,
                 projectName: 'Nowa Siedziba Firmy XYZ',
                 lastActivity: '10:00',
               ),
               TaskShortDescriptionWidget(
+                onPressed: openTask,
                 taskName: 'Zaprojektowanie układu pomieszczeń',
                 done: false,
                 projectName: 'Nowa Siedziba Firmy XYZ',
                 lastActivity: '10:00',
               ),
               TaskShortDescriptionWidget(
+                onPressed: openTask,
                 taskName: 'Zaprojektowanie układu pomieszczeń',
                 done: false,
                 projectName: 'Nowa Siedziba Firmy XYZ',

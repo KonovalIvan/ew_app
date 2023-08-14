@@ -2,11 +2,12 @@ import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
-import 'package:ew_app/controllers/forgot_password_controller.dart';
 import 'package:ew_app/widgets/fields/auth_input_field_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
+
+import '../../controllers/auth/forgot_password_controller.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({super.key});
