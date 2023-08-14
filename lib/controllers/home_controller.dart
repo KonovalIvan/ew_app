@@ -4,7 +4,7 @@ class HomeController {
 
   void task(BuildContext context) {
 
-    Navigator.pushNamed(context, '/soon');
+    Navigator.pushNamed(context, '/my_task');
   }
 
   void projects(BuildContext context) {

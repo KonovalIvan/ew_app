@@ -26,6 +26,7 @@ class TaskView extends StatefulWidget {
 class _TaskViewState extends State<TaskView> {
   final ProjectController _projectController = ProjectController();
   final TaskController _taskController = TaskController();
+  final ScrollController _scrollController = ScrollController();
 
   void updateVisibleStatusList(String status) {
     setState(() {
@@ -48,17 +49,20 @@ class _TaskViewState extends State<TaskView> {
       ),
       body: Container(
         decoration: backgroundDecorationGradient,
-        padding: const EdgeInsets.only(
-          left: 14.0,
-          right: 14.0,
-          top: 100.0,
-        ),
         height: double.infinity,
         width: double.infinity,
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: Stack(
             alignment: Alignment.center,
             children: [
+          Padding(
+          padding: const EdgeInsets.only(
+            left: 14.0,
+            right: 14.0,
+            top: 100.0,
+          ),
+          child:
               Column(
                 children: [
                   EditableResizedFieldWidget(
@@ -170,10 +174,11 @@ class _TaskViewState extends State<TaskView> {
                           height: 0,
                         )
                 ],
-              ),
+              ),),
               // TODO: set this menus in middle of screen, not view.
               _projectController.visibleOptionsMenu
                   ? OptionsWidget(
+                positionTop: _scrollController.offset,
                       onPressedEdit: () {
                         setState(() {
                           _projectController.updateEditable();
@@ -187,7 +192,9 @@ class _TaskViewState extends State<TaskView> {
                     )
                   : Container(),
               _projectController.visibleDeleteMenu
-                  ? DeleteConfirmButtonWidget(onPressedNo: () {
+                  ? DeleteConfirmButtonWidget(
+                  positionTop: _scrollController.offset,
+                  onPressedNo: () {
                       setState(() {
                         _projectController.pressNoDelete();
                       });

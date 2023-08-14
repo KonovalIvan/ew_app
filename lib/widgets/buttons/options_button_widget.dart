@@ -6,11 +6,13 @@ class OptionsButtonWidget extends StatefulWidget {
   OptionsButtonWidget({
     Key? key,
     this.fieldHeight = 19,
+    this.optionsColor = Colors.white,
     this.fieldWidth = 5,
   }) : super(key: key);
 
   final double fieldHeight;
   final double fieldWidth;
+  final Color optionsColor;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -30,6 +32,7 @@ class _OptionsButtonWidgetState extends State<OptionsButtonWidget> {
               child: SvgPicture.asset(
                 'assets/icons/options.svg',
                 fit: BoxFit.fill,
+                color: widget.optionsColor,
               ),
         );
       },

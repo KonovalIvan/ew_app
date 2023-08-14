@@ -36,6 +36,7 @@ class _BackArrowButtonWidgetState extends State<BackArrowButtonWidget> {
             child: SvgPicture.asset(
               'assets/icons/back.svg',
               fit: BoxFit.fill,
+              color: widget.arrowColor,
             ),
           );
         },

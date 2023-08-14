@@ -1,5 +1,6 @@
 import 'package:ew_app/constants/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 
 class SmallGalleryWidget extends StatefulWidget {
   const SmallGalleryWidget({super.key});
@@ -10,64 +11,46 @@ class SmallGalleryWidget extends StatefulWidget {
 }
 
 class _SmallGalleryWidgetState extends State<SmallGalleryWidget> {
+  List imagePath = [
+    'assets/images/base_project.jpg',
+    'assets/images/base_project.jpg',
+    'assets/images/base_project.jpg',
+  ];
+
   @override
   Widget build(BuildContext context) {
     // TODO: Create swiper
-    return Column(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(
-            MediaQuery.of(context).size.width / 2.0,
-          ),
-          child: Image.asset(
-            'assets/images/base_project.jpg',
-            width: 100,
-            height: 100,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(
-                  MediaQuery.of(context).size.width / 2.0,
-                ),
+    return Container(
+      width: 150,
+      margin: EdgeInsets.only(right: 10),
+      child: ClipRRect(
+        child: Align(
+          child: Swiper(
+            itemWidth: 100,
+            itemHeight: 100,
+            loop: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/gallery');
+                },
                 child: Container(
-                  color: const Color(0xFFD9D9D9),
-                  width: 10,
-                  height: 10,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                    MediaQuery.of(context).size.width / 2.0,
-                  ),
-                  child: Container(
-                    color: const Color(0x50D9D9D9),
-                    width: 10,
-                    height: 10,
+                  width: 400,
+                  height: 400,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(image: AssetImage(imagePath[index])),
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.width / 2.0),
                   ),
                 ),
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(
-                  MediaQuery.of(context).size.width / 2.0,
-                ),
-                child: Container(
-                  color: const Color(0x50D9D9D9),
-                  width: 10,
-                  height: 10,
-                ),
-              ),
-            ],
+              );
+            },
+            itemCount: imagePath.length,
+            layout: SwiperLayout.STACK,
           ),
         ),
-      ],
+      ),
     );
   }
 }
