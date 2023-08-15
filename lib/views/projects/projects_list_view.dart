@@ -19,29 +19,13 @@ class ProjectsListView extends StatefulWidget {
 }
 
 class _ProjectsListViewState extends State<ProjectsListView> {
-  late Future allProjectsList = Future.value(null);
-  final ProjectsListController _projectsListController = ProjectsListController();
-  bool _isExpanded = false;
+  final ProjectsListController _projectsListController =
+      ProjectsListController();
 
-  bool _showAllProjects = false;
-  bool _showInProgressProjects = true;
-  bool _showFinishedProjects = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // get all projects
-    // allProjectsList = getProjectList(consts.apiProjectsAllUrl);
-    // TODO: refactor all get / post ... send to controller, not to view!
-  }
-
-  void updateProjectFilters(
-      bool inExpanded, bool showAll, bool showInProgress, bool showFinished) {
+  void updateFilter(String status) {
     setState(() {
-      _isExpanded = inExpanded;
-      _showAllProjects = showAll;
-      _showInProgressProjects = showInProgress;
-      _showFinishedProjects = showFinished;
+      _projectsListController.filterText = status;
+      _projectsListController.isExpanded = false;
     });
   }
 
@@ -50,7 +34,10 @@ class _ProjectsListViewState extends State<ProjectsListView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       // TODO: Add search field and icon
-      appBar: const AppBarWidget(leftIcon: BackArrowButtonWidget(), rightIconMenu: MenuButtonWidget(),),
+      appBar: const AppBarWidget(
+        leftIcon: BackArrowButtonWidget(),
+        rightIconMenu: MenuButtonWidget(),
+      ),
       drawer: const MainDrawer(),
       body: SingleChildScrollView(
         child: Stack(
@@ -75,7 +62,8 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                         ),
                         onPressed: () {
                           setState(() {
-                            _isExpanded = !_isExpanded;
+                            _projectsListController.isExpanded =
+                                !_projectsListController.isExpanded;
                           });
                         },
                         child: Row(
@@ -85,13 +73,7 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                             Padding(
                               padding: const EdgeInsets.only(right: 8),
                               child: Text(
-                                _showAllProjects
-                                    ? 'All projects'
-                                    : _showInProgressProjects
-                                        ? 'In progress'
-                                        : _showFinishedProjects
-                                            ? 'Finished'
-                                            : 'Error',
+                                _projectsListController.filterText,
                                 style: SafeGoogleFont(
                                   'Poppins',
                                   fontSize: 20.0,
@@ -104,7 +86,7 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                               width: 10,
                               height: 10,
                               child: SvgPicture.asset(
-                                _isExpanded
+                                _projectsListController.isExpanded
                                     ? 'assets/icons/triangle.svg'
                                     : 'assets/icons/triangle_active.svg',
                                 fit: BoxFit.fill,
@@ -160,16 +142,13 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                 )
               ],
             ),
-            _isExpanded
+            _projectsListController.isExpanded
                 ? Positioned(
                     top: 475,
                     left: 0,
                     child: TaskFilterWidget(
-                      isExpanded: _isExpanded,
-                      showAllProjects: _showAllProjects,
-                      showInProgressProjects: _showInProgressProjects,
-                      showFinishedProjects: _showFinishedProjects,
-                      onUpdateFilters: updateProjectFilters,
+                      isExpanded: _projectsListController.isExpanded,
+                      updateFilterText: updateFilter,
                     ),
                   )
                 : Container(),
@@ -181,19 +160,14 @@ class _ProjectsListViewState extends State<ProjectsListView> {
 }
 
 class TaskFilterWidget extends StatefulWidget {
-  TaskFilterWidget(
-      {super.key,
-      this.isExpanded,
-      this.showAllProjects,
-      this.showInProgressProjects,
-      this.showFinishedProjects,
-      this.onUpdateFilters});
-
   bool? isExpanded;
-  bool? showAllProjects;
-  bool? showInProgressProjects;
-  bool? showFinishedProjects;
-  final Function(bool, bool, bool, bool)? onUpdateFilters;
+  Function(String) updateFilterText;
+
+  TaskFilterWidget({
+    super.key,
+    this.isExpanded,
+    required this.updateFilterText,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -201,14 +175,6 @@ class TaskFilterWidget extends StatefulWidget {
 }
 
 class _TaskFilterWidgetState extends State<TaskFilterWidget> {
-  void resetSteps() {
-    setState(() {
-      widget.isExpanded = false;
-      widget.showAllProjects = false;
-      widget.showInProgressProjects = false;
-      widget.showFinishedProjects = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -252,18 +218,7 @@ class _TaskFilterWidgetState extends State<TaskFilterWidget> {
             height: 30,
             child: ElevatedButton(
               onPressed: () {
-                setState(() {
-                  resetSteps();
-                  widget.showAllProjects = true;
-                });
-                if (widget.onUpdateFilters != null) {
-                  widget.onUpdateFilters!(
-                    widget.isExpanded!,
-                    widget.showAllProjects!,
-                    widget.showInProgressProjects!,
-                    widget.showFinishedProjects!,
-                  );
-                }
+                widget.updateFilterText('All projects');
               },
               style: ButtonStyle(
                 minimumSize:
@@ -287,18 +242,7 @@ class _TaskFilterWidgetState extends State<TaskFilterWidget> {
             height: 30,
             child: ElevatedButton(
               onPressed: () {
-                setState(() {
-                  resetSteps();
-                  widget.showInProgressProjects = true;
-                });
-                if (widget.onUpdateFilters != null) {
-                  widget.onUpdateFilters!(
-                    widget.isExpanded!,
-                    widget.showAllProjects!,
-                    widget.showInProgressProjects!,
-                    widget.showFinishedProjects!,
-                  );
-                }
+                widget.updateFilterText('In progress');
               },
               style: ButtonStyle(
                 minimumSize:
@@ -322,18 +266,7 @@ class _TaskFilterWidgetState extends State<TaskFilterWidget> {
             height: 30,
             child: ElevatedButton(
               onPressed: () {
-                setState(() {
-                  resetSteps();
-                  widget.showFinishedProjects = true;
-                });
-                if (widget.onUpdateFilters != null) {
-                  widget.onUpdateFilters!(
-                    widget.isExpanded!,
-                    widget.showAllProjects!,
-                    widget.showInProgressProjects!,
-                    widget.showFinishedProjects!,
-                  );
-                }
+                widget.updateFilterText('Finished');
               },
               style: ButtonStyle(
                 minimumSize:

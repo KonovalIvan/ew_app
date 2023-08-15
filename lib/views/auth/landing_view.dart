@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 
-import '../../controllers/auth/landing_controller.dart';
+import 'package:ew_app/controllers/auth/landing_controller.dart';
 
 class LandingView extends StatefulWidget {
   const LandingView({super.key});
@@ -16,11 +16,6 @@ class LandingView extends StatefulWidget {
 
 class _LandingViewState extends State<LandingView> {
   final LandingController _landingController = LandingController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

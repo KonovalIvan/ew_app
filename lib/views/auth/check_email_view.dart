@@ -20,9 +20,6 @@ class _CheckEmailViewState extends State<CheckEmailView> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
-  bool showSendAgain = true;
-  bool showExtraInfo = false;
-
   @override
   void dispose() {
     _confirmPasswordController.dispose();
@@ -75,13 +72,13 @@ class _CheckEmailViewState extends State<CheckEmailView> {
                       ),
                     ),
                   ),
-                  showSendAgain == true
+                  _checkEmailController.showSendAgain == true
                       ? Padding(
                           padding: const EdgeInsets.only(top: 26.0),
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                showSendAgain = false;
+                                _checkEmailController.showSendAgain = false;
                               });
                               _checkEmailController.sendAgain(context);
                             },

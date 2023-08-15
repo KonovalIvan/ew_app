@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 
-import '../../controllers/auth/forgot_password_controller.dart';
+import 'package:ew_app/controllers/auth/forgot_password_controller.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({super.key});

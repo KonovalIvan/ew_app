@@ -22,14 +22,6 @@ class _RegisterViewState extends State<RegisterView> {
       TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  bool showPassword = false;
-  bool isCheckedTermsAndConditions = false;
-
-  @override
   void dispose() {
     _confirmPasswordController.dispose();
     super.dispose();
@@ -84,7 +76,7 @@ class _RegisterViewState extends State<RegisterView> {
                   fieldHeight: 33,
                   iconPath: 'assets/icons/password.svg',
                   helpText: 'Password',
-                  obscureText: !showPassword,
+                  obscureText: !_registerController.showPassword,
                 ),
               ),
               Padding(
@@ -93,7 +85,7 @@ class _RegisterViewState extends State<RegisterView> {
                   fieldHeight: 33,
                   iconPath: 'assets/icons/password.svg',
                   helpText: 'Confirm password',
-                  obscureText: !showPassword,
+                  obscureText: !_registerController.showPassword,
                 ),
               ),
               Padding(
@@ -107,10 +99,11 @@ class _RegisterViewState extends State<RegisterView> {
                       width: 15,
                       height: 15,
                       child: Checkbox(
-                        value: showPassword,
+                        value: _registerController.showPassword,
                         onChanged: (bool? value) {
                           setState(() {
-                            showPassword = value ?? true;
+                            _registerController.showPassword =
+                                !_registerController.showPassword;
                           });
                         },
                         checkColor: Colors.black,
@@ -145,10 +138,12 @@ class _RegisterViewState extends State<RegisterView> {
                       width: 15,
                       height: 15,
                       child: Checkbox(
-                        value: isCheckedTermsAndConditions,
+                        value: _registerController.isCheckedTermsAndConditions,
                         onChanged: (bool? value) {
                           setState(() {
-                            isCheckedTermsAndConditions = value ?? false;
+                            _registerController.isCheckedTermsAndConditions =
+                                !_registerController
+                                    .isCheckedTermsAndConditions;
                           });
                         },
                         checkColor: Colors.black,
@@ -181,7 +176,8 @@ class _RegisterViewState extends State<RegisterView> {
                 decoration: BoxDecoration(
                   color: buttonGreyColor,
                   borderRadius: BorderRadius.circular(
-                      MediaQuery.of(context).size.width / 2.0),
+                    MediaQuery.of(context).size.width / 2.0,
+                  ),
                   boxShadow: const [
                     BoxShadow(
                       color: Color.fromRGBO(0, 0, 0, 0.25),

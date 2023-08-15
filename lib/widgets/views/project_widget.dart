@@ -1,7 +1,8 @@
 import 'package:ew_app/constants/styles.dart';
+import 'package:ew_app/controllers/dashboards/dashboard_controller.dart';
 import 'package:flutter/material.dart';
 
-import '../../controllers/widgets/project_widget_controller.dart';
+import 'package:ew_app/controllers/widgets/project_widget_controller.dart';
 
 class ProjectWidget extends StatefulWidget {
   const ProjectWidget({
@@ -46,7 +47,6 @@ class _ProjectWidgetState extends State<ProjectWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // TODO: create background after radius invisible
               Container(
                 width: 110,
                 height: 110,
@@ -108,6 +108,65 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                     ),
                   ),
                 ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class ProjectDashboardWidget extends StatefulWidget {
+  const ProjectDashboardWidget({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _ProjectDashboardWidgetState createState() => _ProjectDashboardWidgetState();
+}
+
+class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
+  final DashboardController _dashboardController = DashboardController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Container(
+        padding: EdgeInsets.zero,
+        height: 33,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: const Color(0x40FFFFFF),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: TextButton(
+          onPressed: () {
+            _dashboardController.push(context);
+          },
+          style: TextButton.styleFrom(
+            visualDensity: VisualDensity.compact,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Disassembly work',
+                style: SafeGoogleFont(
+                  'Poppins',
+                  fontSize: 14.0,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                '62%',
+                style: SafeGoogleFont(
+                  'Poppins',
+                  fontSize: 14.0,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),

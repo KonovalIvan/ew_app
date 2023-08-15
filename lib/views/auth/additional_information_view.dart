@@ -20,11 +20,6 @@ class _AdditionalInformationViewState extends State<AdditionalInformationView> {
       AdditionalInformationController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,

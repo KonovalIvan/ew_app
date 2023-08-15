@@ -12,8 +12,8 @@ class AddFileButtonWidget extends StatefulWidget {
 }
 
 class _AddFileButtonWidgetState extends State<AddFileButtonWidget> {
-  final BackArrowButtonController _backArrowButtonController =
-      BackArrowButtonController();
+  final AddFileButtonController _addFileButtonController =
+  AddFileButtonController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,9 @@ class _AddFileButtonWidgetState extends State<AddFileButtonWidget> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextButton(
-        onPressed: () {},
+        onPressed: () {
+          _addFileButtonController.addFile(context);
+        },
         child: Text(
           'Tap to add Files',
           style: SafeGoogleFont(

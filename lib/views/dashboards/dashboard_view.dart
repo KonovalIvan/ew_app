@@ -1,15 +1,12 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
+import 'package:ew_app/controllers/dashboards/dashboard_controller.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:flutter/material.dart';
-
-import 'package:flutter_svg/svg.dart';
-
 import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
-import '../../controllers/tasks/task_short_description_controller.dart';
-import '../../widgets/views/task_short_description_widget.dart';
+import 'package:ew_app/widgets/views/task_short_description_widget.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({Key? key}) : super(key: key);
@@ -20,13 +17,7 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-  void newTask() {
-    Navigator.pushNamed(context, '/task');
-  }
-
-  void openTask() {
-    Navigator.pushNamed(context, '/task');
-  }
+  final DashboardController _dashboardController = DashboardController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,14 +56,18 @@ class _DashboardViewState extends State<DashboardView> {
                   child: Column(
                     children: [
                       TaskShortDescriptionWidget(
-                        onPressed: openTask,
+                        onPressed: (){
+                          _dashboardController.openTask(context);
+                        },
                         taskName: 'Zaprojektowanie układu pomieszczeń',
                         done: false,
                         projectName: 'Nowa Siedziba Firmy XYZ',
                         lastActivity: '10:00',
                       ),
                       TaskShortDescriptionWidget(
-                        onPressed: openTask,
+                        onPressed: (){
+                          _dashboardController.openTask(context);
+                        },
                         taskName: 'Zaprojektowanie układu pomieszczeń',
                         done: true,
                         projectName: 'Nowa Siedziba Firmy XYZ',
@@ -84,7 +79,9 @@ class _DashboardViewState extends State<DashboardView> {
               ),
             ),
             MainButtonWidget(
-              onPressed: newTask,
+              onPressed: (){
+                _dashboardController.newTask(context);
+              },
               buttonColor: const Color(0x9037E888),
               buttonText: 'New',
             ),

@@ -20,6 +20,7 @@ class CustomErrorWidget extends StatefulWidget {
 }
 
 class _CustomErrorWidgetState extends State<CustomErrorWidget> {
+
   @override
   Widget build(BuildContext context) {
     return Positioned(

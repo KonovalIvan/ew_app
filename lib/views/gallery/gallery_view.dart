@@ -1,4 +1,5 @@
 import 'package:ew_app/constants/colors.dart';
+import 'package:ew_app/controllers/widgets/buttons_controller.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:ew_app/widgets/buttons/delete_confirm_button_widget.dart';
@@ -16,34 +17,9 @@ class GalleryView extends StatefulWidget {
 }
 
 class _GalleryViewState extends State<GalleryView> {
-  bool _visibleOptionsMenu = false;
-  bool _visibleDeleteMenu = false;
-
-  void updateEditable() {
-    setState(() {
-      _visibleOptionsMenu = !_visibleOptionsMenu;
-    });
-  }
-
-  void updateVisibleDeleteMenu() {
-    setState(() {
-      _visibleDeleteMenu = !_visibleDeleteMenu;
-    });
-  }
-
-  void pressNoDelete() {
-    setState(() {
-      _visibleDeleteMenu = false;
-      _visibleOptionsMenu = false;
-    });
-  }
-
-  void pressYesDelete() {
-    setState(() {
-      // TODO: logic for delete project
-      Navigator.pop(context);
-    });
-  }
+  final OptionsButtonController _optionsButtonController =
+      OptionsButtonController();
+  final ScrollController _scrollController = ScrollController();
 
   // TODO: add transferred images list
   // TODO: add button to switching images
@@ -56,7 +32,8 @@ class _GalleryViewState extends State<GalleryView> {
         rightIconMenu: OptionsButtonWidget(optionsColor: Colors.black),
         onRightIconPressed: () {
           setState(() {
-            _visibleOptionsMenu = !_visibleOptionsMenu;
+            _optionsButtonController.visibleOptionsMenu =
+                !_optionsButtonController.visibleOptionsMenu;
           });
         },
       ),
@@ -77,24 +54,41 @@ class _GalleryViewState extends State<GalleryView> {
                 fit: BoxFit.contain,
               ),
             ),
-            _visibleOptionsMenu
+            _optionsButtonController.visibleOptionsMenu
                 ? Positioned.fill(
-              child: Container(
-                color: const Color(0x70000000),
-              ),
-            )
+                    child: Container(
+                      color: const Color(0x70000000),
+                    ),
+                  )
                 : Container(),
-            _visibleOptionsMenu
+            _optionsButtonController.visibleOptionsMenu
                 ? OptionsWidget(
-              heightElement: 50,
-              onPressedDelete: updateVisibleDeleteMenu,
-            )
+                    heightElement: 50,
+                    onPressedDelete: () {
+                      setState(() {
+                        _optionsButtonController.updateVisibleDeleteMenu();
+                      });
+                    },
+                  )
                 : Container(),
-            _visibleDeleteMenu
+            _optionsButtonController.visibleDeleteMenu
                 ? DeleteConfirmButtonWidget(
-              onPressedNo: pressNoDelete,
-              onPressedYes: pressYesDelete,
-            )
+                    positionTop: _scrollController.offset,
+                    onPressedNo: () {
+                      setState(
+                        () {
+                          _optionsButtonController.pressNoDelete();
+                        },
+                      );
+                    },
+                    onPressedYes: () {
+                      setState(
+                        () {
+                          _optionsButtonController.pressYesDelete(context);
+                        },
+                      );
+                    },
+                  )
                 : Container(),
           ],
         ),

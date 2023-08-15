@@ -1,18 +1,18 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
+import 'package:ew_app/controllers/widgets/buttons_controller.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:ew_app/widgets/buttons/delete_confirm_button_widget.dart';
 import 'package:ew_app/widgets/fields/editable_resized_field_widget.dart';
 import 'package:ew_app/widgets/options_widget.dart';
+import 'package:ew_app/widgets/views/project_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ew_app/widgets/buttons/add_file_button_widget.dart';
 import 'package:ew_app/widgets/buttons/options_button_widget.dart';
 import 'package:ew_app/widgets/small_gallery_widget.dart';
 
-import 'package:ew_app/controllers/dashboards/dashboard_controller.dart';
-import 'package:ew_app/controllers/projects/project_controller.dart';
 import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
 class ProjectView extends StatefulWidget {
@@ -24,13 +24,9 @@ class ProjectView extends StatefulWidget {
 }
 
 class _ProjectViewState extends State<ProjectView> {
-  final TextEditingController _textEditingController = TextEditingController();
-  ScrollController _scrollController = ScrollController();
-  final ProjectController _projectController = ProjectController();
-
-  bool _editable = false;
-  bool _visibleOptionsMenu = false;
-  bool _visibleDeleteMenu = false;
+  final ScrollController _scrollController = ScrollController();
+  final OptionsButtonController _optionsButtonController =
+      OptionsButtonController();
 
   @override
   void initState() {
@@ -42,40 +38,6 @@ class _ProjectViewState extends State<ProjectView> {
     double currentPosition = _scrollController.offset;
   }
 
-  void updateEditable() {
-    setState(() {
-      _editable = true;
-      _visibleOptionsMenu = !_visibleOptionsMenu;
-    });
-  }
-
-  void updateVisibleDeleteMenu() {
-    setState(() {
-      _visibleDeleteMenu = !_visibleDeleteMenu;
-    });
-  }
-
-  void updateProject() {
-    setState(() {
-      // TODO: send saved project to backend
-      _editable = false;
-    });
-  }
-
-  void pressNoDelete() {
-    setState(() {
-      _visibleDeleteMenu = false;
-      _visibleOptionsMenu = false;
-    });
-  }
-
-  void pressYesDelete() {
-    setState(() {
-      // TODO: logic for delete project
-      Navigator.pop(context);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +47,7 @@ class _ProjectViewState extends State<ProjectView> {
         rightIconMenu: OptionsButtonWidget(),
         onRightIconPressed: () {
           setState(() {
-            _projectController.updateVisibleMenu();
+            _optionsButtonController.updateVisibleMenu();
           });
         },
       ),
@@ -129,7 +91,7 @@ class _ProjectViewState extends State<ProjectView> {
                                 padding: const EdgeInsets.only(top: 9),
                                 child: EditableResizedFieldWidget(
                                   fieldWidth: 164,
-                                  editable: _editable,
+                                  editable: _optionsButtonController.editable,
                                   helpText: 'Client',
                                 ),
                               ),
@@ -137,7 +99,7 @@ class _ProjectViewState extends State<ProjectView> {
                                 padding: const EdgeInsets.only(top: 9),
                                 child: EditableResizedFieldWidget(
                                   fieldWidth: 164,
-                                  editable: _editable,
+                                  editable: _optionsButtonController.editable,
                                   helpText: 'Owner',
                                 ),
                               ),
@@ -145,7 +107,7 @@ class _ProjectViewState extends State<ProjectView> {
                                 padding: const EdgeInsets.only(top: 9),
                                 child: EditableResizedFieldWidget(
                                   fieldWidth: 164,
-                                  editable: _editable,
+                                  editable: _optionsButtonController.editable,
                                   helpText: 'Master',
                                 ),
                               ),
@@ -158,46 +120,46 @@ class _ProjectViewState extends State<ProjectView> {
                       padding: const EdgeInsets.only(top: 33),
                       child: EditableResizedFieldWidget(
                         fieldWidth: double.infinity,
-                        editable: _editable,
+                        editable: _optionsButtonController.editable,
                         helpText: 'Address',
                       ),
                     ),
-                    _editable
+                    _optionsButtonController.editable
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
                               fieldWidth: double.infinity,
-                              editable: _editable,
+                              editable: _optionsButtonController.editable,
                               helpText: 'Street number',
                             ),
                           )
                         : Container(),
-                    _editable
+                    _optionsButtonController.editable
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
                               fieldWidth: double.infinity,
-                              editable: _editable,
+                              editable: _optionsButtonController.editable,
                               helpText: 'Local',
                             ),
                           )
                         : Container(),
-                    _editable
+                    _optionsButtonController.editable
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
                               fieldWidth: double.infinity,
-                              editable: _editable,
+                              editable: _optionsButtonController.editable,
                               helpText: 'Post-code',
                             ),
                           )
                         : Container(),
-                    _editable
+                    _optionsButtonController.editable
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
                               fieldWidth: double.infinity,
-                              editable: _editable,
+                              editable: _optionsButtonController.editable,
                               helpText: 'City',
                             ),
                           )
@@ -206,7 +168,7 @@ class _ProjectViewState extends State<ProjectView> {
                       padding: const EdgeInsets.only(top: 9),
                       child: EditableResizedFieldWidget(
                         fieldWidth: double.infinity,
-                        editable: _editable,
+                        editable: _optionsButtonController.editable,
                         helpText: 'Description',
                       ),
                     ),
@@ -269,11 +231,11 @@ class _ProjectViewState extends State<ProjectView> {
                         ),
                       ),
                     ),
-                    const DashboardWidget(),
-                    const DashboardWidget(),
-                    const DashboardWidget(),
-                    const DashboardWidget(),
-                    _editable
+                    const ProjectDashboardWidget(),
+                    const ProjectDashboardWidget(),
+                    const ProjectDashboardWidget(),
+                    const ProjectDashboardWidget(),
+                    _optionsButtonController.editable
                         ? Padding(
                             padding: const EdgeInsets.only(top: 4),
                             child: Container(
@@ -290,7 +252,7 @@ class _ProjectViewState extends State<ProjectView> {
                                   visualDensity: VisualDensity.compact,
                                 ),
                                 child: Text(
-                                  '+',
+                                  'Edit',
                                   style: SafeGoogleFont(
                                     'Poppins',
                                     fontSize: 12.0,
@@ -301,13 +263,13 @@ class _ProjectViewState extends State<ProjectView> {
                             ),
                           )
                         : Container(),
-                    _projectController.editable
+                    _optionsButtonController.editable
                         ? MainButtonWidget(
                             buttonColor: const Color(0x9037E888),
                             pathToSvg: 'assets/icons/done.svg',
                             onPressed: () {
                               setState(() {
-                                _projectController.updateProject();
+                                _optionsButtonController.updateProject();
                               });
                             },
                           )
@@ -318,94 +280,43 @@ class _ProjectViewState extends State<ProjectView> {
                   ],
                 ),
               ),
-              _projectController.visibleOptionsMenu
+              _optionsButtonController.visibleOptionsMenu
+                  ? Positioned(
+                      child: Container(
+                        color: const Color(0x70000000),
+                      ),
+                    )
+                  : Container(),
+              _optionsButtonController.visibleOptionsMenu
                   ? OptionsWidget(
                       positionTop: _scrollController.offset,
                       onPressedEdit: () {
                         setState(() {
-                          _projectController.updateEditable();
+                          _optionsButtonController.updateEditable();
                         });
                       },
                       onPressedDelete: () {
                         setState(() {
-                          _projectController.updateVisibleDeleteMenu();
+                          _optionsButtonController.updateVisibleDeleteMenu();
                         });
                       },
                     )
                   : Container(),
-              _projectController.visibleDeleteMenu
+              _optionsButtonController.visibleDeleteMenu
                   ? DeleteConfirmButtonWidget(
                       positionTop: _scrollController.offset,
                       onPressedNo: () {
                         setState(() {
-                          _projectController.pressNoDelete();
+                          _optionsButtonController.pressNoDelete();
                         });
                       },
                       onPressedYes: () {
                         setState(() {
-                          _projectController.pressYesDelete(context);
+                          _optionsButtonController.pressYesDelete(context);
                         });
                       },
                     )
                   : Container(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class DashboardWidget extends StatefulWidget {
-  const DashboardWidget({super.key});
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _DashboardWidgetState createState() => _DashboardWidgetState();
-}
-
-class _DashboardWidgetState extends State<DashboardWidget> {
-  final DashboardController _dashboardController = DashboardController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Container(
-        padding: EdgeInsets.zero,
-        height: 33,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: const Color(0x40FFFFFF),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: TextButton(
-          onPressed: () {
-            _dashboardController.push(context);
-          },
-          style: TextButton.styleFrom(
-            visualDensity: VisualDensity.compact,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Disassembly work',
-                style: SafeGoogleFont(
-                  'Poppins',
-                  fontSize: 14.0,
-                  color: Colors.white,
-                ),
-              ),
-              Text(
-                '62%',
-                style: SafeGoogleFont(
-                  'Poppins',
-                  fontSize: 14.0,
-                  color: Colors.white,
-                ),
-              ),
             ],
           ),
         ),

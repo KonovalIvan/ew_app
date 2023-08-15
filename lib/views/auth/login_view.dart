@@ -24,14 +24,6 @@ class _LoginViewState extends State<LoginView> {
       TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  bool showPassword = false;
-  bool showError = false;
-
-  @override
   void dispose() {
     _confirmPasswordController.dispose();
     super.dispose();
@@ -97,7 +89,7 @@ class _LoginViewState extends State<LoginView> {
                   fieldHeight: 33,
                   iconPath: 'assets/icons/password.svg',
                   helpText: 'Password',
-                  obscureText: !showPassword,
+                  obscureText: !_loginController.showPassword,
                 ),
               ),
               Padding(
@@ -114,10 +106,10 @@ class _LoginViewState extends State<LoginView> {
                           width: 15,
                           height: 15,
                           child: Checkbox(
-                            value: showPassword,
+                            value: _loginController.showPassword,
                             onChanged: (bool? value) {
                               setState(() {
-                                showPassword = value ?? false;
+                                _loginController.showPassword = value ?? false;
                               });
                             },
                             checkColor: Colors.black,
@@ -184,9 +176,8 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    setState(() {
                       _loginController.login(context);
-                    });
+
                   },
                   child: Text(
                     'Sign in',

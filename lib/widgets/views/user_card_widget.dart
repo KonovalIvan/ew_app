@@ -10,6 +10,7 @@ class UserCardWidget extends StatefulWidget {
 }
 
 class _UserCardWidgetState extends State<UserCardWidget> {
+
   @override
   Widget build(BuildContext context) {
     return Container(

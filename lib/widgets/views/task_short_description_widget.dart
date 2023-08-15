@@ -27,6 +27,7 @@ class TaskShortDescriptionWidget extends StatefulWidget {
 
 class _TaskShortDescriptionWidgetState
     extends State<TaskShortDescriptionWidget> {
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
