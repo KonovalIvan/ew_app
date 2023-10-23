@@ -169,7 +169,8 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                   // TODO: Create 4 project for 1 page, in case we use filter - show projects from 1st page!
                   children: [
                     if (showCircularProgressIndicator)
-                      const CircularProgressIndicator()
+                      const Padding(padding: EdgeInsets.only(top: 100),
+                      child: CircularProgressIndicator())
                     else
                       for (var project in projects)
                         Padding(
