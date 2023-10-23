@@ -1,5 +1,6 @@
 import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/controllers/projects/project_controller.dart';
+import 'package:ew_app/models/projects_short_info.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/menu_button_widget.dart';
 import 'package:ew_app/widgets/main_drawer_widget.dart';
@@ -11,7 +12,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProjectsListView extends StatefulWidget {
-  const ProjectsListView({Key? key}) : super(key: key);
+  ProjectsListView(
+      {Key? key,
+      required this.userFirstName,
+      required this.userLastName,
+      required this.email,
+      required this.activeProjects,
+      required this.activeTasks})
+      : super(key: key);
+
+  final String userFirstName;
+  final String userLastName;
+  final String email;
+  final int activeProjects;
+  final int activeTasks;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -19,6 +33,8 @@ class ProjectsListView extends StatefulWidget {
 }
 
 class _ProjectsListViewState extends State<ProjectsListView> {
+  bool showCircularProgressIndicator = true;
+  late Iterable<ProjectsShortInfo> projects;
   final ProjectsListController _projectsListController =
       ProjectsListController();
 
@@ -26,6 +42,37 @@ class _ProjectsListViewState extends State<ProjectsListView> {
     setState(() {
       _projectsListController.filterText = status;
       _projectsListController.isExpanded = false;
+
+      switch (status) {
+        case 'Finished':
+          projects = _projectsListController.projects
+              .where((project) => project.finished)
+              .toList();
+          break;
+        case 'In progress':
+          projects = _projectsListController.projects
+              .where((project) => !project.finished)
+              .toList();
+          break;
+        default:
+          projects = _projectsListController.projects;
+          break;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getProjectsInfo();
+  }
+
+  Future<void> _getProjectsInfo() async {
+    await _projectsListController.getProjectsInfo(false);
+    setState(() {
+      showCircularProgressIndicator = false;
+      projects = _projectsListController.projects
+          .where((project) => !project.finished);
     });
   }
 
@@ -45,11 +92,11 @@ class _ProjectsListViewState extends State<ProjectsListView> {
             Column(
               children: [
                 // TODO: Fix pinning AdminShadeWidget at height 65
-                const UserCardWidget(
-                  activeProjects: 2,
-                  activeTasks: 2,
-                  userFirstName: 'asd',
-                  email: 'asd@asd.asd',
+                UserCardWidget(
+                  activeProjects: widget.activeProjects,
+                  activeTasks: widget.activeTasks,
+                  userFirstName: widget.userFirstName,
+                  email: widget.email,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 38, left: 36, right: 36),
@@ -117,32 +164,25 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                     ],
                   ),
                 ),
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  // TODO: Create generating of Projects and pages
+                  // TODO: Create 4 project for 1 page, in case we use filter - show projects from 1st page!
                   children: [
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: ProjectWidget(
-                        finished: true,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: ProjectWidget(
-                        finished: true,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: ProjectWidget(
-                        finished: true,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: ProjectWidget(),
-                    ),
+                    if (showCircularProgressIndicator)
+                      const CircularProgressIndicator()
+                    else
+                      for (var project in projects)
+                        Padding(
+                          padding: const EdgeInsets.all(
+                            20,
+                          ),
+                          child: ProjectWidget(
+                            finished: project.finished,
+                            name: project.name,
+                            description: project.description,
+                            mainImage: project.mainImage,
+                          ),
+                        ),
                   ],
                 )
               ],
@@ -180,7 +220,6 @@ class TaskFilterWidget extends StatefulWidget {
 }
 
 class _TaskFilterWidgetState extends State<TaskFilterWidget> {
-
   @override
   Widget build(BuildContext context) {
     return Container(

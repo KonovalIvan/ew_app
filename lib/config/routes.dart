@@ -12,13 +12,13 @@ import 'package:ew_app/views/home_view.dart';
 import 'package:ew_app/views/auth/login_view.dart';
 import 'package:ew_app/views/auth/register_view.dart';
 
-import 'package:ew_app/views/projects/projects_list_view.dart';
-
 import 'package:ew_app/views/dashboards/dashboard_view.dart';
 import 'package:ew_app/views/tasks/task_view.dart';
 
 import 'package:ew_app/views/gallery/gallery_view.dart';
 import 'package:ew_app/views/tasks/my_task_view.dart';
+
+import 'package:ew_app/controllers/home_controller.dart';
 
 final Map<String, WidgetBuilder> routes = {
   '/': (BuildContext context) => const LandingView(),
@@ -32,7 +32,11 @@ final Map<String, WidgetBuilder> routes = {
   '/almost_done': (BuildContext context) => const AlmostDoneView(),
   '/additional_information': (BuildContext context) =>
       const AdditionalInformationView(),
-  '/projects_list': (BuildContext context) => const ProjectsListView(),
+  '/projects_list': (BuildContext context) {
+    final controller = HomeController();
+    controller.projects(context);
+    return const SizedBox();
+  },
   '/project': (BuildContext context) => const ProjectView(),
   '/dashboard': (BuildContext context) => const DashboardView(),
   '/task': (BuildContext context) => const TaskView(),
