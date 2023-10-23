@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ew_app/constants/url.dart';
 import 'package:ew_app/models/active_projects_and_task.dart';
+import 'package:ew_app/views/projects/projects_list_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ew_app/models/user.dart';
@@ -9,7 +10,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController {
-
   late String userFirstName;
   late String userLastName;
   late String email;
@@ -18,12 +18,8 @@ class HomeController {
 
   Future _sendUserDetailRequest(String accessToken) async {
     final url = Uri.parse(apiAuthUserDetailUrl);
-    final response = await http.get(
-        url,
-        headers: {
-          'Authorization': 'Token $accessToken'
-        }
-    );
+    final response =
+        await http.get(url, headers: {'Authorization': 'Token $accessToken'});
     final data = jsonDecode(response.body);
     if (response.statusCode == 200) {
       final userDetailResponse = User.fromJson(data);
@@ -34,17 +30,13 @@ class HomeController {
   }
 
   Future _sendActiveProjectsAndTasksRequest(String accessToken) async {
-    final url = Uri.parse(apiActiveProjectsAndTasksUrl);
-    final response = await http.get(
-        url,
-        headers: {
-          'Authorization': 'Token $accessToken'
-        }
-    );
+    final url = Uri.parse(apiProjectsTasksActiveUrl);
+    final response =
+        await http.get(url, headers: {'Authorization': 'Token $accessToken'});
     final data = jsonDecode(response.body);
-    print(data);
     if (response.statusCode == 200) {
-      final activeProjectsAndTasksResponse = ActiveProjectsAndTasks.fromJson(data);
+      final activeProjectsAndTasksResponse =
+          ActiveProjectsAndTasks.fromJson(data);
       return activeProjectsAndTasksResponse;
     } else {
       // TODO: add custom exception here and everywhere we use throw!
@@ -65,29 +57,43 @@ class HomeController {
         prefs.setString('userFirstName', userDetailResponse.firstName);
         prefs.setString('userLastName', userDetailResponse.lastName);
         prefs.setString('email', userDetailResponse.email);
-      // ignore: empty_catches
-      } catch (error) {}
+      } catch (error) {
+        print(error);
+      }
     }
     // TODO: catch errors! In case we get 401 redirect user to login view
     try {
-      final activeProjectsAndTasksResponse = await _sendActiveProjectsAndTasksRequest(accessToken);
+      final activeProjectsAndTasksResponse =
+          await _sendActiveProjectsAndTasksRequest(accessToken);
       activeProjects = activeProjectsAndTasksResponse.activeProjects;
       activeTasks = activeProjectsAndTasksResponse.activeTasks;
-    } catch (error) {}
+    } catch (error) {
+      print(error);
+    }
   }
 
   void task(BuildContext context) {
-
     Navigator.pushNamed(context, '/my_task');
   }
 
-  void projects(BuildContext context) {
-
-    Navigator.pushNamed(context, '/projects_list');
+  Future<void> projects(BuildContext context) async {
+    await getUserInfo();
+    // ignore: use_build_context_synchronously
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProjectsListView(
+          activeProjects: activeProjects,
+          activeTasks: activeTasks,
+          userFirstName: userFirstName,
+          email: email,
+          userLastName: userLastName,
+        ),
+      ),
+    );
   }
 
   void calculator(BuildContext context) {
-
     Navigator.pushNamed(context, '/soon');
   }
 }

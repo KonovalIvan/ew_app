@@ -4,13 +4,21 @@ import 'package:flutter/material.dart';
 
 import 'package:ew_app/controllers/widgets/project_widget_controller.dart';
 
+import '../../constants/url.dart';
+
 class ProjectWidget extends StatefulWidget {
   const ProjectWidget({
     Key? key,
-    this.finished,
+    required this.finished,
+    required this.name,
+    required this.description,
+    required this.mainImage,
   }) : super(key: key);
 
-  final bool? finished;
+  final bool finished;
+  final String name;
+  final String description;
+  final String mainImage;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -18,7 +26,8 @@ class ProjectWidget extends StatefulWidget {
 }
 
 class _ProjectWidgetState extends State<ProjectWidget> {
-  final ProjectWidgetController _projectWidgetController = ProjectWidgetController();
+  final ProjectWidgetController _projectWidgetController =
+      ProjectWidgetController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,39 +52,43 @@ class _ProjectWidgetState extends State<ProjectWidget> {
           ],
         ),
         child: Opacity(
-          opacity: widget.finished != null ? 0.5 : 1,
+          opacity: widget.finished ? 0.5 : 1,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 110,
-                height: 110,
+                width: 100,
+                height: 100,
                 margin: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                      MediaQuery.of(context).size.width / 2.0),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
                 ),
-                // TODO: add progress bar
-                child: Stack(
-                  children: [
-                    Image.asset(
-                      'assets/images/base_project.jpg',
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.fill,
+                child: Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.width / 2.0),
+                    child: Stack(
+                      children: [
+                        Image.network(
+                          "$baseUrl${widget.mainImage}",
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
+                        widget.finished
+                            ? Opacity(
+                                opacity: 0.8,
+                                child: Image.asset(
+                                  'assets/images/done_project.png',
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.fill,
+                                ),
+                              )
+                            : Container(),
+                      ],
                     ),
-                    widget.finished != null
-                        ? Opacity(
-                            opacity: 0.8,
-                            child: Image.asset(
-                              'assets/images/done_project.png',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.fill,
-                            ),
-                          )
-                        : Container(),
-                  ],
+                  ),
                 ),
               ),
               Column(
@@ -85,26 +98,30 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                     height: 21,
                     margin: const EdgeInsets.only(top: 15, bottom: 2),
                     child: Text(
-                      "Name",
+                      widget.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: SafeGoogleFont('Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF260975)),
+                      style: SafeGoogleFont(
+                        'Poppins',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF260975),
+                      ),
                     ),
                   ),
                   SizedBox(
                     width: 145,
                     height: 87,
                     child: Text(
-                      "The new development project aims to build a multi-story commercial building in the heart of.aaaaaaaaaaaaaaaaaaaaaaa..",
+                      widget.description,
                       maxLines: 5,
                       overflow: TextOverflow.ellipsis,
-                      style: SafeGoogleFont('Poppins',
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          color: const Color(0xFF260975)),
+                      style: SafeGoogleFont(
+                        'Poppins',
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        color: const Color(0xFF260975),
+                      ),
                     ),
                   ),
                 ],
@@ -116,7 +133,6 @@ class _ProjectWidgetState extends State<ProjectWidget> {
     );
   }
 }
-
 
 class ProjectDashboardWidget extends StatefulWidget {
   const ProjectDashboardWidget({super.key});

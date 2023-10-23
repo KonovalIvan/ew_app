@@ -64,7 +64,6 @@ class RegisterController {
         'confirm_password': confirmPassword,
       },
     );
-    print(response);
     if (response.statusCode == 401) {
       errorText = 'Probably wrong data Error';
     } else {
@@ -83,13 +82,11 @@ class RegisterController {
     validate();
     if (errorText != '') {
       showErrorText = true;
-      print(errorText);
       return;
     }
     await _sendRegisterRequest();
     if (errorText != '') {
       showErrorText = true;
-      print(errorText);
       return;
     }
     Navigator.pushNamed(context, '/almost_done');
