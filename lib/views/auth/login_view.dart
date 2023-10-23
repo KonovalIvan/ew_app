@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:ew_app/controllers/auth/login_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -68,7 +69,7 @@ class _LoginViewState extends State<LoginView> {
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: _loginController.showError
-                    ? const CustomErrorWidget()
+                    ? CustomErrorWidget(errorText: _loginController.errorText)
                     : const SizedBox(
                         height: 0,
                         width: 0,
@@ -77,10 +78,13 @@ class _LoginViewState extends State<LoginView> {
               Padding(
                 padding: EdgeInsets.only(
                     top: _loginController.showError ? 10.0 : 50.0),
-                child: const AuthInputFieldWidget(
+                child: AuthInputFieldWidget(
                   fieldHeight: 33,
                   iconPath: 'assets/icons/user.svg',
                   helpText: 'E-mail',
+                  onChanged: (value) {
+                    _loginController.email = value;
+                  },
                 ),
               ),
               Padding(
@@ -90,6 +94,9 @@ class _LoginViewState extends State<LoginView> {
                   iconPath: 'assets/icons/password.svg',
                   helpText: 'Password',
                   obscureText: !_loginController.showPassword,
+                  onChanged: (value) {
+                    _loginController.password = value;
+                  },
                 ),
               ),
               Padding(
@@ -175,9 +182,9 @@ class _LoginViewState extends State<LoginView> {
                   ],
                 ),
                 child: TextButton(
-                  onPressed: () {
-                      _loginController.login(context);
-
+                  onPressed: () async {
+                      await _loginController.login(context);
+                      setState(() {});
                   },
                   child: Text(
                     'Sign in',

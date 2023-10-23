@@ -1,11 +1,14 @@
 const String appName = 'ew_app';
-const String baseApiUrl = 'https://api.ew_app.com';
+const String baseApiUrl = 'https://3c12-80-49-208-105.ngrok-free.app/api';
 
 // Projects url`s
 const String baseProjectsUrl = '/projects';
-String apiProjectsAllUrl = "$baseApiUrl$baseProjectsUrl/";
-String apiProjectsActiveUrl = "$baseApiUrl$baseProjectsUrl/active/";
-String apiProjectsFinishedUrl = "$baseApiUrl$baseProjectsUrl/finished/";
-String apiProjectsUrl = "$baseApiUrl$baseProjectsUrl/";  // TODO: Id here
+String apiActiveProjectsAndTasksUrl = "$baseApiUrl$baseProjectsUrl/projects-tasks-active/";
 
-//TODO: Rewrite http for projects
+// Authentication url`s
+const String baseAuthUrl = '/authentication';
+String apiAuthLoginUrl = "$baseApiUrl$baseAuthUrl/login/";
+String apiAuthUserDetailUrl = "$baseApiUrl$baseAuthUrl/user-details/";
+String apiAuthRegisterUrl = "$baseApiUrl$baseAuthUrl/register-user/";
+String apiAuthVerifyTokenUrl = "$baseApiUrl$baseAuthUrl/verify-token/";
+

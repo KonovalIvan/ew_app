@@ -62,12 +62,15 @@ class _RegisterViewState extends State<RegisterView> {
                       fontWeight: FontWeight.w400),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 50.0),
+              Padding(
+                padding: const EdgeInsets.only(top: 50.0),
                 child: AuthInputFieldWidget(
                   fieldHeight: 33,
                   iconPath: 'assets/icons/user.svg',
                   helpText: 'E-mail',
+                  onChanged: (value) {
+                    _registerController.email = value;
+                  },
                 ),
               ),
               Padding(
@@ -77,6 +80,9 @@ class _RegisterViewState extends State<RegisterView> {
                   iconPath: 'assets/icons/password.svg',
                   helpText: 'Password',
                   obscureText: !_registerController.showPassword,
+                  onChanged: (value) {
+                    _registerController.password = value;
+                  },
                 ),
               ),
               Padding(
@@ -86,6 +92,9 @@ class _RegisterViewState extends State<RegisterView> {
                   iconPath: 'assets/icons/password.svg',
                   helpText: 'Confirm password',
                   obscureText: !_registerController.showPassword,
+                  onChanged: (value) {
+                    _registerController.confirmPassword = value;
+                  },
                 ),
               ),
               Padding(

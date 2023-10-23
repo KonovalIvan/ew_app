@@ -45,7 +45,12 @@ class _ProjectsListViewState extends State<ProjectsListView> {
             Column(
               children: [
                 // TODO: Fix pinning AdminShadeWidget at height 65
-                const UserCardWidget(),
+                const UserCardWidget(
+                  activeProjects: 2,
+                  activeTasks: 2,
+                  userFirstName: 'asd',
+                  email: 'asd@asd.asd',
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 38, left: 36, right: 36),
                   child: Row(
