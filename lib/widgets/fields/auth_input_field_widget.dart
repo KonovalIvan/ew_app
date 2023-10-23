@@ -12,6 +12,7 @@ class AuthInputFieldWidget extends StatefulWidget {
     this.helpText,
     this.obscureText,
     this.mainColor = Colors.white,
+    this.onChanged,
   }) : super(key: key);
 
   final double? fieldHeight;
@@ -19,6 +20,7 @@ class AuthInputFieldWidget extends StatefulWidget {
   final String? iconPath;
   final String? helpText;
   final Color mainColor;
+  final void Function(String)? onChanged;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -34,6 +36,7 @@ class _AuthInputFieldWidgetState extends State<AuthInputFieldWidget> {
         cursorColor: widget.mainColor,
         style: TextStyle(color: widget.mainColor),
         obscureText: widget.obscureText ?? false,
+        onChanged: widget.onChanged,
         decoration: InputDecoration(
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: widget.mainColor),

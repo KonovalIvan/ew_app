@@ -225,8 +225,8 @@ class _MainDrawerElementState extends State<MainDrawerElement> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        top: widget.paddingTop ?? 13.0,
-        bottom: widget.paddingBottom ?? 13.0,
+        top: widget.paddingTop ?? 10.0,
+        bottom: widget.paddingBottom ?? 10.0,
         left: widget.paddingLeft ?? 18.0,
       ),
       child: Row(

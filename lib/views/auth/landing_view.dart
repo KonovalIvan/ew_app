@@ -18,6 +18,16 @@ class _LandingViewState extends State<LandingView> {
   final LandingController _landingController = LandingController();
 
   @override
+  void initState() {
+    super.initState();
+    initializeTokens();
+  }
+
+  Future<void> initializeTokens() async {
+    await _landingController.initial(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(

@@ -5,14 +5,12 @@ import 'package:flutter_svg/svg.dart';
 class CustomErrorWidget extends StatefulWidget {
   const CustomErrorWidget({
     Key? key,
-    this.positionTop,
-    this.positionLeft,
     this.showErrorIcon = true,
+    required this.errorText,
   }) : super(key: key);
 
-  final double? positionTop;
-  final double? positionLeft;
   final bool showErrorIcon;
+  final String errorText;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -23,14 +21,9 @@ class _CustomErrorWidgetState extends State<CustomErrorWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      // top: widget.positionTop ?? MediaQuery.of(context).size.height / 2,
-      top: widget.positionTop ?? MediaQuery.of(context).size.height / 2,
-      left: widget.positionLeft ?? MediaQuery.of(context).size.height / 2,
-      child: GestureDetector(
-        child: Container(
+    return Container(
           width: 310.0,
-          // height: 30.0,
+          height: 40.0,
           color: Colors.transparent,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -46,15 +39,13 @@ class _CustomErrorWidgetState extends State<CustomErrorWidget> {
               Padding(
                 padding: EdgeInsets.only(left: widget.showErrorIcon ? 10 : 0),
                 child: Text(
-                  'E-mail or Password is incorrect',
+                  widget.errorText,
                   style: SafeGoogleFont('Roboto',
                       fontSize: 15, color: Colors.white),
                 ),
               ),
             ],
           ),
-        ),
-      ),
     );
   }
 }

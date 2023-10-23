@@ -2,7 +2,17 @@ import 'package:ew_app/constants/styles.dart';
 import 'package:flutter/material.dart';
 
 class UserCardWidget extends StatefulWidget {
-  const UserCardWidget({super.key});
+  const UserCardWidget(
+      {super.key,
+      required this.activeProjects,
+      required this.activeTasks,
+      required this.userFirstName,
+      required this.email});
+
+  final int activeProjects;
+  final int activeTasks;
+  final String userFirstName;
+  final String email;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -10,7 +20,6 @@ class UserCardWidget extends StatefulWidget {
 }
 
 class _UserCardWidgetState extends State<UserCardWidget> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,7 +60,7 @@ class _UserCardWidgetState extends State<UserCardWidget> {
                   fontWeight: FontWeight.w400,
                   color: Colors.white,
                 ),
-                '17',
+                widget.activeProjects.toString(),
               ),
               Text(
                 style: SafeGoogleFont(
@@ -80,11 +89,12 @@ class _UserCardWidgetState extends State<UserCardWidget> {
                   ),
                   // TODO: add progress bar
                   child: Image.asset(
+                    // TODO: add server image send and show
                     'assets/images/base_user_profile.png',
                   ),
                 ),
                 Text(
-                  'Admin',
+                  widget.userFirstName,
                   style: SafeGoogleFont(
                     'Poppins',
                     fontSize: 18,
@@ -95,13 +105,14 @@ class _UserCardWidgetState extends State<UserCardWidget> {
                 Padding(
                   padding: EdgeInsets.only(top: 7),
                   child: Text(
-                      style: SafeGoogleFont(
-                        'Poppins',
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
-                      ),
-                      'knbgjkkmk@gmail.com'),
+                    style: SafeGoogleFont(
+                      'Poppins',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                    ),
+                    widget.email,
+                  ),
                 ),
               ],
             ),
@@ -116,7 +127,7 @@ class _UserCardWidgetState extends State<UserCardWidget> {
                   fontWeight: FontWeight.w400,
                   color: Colors.white,
                 ),
-                '62%',
+                widget.activeTasks.toString(),
               ),
               Text(
                 style: SafeGoogleFont(
@@ -125,7 +136,7 @@ class _UserCardWidgetState extends State<UserCardWidget> {
                   fontWeight: FontWeight.w400,
                   color: Colors.white,
                 ),
-                'progress',
+                'tasks',
               ),
             ],
           )
