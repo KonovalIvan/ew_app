@@ -2,21 +2,23 @@ import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/controllers/dashboards/dashboard_controller.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ew_app/controllers/widgets/project_widget_controller.dart';
+import 'package:ew_app/controllers/projects/project_controller.dart';
 
-import '../../constants/url.dart';
+import 'package:ew_app/constants/url.dart';
 
 class ProjectWidget extends StatefulWidget {
   const ProjectWidget({
     Key? key,
     required this.finished,
     required this.name,
+    required this.id,
     required this.description,
     required this.mainImage,
   }) : super(key: key);
 
   final bool finished;
   final String name;
+  final String id;
   final String description;
   final String mainImage;
 
@@ -26,14 +28,13 @@ class ProjectWidget extends StatefulWidget {
 }
 
 class _ProjectWidgetState extends State<ProjectWidget> {
-  final ProjectWidgetController _projectWidgetController =
-      ProjectWidgetController();
+  final ProjectController _projectController = ProjectController();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _projectWidgetController.openProject(context);
+        _projectController.openProject(context, _projectController, widget.id);
       },
       child: Container(
         width: 300,
@@ -135,7 +136,10 @@ class _ProjectWidgetState extends State<ProjectWidget> {
 }
 
 class ProjectDashboardWidget extends StatefulWidget {
-  const ProjectDashboardWidget({super.key});
+  const ProjectDashboardWidget({super.key, required this.name});
+
+  final String name;
+
 
   @override
   // ignore: library_private_types_in_public_api
@@ -169,21 +173,21 @@ class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Disassembly work',
+                widget.name,
                 style: SafeGoogleFont(
                   'Poppins',
                   fontSize: 14.0,
                   color: Colors.white,
                 ),
               ),
-              Text(
-                '62%',
-                style: SafeGoogleFont(
-                  'Poppins',
-                  fontSize: 14.0,
-                  color: Colors.white,
-                ),
-              ),
+              // Text(
+              //   '62%',
+              //   style: SafeGoogleFont(
+              //     'Poppins',
+              //     fontSize: 14.0,
+              //     color: Colors.white,
+              //   ),
+              // ),
             ],
           ),
         ),

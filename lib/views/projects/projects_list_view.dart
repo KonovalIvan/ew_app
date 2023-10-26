@@ -1,6 +1,6 @@
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/controllers/projects/project_controller.dart';
-import 'package:ew_app/models/projects_short_info.dart';
+import 'package:ew_app/controllers/projects/projects_list_controller.dart';
+import 'package:ew_app/models/project_models.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/menu_button_widget.dart';
 import 'package:ew_app/widgets/main_drawer_widget.dart';
@@ -178,10 +178,11 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                             20,
                           ),
                           child: ProjectWidget(
+                            id: project.id,
                             finished: project.finished,
                             name: project.name,
-                            description: project.description,
-                            mainImage: project.mainImage,
+                            description: project.description ?? '',
+                            mainImage: project.mainImage ?? 'assets/images/base_project.jpg',
                           ),
                         ),
                   ],

@@ -6,6 +6,7 @@ const String baseApiUrl = '$baseUrl/api';
 const String baseProjectsUrl = '/projects';
 String apiProjectsTasksActiveUrl = "$baseApiUrl$baseProjectsUrl/projects-tasks-active/";
 String apiProjectsShortInfoUrl = "$baseApiUrl$baseProjectsUrl/projects-short-info/";
+String apiProjectInfoUrl = "$baseApiUrl$baseProjectsUrl/{id}/";
 
 // Authentication url`s
 const String baseAuthUrl = '/authentication';

@@ -1,6 +1,10 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
+import 'package:ew_app/constants/url.dart';
+import 'package:ew_app/controllers/projects/project_controller.dart';
 import 'package:ew_app/controllers/widgets/buttons_controller.dart';
+import 'package:ew_app/models/project_models.dart';
+import 'package:ew_app/models/user_models.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:ew_app/widgets/buttons/delete_confirm_button_widget.dart';
@@ -15,8 +19,15 @@ import 'package:ew_app/widgets/small_gallery_widget.dart';
 
 import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
+import '../../models/address_models.dart';
+
 class ProjectView extends StatefulWidget {
-  const ProjectView({Key? key}) : super(key: key);
+  const ProjectView({
+    Key? key,
+    required this.projectController,
+  }) : super(key: key);
+
+  final ProjectController projectController;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -31,15 +42,12 @@ class _ProjectViewState extends State<ProjectView> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_scrollListener);
-  }
-
-  void _scrollListener() {
-    double currentPosition = _scrollController.offset;
   }
 
   @override
   Widget build(BuildContext context) {
+    final ProjectInfo project = widget.projectController.project;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBarWidget(
@@ -69,7 +77,7 @@ class _ProjectViewState extends State<ProjectView> {
                       child: SizedBox(
                         width: 250,
                         child: Text(
-                          'Name of project',
+                          project.name,
                           textAlign: TextAlign.center,
                           style: SafeGoogleFont(
                             'Poppins',
@@ -84,31 +92,48 @@ class _ProjectViewState extends State<ProjectView> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SmallGalleryWidget(),
+                          SmallGalleryWidget(
+                            imagePath: [
+                              for (var image in project.imagesList.images)
+                                '$baseUrl${image.image.toString()}',
+                            ],
+                          ),
                           Column(
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(top: 9),
                                 child: EditableResizedFieldWidget(
-                                  fieldWidth: 164,
+                                  initialText: _optionsButtonController.editable
+                                      ? project.designer.email
+                                      : concatenateUserFields(project.designer),
+                                  fieldWidth: 191,
+                                  editable: _optionsButtonController.editable,
+                                  helpText: _optionsButtonController.editable
+                                      ? 'Designer'
+                                      : 'Designer email',
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 9),
+                                child: EditableResizedFieldWidget(
+                                  initialText: _optionsButtonController.editable
+                                      ? project.buildingMaster.email
+                                      : concatenateUserFields(
+                                          project.buildingMaster),
+                                  fieldWidth: 191,
+                                  editable: _optionsButtonController.editable,
+                                  helpText: _optionsButtonController.editable
+                                      ? 'Master'
+                                      : 'Master email',
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 9),
+                                child: EditableResizedFieldWidget(
+                                  initialText: project.client,
+                                  fieldWidth: 191,
                                   editable: _optionsButtonController.editable,
                                   helpText: 'Client',
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 9),
-                                child: EditableResizedFieldWidget(
-                                  fieldWidth: 164,
-                                  editable: _optionsButtonController.editable,
-                                  helpText: 'Owner',
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 9),
-                                child: EditableResizedFieldWidget(
-                                  fieldWidth: 164,
-                                  editable: _optionsButtonController.editable,
-                                  helpText: 'Master',
                                 ),
                               ),
                             ],
@@ -119,25 +144,21 @@ class _ProjectViewState extends State<ProjectView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 33),
                       child: EditableResizedFieldWidget(
+                        initialText: _optionsButtonController.editable
+                            ? project.address.addressLine_1
+                            : concatenateAddressFields(project.address),
                         fieldWidth: double.infinity,
                         editable: _optionsButtonController.editable,
-                        helpText: 'Address',
+                        helpText: _optionsButtonController.editable
+                            ? 'Street'
+                            : 'Address',
                       ),
                     ),
                     _optionsButtonController.editable
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
-                              fieldWidth: double.infinity,
-                              editable: _optionsButtonController.editable,
-                              helpText: 'Street number',
-                            ),
-                          )
-                        : Container(),
-                    _optionsButtonController.editable
-                        ? Padding(
-                            padding: const EdgeInsets.only(top: 9),
-                            child: EditableResizedFieldWidget(
+                              initialText: project.address.addressLine_2,
                               fieldWidth: double.infinity,
                               editable: _optionsButtonController.editable,
                               helpText: 'Local',
@@ -148,6 +169,7 @@ class _ProjectViewState extends State<ProjectView> {
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
+                              initialText: project.address.postCode,
                               fieldWidth: double.infinity,
                               editable: _optionsButtonController.editable,
                               helpText: 'Post-code',
@@ -158,15 +180,28 @@ class _ProjectViewState extends State<ProjectView> {
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
+                              initialText: project.address.city,
                               fieldWidth: double.infinity,
                               editable: _optionsButtonController.editable,
                               helpText: 'City',
                             ),
                           )
                         : Container(),
+                    _optionsButtonController.editable
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 9),
+                            child: EditableResizedFieldWidget(
+                              initialText: project.address.country,
+                              fieldWidth: double.infinity,
+                              editable: _optionsButtonController.editable,
+                              helpText: 'Country',
+                            ),
+                          )
+                        : Container(),
                     Padding(
                       padding: const EdgeInsets.only(top: 9),
                       child: EditableResizedFieldWidget(
+                        initialText: project.description,
                         fieldWidth: double.infinity,
                         editable: _optionsButtonController.editable,
                         helpText: 'Description',
@@ -231,10 +266,10 @@ class _ProjectViewState extends State<ProjectView> {
                         ),
                       ),
                     ),
-                    const ProjectDashboardWidget(),
-                    const ProjectDashboardWidget(),
-                    const ProjectDashboardWidget(),
-                    const ProjectDashboardWidget(),
+                    for (var dashboard in project.dashboardsList.dashboards)
+                      ProjectDashboardWidget(
+                        name: dashboard.name,
+                      ),
                     _optionsButtonController.editable
                         ? Padding(
                             padding: const EdgeInsets.only(top: 4),
@@ -323,4 +358,23 @@ class _ProjectViewState extends State<ProjectView> {
       ),
     );
   }
+}
+
+String concatenateAddressFields(Address address) {
+  var stringAddress = '${address.addressLine_1} ';
+  if (address.addressLine_2 != Null) {
+    stringAddress += '${address.addressLine_2}, ';
+  }
+  return "$stringAddress${address.postCode}, ${address.city}, ${address.country}";
+}
+
+String concatenateUserFields(User user) {
+  var stringUser = '';
+  if (user.firstName != Null) {
+    stringUser += '${user.firstName} ';
+  }
+  if (user.lastName != Null) {
+    stringUser += user.lastName;
+  }
+  return stringUser;
 }

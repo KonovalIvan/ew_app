@@ -20,6 +20,8 @@ import 'package:ew_app/views/tasks/my_task_view.dart';
 
 import 'package:ew_app/controllers/home_controller.dart';
 
+import '../controllers/projects/project_controller.dart';
+
 final Map<String, WidgetBuilder> routes = {
   '/': (BuildContext context) => const LandingView(),
   '/login': (BuildContext context) => const LoginView(),
@@ -31,13 +33,20 @@ final Map<String, WidgetBuilder> routes = {
   '/check_email': (BuildContext context) => const CheckEmailView(),
   '/almost_done': (BuildContext context) => const AlmostDoneView(),
   '/additional_information': (BuildContext context) =>
-      const AdditionalInformationView(),
+  const AdditionalInformationView(),
   '/projects_list': (BuildContext context) {
     final controller = HomeController();
     controller.projects(context);
     return const SizedBox();
   },
-  '/project': (BuildContext context) => const ProjectView(),
+  '/project': (BuildContext context) {
+    final ProjectController controller = ModalRoute
+        .of(context)!
+        .settings
+        .arguments as ProjectController;
+    return ProjectView(projectController: controller,);
+  },
+
   '/dashboard': (BuildContext context) => const DashboardView(),
   '/task': (BuildContext context) => const TaskView(),
   '/my_task': (BuildContext context) => const MyTaskView(),

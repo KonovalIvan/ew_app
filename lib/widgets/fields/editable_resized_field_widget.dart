@@ -43,9 +43,23 @@ class _EditableResizedFieldWidgetState extends State<EditableResizedFieldWidget>
   @override
   void initState() {
     super.initState();
-    widget.initialText != null
-        ? _textEditingController.text = widget.initialText!
-        : null;
+    updateTextFieldText();
+  }
+
+  @override
+  void didUpdateWidget(covariant EditableResizedFieldWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialText != widget.initialText || oldWidget.editable != widget.editable) {
+      updateTextFieldText();
+    }
+  }
+
+  void updateTextFieldText() {
+    if (widget.editable) {
+      _textEditingController.text = widget.initialText ?? '';
+    } else {
+      _textEditingController.text = widget.initialText ?? '';
+    }
   }
 
   @override
