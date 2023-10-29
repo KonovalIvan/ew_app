@@ -346,7 +346,7 @@ class _ProjectViewState extends State<ProjectView> {
                       },
                       onPressedYes: () {
                         setState(() {
-                          _optionsButtonController.pressYesDelete(context);
+                          _optionsButtonController.pressYesDelete(context, apiProjectDeleteUrl, widget.projectController.project.id);
                         });
                       },
                     )

@@ -214,7 +214,7 @@ class _TaskViewState extends State<TaskView> {
                       onPressedYes: () {
                         setState(
                           () {
-                            _optionsButtonController.pressYesDelete(context);
+                            // _optionsButtonController.pressYesDelete(context);
                           },
                         );
                       },

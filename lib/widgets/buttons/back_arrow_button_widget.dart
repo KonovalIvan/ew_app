@@ -8,11 +8,13 @@ class BackArrowButtonWidget extends StatefulWidget {
     this.fieldHeight = 21,
     this.arrowColor = Colors.white,
     this.fieldWidth = 25,
+    this.update = false,
   }) : super(key: key);
 
   final double fieldHeight;
   final double fieldWidth;
   final Color arrowColor;
+  final bool update;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -26,7 +28,7 @@ class _BackArrowButtonWidgetState extends State<BackArrowButtonWidget> {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        _backArrowButtonController.back(context);
+        _backArrowButtonController.back(context, widget.update);
       },
       icon: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {

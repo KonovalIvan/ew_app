@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:ew_app/models/gallery_models.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;

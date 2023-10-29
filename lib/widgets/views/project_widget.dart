@@ -13,7 +13,7 @@ class ProjectWidget extends StatefulWidget {
     required this.name,
     required this.id,
     required this.description,
-    required this.mainImage,
+    required this.mainImage, required this.voidCallback,
   }) : super(key: key);
 
   final bool finished;
@@ -21,6 +21,7 @@ class ProjectWidget extends StatefulWidget {
   final String id;
   final String description;
   final String mainImage;
+  final VoidCallback voidCallback;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -30,11 +31,12 @@ class ProjectWidget extends StatefulWidget {
 class _ProjectWidgetState extends State<ProjectWidget> {
   final ProjectController _projectController = ProjectController();
 
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _projectController.openProject(context, _projectController, widget.id);
+        _projectController.openProject(context, _projectController, widget.id, widget.voidCallback);
       },
       child: Container(
         width: 300,

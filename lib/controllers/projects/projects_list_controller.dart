@@ -41,8 +41,7 @@ class ProjectsListController {
   Future<void> getProjectsInfo(bool ignorePrefs) async {
     final prefs = await SharedPreferences.getInstance();
     String accessToken = prefs.getString('accessToken') ?? '';
-    // String projectsShortInfoList = prefs.getString('projectsShortInfoList') ?? '';
-    String projectsShortInfoList = '';
+    String projectsShortInfoList = prefs.getString('projectsShortInfoList') ?? '';
     if (projectsShortInfoList.isNotEmpty && !ignorePrefs) {
       List<dynamic> jsonList = jsonDecode(projectsShortInfoList);
       projects = ProjectsShortInfoList.fromJson(jsonList).projects.toList();

@@ -42,8 +42,14 @@ class ProjectController {
     BuildContext context,
     ProjectController projectController,
     String projectId,
+    VoidCallback voidCallback,
   ) async {
     await getProjectsInfo(projectId);
-    Navigator.pushNamed(context, '/project', arguments: projectController);
+    Navigator.pushNamed(context, '/project', arguments: projectController)
+        .then((result) {
+      if (result == true) {
+        voidCallback();
+      }
+    });
   }
 }

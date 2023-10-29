@@ -38,6 +38,7 @@ class _ProjectsListViewState extends State<ProjectsListView> {
   final ProjectsListController _projectsListController =
       ProjectsListController();
 
+  // TODO: get only `in progress` projects, and after change filters send one more request
   void updateFilter(String status) {
     setState(() {
       _projectsListController.filterText = status;
@@ -64,16 +65,18 @@ class _ProjectsListViewState extends State<ProjectsListView> {
   @override
   void initState() {
     super.initState();
-    _getProjectsInfo();
+    _getProjectsInfo(true);
   }
 
-  Future<void> _getProjectsInfo() async {
-    await _projectsListController.getProjectsInfo(false);
-    setState(() {
-      showCircularProgressIndicator = false;
-      projects = _projectsListController.projects
-          .where((project) => !project.finished);
-    });
+  Future<void> _getProjectsInfo(bool ignorePrefs) async {
+    await _projectsListController.getProjectsInfo(ignorePrefs);
+    updateFilter(_projectsListController.filterText);
+    showCircularProgressIndicator = false;
+  }
+
+  void updateList() {
+    showCircularProgressIndicator = true;
+    _getProjectsInfo(true);
   }
 
   @override
@@ -183,6 +186,7 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                             name: project.name,
                             description: project.description ?? '',
                             mainImage: project.mainImage ?? 'assets/images/base_project.jpg',
+                            voidCallback: updateList,
                           ),
                         ),
                   ],

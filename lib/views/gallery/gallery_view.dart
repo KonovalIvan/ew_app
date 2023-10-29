@@ -33,7 +33,10 @@ class _GalleryViewState extends State<GalleryView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBarWidget(
-        leftIcon: const BackArrowButtonWidget(arrowColor: Colors.black),
+        leftIcon: const BackArrowButtonWidget(
+          arrowColor: Colors.black,
+          update: true,
+        ),
         rightIconMenu: OptionsButtonWidget(optionsColor: Colors.black),
         onRightIconPressed: () {
           setState(() {
