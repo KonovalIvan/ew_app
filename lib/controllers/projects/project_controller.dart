@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:ew_app/models/address_models.dart';
 import 'package:ew_app/models/project_models.dart';
-import 'package:ew_app/models/user_models.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -17,8 +15,6 @@ class ProjectController {
     final response =
         await http.get(url, headers: {'Authorization': 'Token $accessToken'});
     final data = jsonDecode(response.body);
-    print('---------------------------------------------------------------');
-    print(data);
     if (response.statusCode == 200) {
       final projectInfoResponse = ProjectInfo.fromJson(data);
       return projectInfoResponse;

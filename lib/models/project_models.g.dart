@@ -28,7 +28,7 @@ ProjectInfo _$ProjectInfoFromJson(Map<String, dynamic> json) => ProjectInfo(
       User.fromJson(json['building_master'] as Map<String, dynamic>),
       json['client'] as String,
       DashboardsList.fromJson(json['dashboard'] as List<dynamic>),
-      ImagesList.fromJson(json['project_gallery'] as List<dynamic>),
+      ImagesList.fromJson(json['image_gallery'] as List<dynamic>),
       designer: User.fromJson(json['designer'] as Map<String, dynamic>),
       address: Address.fromJson(json['address'] as Map<String, dynamic>),
       id: json['id'] as String,
@@ -48,7 +48,7 @@ Map<String, dynamic> _$ProjectInfoToJson(ProjectInfo instance) =>
       'client': instance.client,
       'address': instance.address,
       'dashboard': instance.dashboardsList,
-      'project_gallery': instance.imagesList,
+      'image_gallery': instance.imagesList,
     };
 
 ProjectsShortInfoList _$ProjectsShortInfoListFromJson(

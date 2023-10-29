@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BackArrowButtonController {
   void back(BuildContext context) {
     // logic for pressed button back
-    Navigator.pop(context);
+    Navigator.of(context).pop(true);
   }
 }
 

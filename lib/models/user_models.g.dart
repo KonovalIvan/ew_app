@@ -17,8 +17,8 @@ Map<String, dynamic> _$UserPartToJson(UserPart instance) => <String, dynamic>{
     };
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
-      json['first_name'] as String,
-      json['last_name'] as String,
+      json['first_name'] as String?,
+      json['last_name'] as String?,
       username: json['username'] as String,
       email: json['email'] as String,
     );

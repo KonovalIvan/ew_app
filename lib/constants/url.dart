@@ -1,5 +1,5 @@
 const String appName = 'ew_app';
-const String baseUrl = 'https://3c12-80-49-208-105.ngrok-free.app/';
+const String baseUrl = 'http://ewbackendik.duckdns.org/';
 const String baseApiUrl = '$baseUrl/api';
 
 // Projects url`s
@@ -15,3 +15,6 @@ String apiAuthUserDetailUrl = "$baseApiUrl$baseAuthUrl/user-details/";
 String apiAuthRegisterUrl = "$baseApiUrl$baseAuthUrl/register-user/";
 String apiAuthVerifyTokenUrl = "$baseApiUrl$baseAuthUrl/verify-token/";
 
+// Images url`s
+const String baseImageUrl = '/images-asset';
+String apiImageDeleteUrl = "$baseApiUrl$baseImageUrl/{id}/";

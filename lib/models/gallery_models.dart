@@ -4,32 +4,32 @@ part 'gallery_models.g.dart';
 
 
 @JsonSerializable()
-class Image {
+class SingleImage {
   final String id;
   final String image;
 
-  Image({
+  SingleImage({
     required this.id,
     required this.image,
   });
 
-  factory Image.fromJson(Map<String, dynamic> json) =>
-      _$ImageFromJson(json);
+  factory SingleImage.fromJson(Map<String, dynamic> json) =>
+      _$SingleImageFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ImageToJson(this);
+  Map<String, dynamic> toJson() => _$SingleImageToJson(this);
 }
 
 
 @JsonSerializable()
 class ImagesList {
-  final List<Image> images;
+  final List<SingleImage> images;
 
   ImagesList({required this.images});
 
   factory ImagesList.fromJson(List<dynamic> json) {
-    List<Image> imagesList = [];
+    List<SingleImage> imagesList = [];
     for (var item in json ?? []) {
-      imagesList.add(Image.fromJson(item));
+      imagesList.add(SingleImage.fromJson(item));
     }
     return ImagesList(images: imagesList);
   }

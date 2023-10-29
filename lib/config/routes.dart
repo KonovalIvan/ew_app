@@ -1,3 +1,5 @@
+import 'package:ew_app/controllers/gallery/gallery_controller.dart';
+import 'package:ew_app/models/gallery_models.dart';
 import 'package:ew_app/views/404_view.dart';
 import 'package:ew_app/views/auth/additional_information_view.dart';
 import 'package:ew_app/views/auth/almost_done_view.dart';
@@ -50,5 +52,12 @@ final Map<String, WidgetBuilder> routes = {
   '/dashboard': (BuildContext context) => const DashboardView(),
   '/task': (BuildContext context) => const TaskView(),
   '/my_task': (BuildContext context) => const MyTaskView(),
-  '/gallery': (BuildContext context) => const GalleryView(),
+  '/gallery': (BuildContext context) {
+    final dynamic arguments = ModalRoute
+        .of(context)!
+        .settings
+        .arguments;
+    final GalleryController controller = arguments.controller;
+    return GalleryView(galleryController: controller,);
+  },
 };

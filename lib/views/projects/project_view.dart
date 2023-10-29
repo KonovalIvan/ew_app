@@ -1,6 +1,7 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/constants/url.dart';
+import 'package:ew_app/controllers/gallery/gallery_controller.dart';
 import 'package:ew_app/controllers/projects/project_controller.dart';
 import 'package:ew_app/controllers/widgets/buttons_controller.dart';
 import 'package:ew_app/models/project_models.dart';
@@ -19,7 +20,7 @@ import 'package:ew_app/widgets/small_gallery_widget.dart';
 
 import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
-import '../../models/address_models.dart';
+import 'package:ew_app/models/address_models.dart';
 
 class ProjectView extends StatefulWidget {
   const ProjectView({
@@ -93,10 +94,8 @@ class _ProjectViewState extends State<ProjectView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SmallGalleryWidget(
-                            imagePath: [
-                              for (var image in project.imagesList.images)
-                                '$baseUrl${image.image.toString()}',
-                            ],
+                            galleryController: GalleryController(),
+                            imagesList: project.imagesList,
                           ),
                           Column(
                             children: [

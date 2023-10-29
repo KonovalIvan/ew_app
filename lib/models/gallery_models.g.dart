@@ -6,19 +6,20 @@ part of 'gallery_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Image _$ImageFromJson(Map<String, dynamic> json) => Image(
+SingleImage _$SingleImageFromJson(Map<String, dynamic> json) => SingleImage(
       id: json['id'] as String,
       image: json['image'] as String,
     );
 
-Map<String, dynamic> _$ImageToJson(Image instance) => <String, dynamic>{
+Map<String, dynamic> _$SingleImageToJson(SingleImage instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'image': instance.image,
     };
 
 ImagesList _$ImagesListFromJson(Map<String, dynamic> json) => ImagesList(
       images: (json['images'] as List<dynamic>)
-          .map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .map((e) => SingleImage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

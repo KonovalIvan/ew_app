@@ -45,7 +45,7 @@ class ProjectInfo extends ProjectsShortInfo {
   @JsonKey(name: 'dashboard')
   late DashboardsList dashboardsList;
 
-  @JsonKey(name: 'project_gallery')
+  @JsonKey(name: 'image_gallery')
   late ImagesList imagesList;
 
   ProjectInfo(
