@@ -18,12 +18,15 @@ class ProjectsShortInfo {
   @JsonKey(name: 'main_image')
   final String? mainImage;
 
-  ProjectsShortInfo({
+
+  ProjectsShortInfo(
+
+    this.mainImage,
+      this.description,
+    {
     required this.id,
     required this.name,
-    required this.description,
     required this.finished,
-    this.mainImage,
   });
 
   factory ProjectsShortInfo.fromJson(Map<String, dynamic> json) =>
@@ -34,32 +37,33 @@ class ProjectsShortInfo {
 
 @JsonSerializable()
 class ProjectInfo extends ProjectsShortInfo {
-  late User designer;
+  late User? designer;
 
   @JsonKey(name: 'building_master')
-  late User buildingMaster;
-  late String client;
+  late User? buildingMaster;
+  late String? client;
 
-  late Address address;
+  late Address? address;
 
   @JsonKey(name: 'dashboard')
-  late DashboardsList dashboardsList;
+  late DashboardsList? dashboardsList;
 
   @JsonKey(name: 'image_gallery')
-  late ImagesList imagesList;
+  late ImagesList? imagesList;
 
   ProjectInfo(
+      this.designer,
       this.buildingMaster,
       this.client,
+      this.address,
       this.dashboardsList,
       this.imagesList,
+      super.description,
+      super.mainImage,
       {
-    required this.designer,
-    required this.address,
     required super.id,
     required super.name,
     required super.finished,
-    required super.description,
   });
 
   factory ProjectInfo.fromJson(Map<String, dynamic> json) =>

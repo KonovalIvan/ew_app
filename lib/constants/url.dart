@@ -8,6 +8,7 @@ String apiProjectsTasksActiveUrl = "$baseApiUrl$baseProjectsUrl/projects-tasks-a
 String apiProjectsShortInfoUrl = "$baseApiUrl$baseProjectsUrl/projects-short-info/";
 String apiProjectInfoUrl = "$baseApiUrl$baseProjectsUrl/{id}/";
 String apiProjectDeleteUrl = "$baseApiUrl$baseProjectsUrl/{id}/";
+String apiProjectCreateUrl = "$baseApiUrl$baseProjectsUrl/create/";
 
 // Authentication url`s
 const String baseAuthUrl = '/authentication';

@@ -1,4 +1,5 @@
 import 'package:ew_app/constants/styles.dart';
+import 'package:ew_app/controllers/home_controller.dart';
 import 'package:ew_app/controllers/projects/projects_list_controller.dart';
 import 'package:ew_app/models/project_models.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
@@ -24,8 +25,8 @@ class ProjectsListView extends StatefulWidget {
   final String userFirstName;
   final String userLastName;
   final String email;
-  final int activeProjects;
-  final int activeTasks;
+  int activeProjects;
+  int activeTasks;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -74,9 +75,17 @@ class _ProjectsListViewState extends State<ProjectsListView> {
     showCircularProgressIndicator = false;
   }
 
+  Future<void> _getUserInfo() async {
+    HomeController controller = HomeController();
+    await controller.getUserInfo();
+    widget.activeProjects = controller.activeProjects;
+    widget.activeTasks = controller.activeTasks;
+  }
+
   void updateList() {
     showCircularProgressIndicator = true;
     _getProjectsInfo(true);
+    _getUserInfo();
   }
 
   @override
@@ -156,7 +165,7 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                         height: 22,
                         child: GestureDetector(
                           onTap: () {
-                            _projectsListController.newProject(context);
+                            _projectsListController.newProject(context, updateList);
                           },
                           child: SvgPicture.asset(
                             'assets/icons/add.svg',
@@ -185,7 +194,7 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                             finished: project.finished,
                             name: project.name,
                             description: project.description ?? '',
-                            mainImage: project.mainImage ?? 'assets/images/base_project.jpg',
+                            mainImage: project.mainImage,
                             voidCallback: updateList,
                           ),
                         ),

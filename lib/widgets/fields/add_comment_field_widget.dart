@@ -45,7 +45,7 @@ class _AddCommentFieldWidgetState extends State<AddCommentFieldWidget> {
               fit: BoxFit.fill,
             ),
           ),
-          const Expanded(
+          Expanded(
             child: EditableResizedFieldWidget(
               editable: true,
               textAlign: TextAlign.start,

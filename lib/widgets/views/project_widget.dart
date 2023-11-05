@@ -7,20 +7,22 @@ import 'package:ew_app/controllers/projects/project_controller.dart';
 import 'package:ew_app/constants/url.dart';
 
 class ProjectWidget extends StatefulWidget {
-  const ProjectWidget({
+  const ProjectWidget(
+    {
     Key? key,
     required this.finished,
     required this.name,
     required this.id,
     required this.description,
-    required this.mainImage, required this.voidCallback,
+    required this.voidCallback,
+    this.mainImage,
   }) : super(key: key);
 
   final bool finished;
   final String name;
   final String id;
   final String description;
-  final String mainImage;
+  final String? mainImage;
   final VoidCallback voidCallback;
 
   @override
@@ -31,12 +33,12 @@ class ProjectWidget extends StatefulWidget {
 class _ProjectWidgetState extends State<ProjectWidget> {
   final ProjectController _projectController = ProjectController();
 
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _projectController.openProject(context, _projectController, widget.id, widget.voidCallback);
+        _projectController.openProject(
+            context, _projectController, widget.id, widget.voidCallback);
       },
       child: Container(
         width: 300,
@@ -72,8 +74,14 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                         MediaQuery.of(context).size.width / 2.0),
                     child: Stack(
                       children: [
+                        widget.mainImage != null ?
                         Image.network(
                           "$baseUrl${widget.mainImage}",
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ) : Image.asset(
+                          "assets/images/base_project.jpg",
                           width: 100,
                           height: 100,
                           fit: BoxFit.cover,
@@ -141,7 +149,6 @@ class ProjectDashboardWidget extends StatefulWidget {
   const ProjectDashboardWidget({super.key, required this.name});
 
   final String name;
-
 
   @override
   // ignore: library_private_types_in_public_api

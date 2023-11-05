@@ -8,11 +8,11 @@ part of 'project_models.dart';
 
 ProjectsShortInfo _$ProjectsShortInfoFromJson(Map<String, dynamic> json) =>
     ProjectsShortInfo(
+      json['main_image'] as String?,
+      json['description'] as String?,
       id: json['id'] as String,
       name: json['name'] as String,
-      description: json['description'] as String?,
       finished: json['finished'] as bool,
-      mainImage: json['main_image'] as String?,
     );
 
 Map<String, dynamic> _$ProjectsShortInfoToJson(ProjectsShortInfo instance) =>
@@ -25,16 +25,27 @@ Map<String, dynamic> _$ProjectsShortInfoToJson(ProjectsShortInfo instance) =>
     };
 
 ProjectInfo _$ProjectInfoFromJson(Map<String, dynamic> json) => ProjectInfo(
-      User.fromJson(json['building_master'] as Map<String, dynamic>),
-      json['client'] as String,
-      DashboardsList.fromJson(json['dashboard'] as List<dynamic>),
-      ImagesList.fromJson(json['image_gallery'] as List<dynamic>),
-      designer: User.fromJson(json['designer'] as Map<String, dynamic>),
-      address: Address.fromJson(json['address'] as Map<String, dynamic>),
+      json['designer'] == null
+          ? null
+          : User.fromJson(json['designer'] as Map<String, dynamic>),
+      json['building_master'] == null
+          ? null
+          : User.fromJson(json['building_master'] as Map<String, dynamic>),
+      json['client'] as String?,
+      json['address'] == null
+          ? null
+          : Address.fromJson(json['address'] as Map<String, dynamic>),
+      json['dashboard'] == null
+          ? null
+          : DashboardsList.fromJson(json['dashboard'] as List<dynamic>),
+      json['image_gallery'] == null
+          ? null
+          : ImagesList.fromJson(json['image_gallery'] as List<dynamic>),
+      json['description'] as String?,
+      json['main_image'] as String?,
       id: json['id'] as String,
       name: json['name'] as String,
       finished: json['finished'] as bool,
-      description: json['description'] as String?,
     );
 
 Map<String, dynamic> _$ProjectInfoToJson(ProjectInfo instance) =>
@@ -43,6 +54,7 @@ Map<String, dynamic> _$ProjectInfoToJson(ProjectInfo instance) =>
       'id': instance.id,
       'description': instance.description,
       'finished': instance.finished,
+      'main_image': instance.mainImage,
       'designer': instance.designer,
       'building_master': instance.buildingMaster,
       'client': instance.client,
