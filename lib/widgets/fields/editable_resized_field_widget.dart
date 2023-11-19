@@ -67,6 +67,7 @@ class _EditableResizedFieldWidgetState
     }
   }
 
+  // TODO: add font weight and add display max lines and overflow
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(

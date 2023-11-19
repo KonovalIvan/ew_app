@@ -11,6 +11,10 @@ String apiProjectDeleteUrl = "$baseApiUrl$baseProjectsUrl/{id}/";
 String apiProjectUpdateUrl = "$baseApiUrl$baseProjectsUrl/{id}/";
 String apiProjectCreateUrl = "$baseApiUrl$baseProjectsUrl/create/";
 
+// Dashboards url`s
+const String baseDashboardUrl = '/dashboard';
+String apiDashboardCreateUrl = "$baseApiUrl$baseDashboardUrl/create/";
+
 // Authentication url`s
 const String baseAuthUrl = '/authentication';
 String apiAuthLoginUrl = "$baseApiUrl$baseAuthUrl/login/";

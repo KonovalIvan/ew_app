@@ -3,6 +3,7 @@ import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/controllers/dashboards/dashboard_controller.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
+import 'package:ew_app/widgets/buttons/options_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
@@ -23,8 +24,9 @@ class _DashboardViewState extends State<DashboardView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const AppBarWidget(
-        leftIcon: BackArrowButtonWidget(),
+      appBar: AppBarWidget(
+        leftIcon: const BackArrowButtonWidget(),
+        rightIconMenu: OptionsButtonWidget(),
       ),
       body: Container(
         decoration: backgroundDecorationGradient,

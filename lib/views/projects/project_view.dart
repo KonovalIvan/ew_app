@@ -311,12 +311,14 @@ class _ProjectViewState extends State<ProjectView> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  widget.projectController.createDashboard(context, widget.projectController.project.id, updateDashboards);
+                                },
                                 style: TextButton.styleFrom(
                                   visualDensity: VisualDensity.compact,
                                 ),
                                 child: Text(
-                                  'Edit',
+                                  'Add',
                                   style: SafeGoogleFont(
                                     'Poppins',
                                     fontSize: 12.0,
