@@ -2,6 +2,7 @@ import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/controllers/dashboards/dashboard_controller.dart';
 import 'package:ew_app/controllers/gallery/single_image_view.dart';
 import 'package:ew_app/models/gallery_models.dart';
+import 'package:ew_app/models/dashboard_models.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ew_app/controllers/projects/project_controller.dart';
@@ -148,9 +149,9 @@ class _ProjectWidgetState extends State<ProjectWidget> {
 }
 
 class ProjectDashboardWidget extends StatefulWidget {
-  const ProjectDashboardWidget({super.key, required this.name});
+  const ProjectDashboardWidget({super.key, required this.dashboard});
 
-  final String name;
+  final DashboardShortInfo dashboard;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -159,6 +160,7 @@ class ProjectDashboardWidget extends StatefulWidget {
 
 class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
   final DashboardController _dashboardController = DashboardController();
+  bool showCircularProgressIndicator = false;
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +176,9 @@ class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
         ),
         child: TextButton(
           onPressed: () {
-            _dashboardController.push(context);
+              const Padding(padding: EdgeInsets.only(top: 100),
+                  child: CircularProgressIndicator());
+              _dashboardController.openDashboard(context, widget.dashboard.id, _dashboardController);
           },
           style: TextButton.styleFrom(
             visualDensity: VisualDensity.compact,
@@ -184,7 +188,7 @@ class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.name,
+                widget.dashboard.name,
                 style: SafeGoogleFont(
                   'Poppins',
                   fontSize: 14.0,

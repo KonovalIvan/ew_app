@@ -1,14 +1,11 @@
 import 'package:ew_app/constants/colors.dart';
-import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/controllers/dashboards/dashboard_controller.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
-import 'package:ew_app/widgets/views/task_short_description_widget.dart';
-
-import '../../widgets/fields/editable_resized_field_widget.dart';
+import 'package:ew_app/widgets/fields/editable_resized_field_widget.dart';
 
 //
 class NewDashboardView extends StatefulWidget {

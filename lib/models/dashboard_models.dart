@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'task_models.dart';
+
 part 'dashboard_models.g.dart';
 
 @JsonSerializable()
@@ -33,4 +35,31 @@ class DashboardsList {
     }
     return DashboardsList(dashboards: dashboardsList);
   }
+}
+
+@JsonSerializable()
+class DashboardInfo {
+  final String id;
+  final String name;
+
+  @JsonKey(name: 'project_name')
+  final String projectName;
+
+  final String? description;
+
+  @JsonKey(name: 'task')
+  final TasksShortInfoList? tasksList;
+
+  DashboardInfo({
+    this.description,
+    this.tasksList,
+    required this.projectName,
+    required this.id,
+    required this.name,
+  });
+
+  factory DashboardInfo.fromJson(Map<String, dynamic> json) =>
+      _$DashboardInfoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DashboardInfoToJson(this);
 }

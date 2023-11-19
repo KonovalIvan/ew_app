@@ -10,7 +10,9 @@ import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 import 'package:ew_app/widgets/views/task_short_description_widget.dart';
 
 class DashboardView extends StatefulWidget {
-  const DashboardView({Key? key}) : super(key: key);
+  const DashboardView({Key? key, required this.dashboardController}) : super(key: key);
+
+  final DashboardController dashboardController;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -18,7 +20,6 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-  final DashboardController _dashboardController = DashboardController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class _DashboardViewState extends State<DashboardView> {
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
                 child: Text(
-                  'Disassembly work',
+                  widget.dashboardController.dashboard.name,
                   style: SafeGoogleFont('Poppins',
                       fontSize: 24.0,
                       color: Colors.white,
@@ -57,24 +58,18 @@ class _DashboardViewState extends State<DashboardView> {
                   padding: const EdgeInsets.only(top: 26),
                   child: Column(
                     children: [
-                      TaskShortDescriptionWidget(
-                        onPressed: (){
-                          _dashboardController.openTask(context);
-                        },
-                        taskName: 'Zaprojektowanie układu pomieszczeń',
-                        done: false,
-                        projectName: 'Nowa Siedziba Firmy XYZ',
-                        lastActivity: '10:00',
-                      ),
-                      TaskShortDescriptionWidget(
-                        onPressed: (){
-                          _dashboardController.openTask(context);
-                        },
-                        taskName: 'Zaprojektowanie układu pomieszczeń',
-                        done: true,
-                        projectName: 'Nowa Siedziba Firmy XYZ',
-                        lastActivity: '10:00',
-                      ),
+                      // TODO: filter by last update and done
+                      for (var task in widget.dashboardController.dashboard.tasksList!.tasks)
+                    TaskShortDescriptionWidget(
+                      onPressed: (){
+                        widget.dashboardController.openTask(context);
+                      },
+                      taskName: task.name,
+                      done: task.finished,
+                      projectName: widget.dashboardController.dashboard.projectName,
+                      // "$baseApiUrl$baseAuthUrl/user-details/"
+                      lastActivity: "${task.updateDate.hour}:${task.updateDate.minute}",
+                    ),
                     ],
                   ),
                 ),
@@ -82,7 +77,7 @@ class _DashboardViewState extends State<DashboardView> {
             ),
             MainButtonWidget(
               onPressed: (){
-                _dashboardController.newTask(context);
+                widget.dashboardController.newTask(context);
               },
               buttonColor: const Color(0x9037E888),
               buttonText: 'New',

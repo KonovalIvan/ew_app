@@ -297,7 +297,7 @@ class _ProjectViewState extends State<ProjectView> {
                     ),
                     for (var dashboard in project.dashboardsList!.dashboards)
                       ProjectDashboardWidget(
-                        name: dashboard.name,
+                        dashboard: dashboard,
                       ),
                     _optionsButtonController.editable
                         ? Padding(

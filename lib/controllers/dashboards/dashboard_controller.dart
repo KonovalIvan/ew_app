@@ -10,6 +10,7 @@ import 'package:ew_app/constants/url.dart';
 class DashboardController {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  late DashboardInfo dashboard;
 
   Future<Map<String, dynamic>> createRequestBody(
       {String projectId = ''}) async {
@@ -66,7 +67,31 @@ class DashboardController {
     Navigator.pushNamed(context, '/task');
   }
 
-  void push(BuildContext context) {
-    Navigator.pushNamed(context, '/dashboard');
+  Future<DashboardInfo> _getDashboardInfo(String dashboardId) async {
+    final prefs = await SharedPreferences.getInstance();
+    String accessToken = prefs.getString('accessToken') ?? '';
+
+    final url = Uri.parse(apiDashboardInfoUrl.replaceFirst('{id}', dashboardId));
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Token $accessToken',
+      },
+    );
+    final data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return DashboardInfo.fromJson(data);
+    } else {
+      // TODO: add custom error
+      throw Exception(response.body);
+    }
+  }
+
+  Future<void> openDashboard(BuildContext context, String dashboardId, DashboardController dashboardController) async {
+    dashboard = await _getDashboardInfo(dashboardId);
+    // TODO: when user edit dashboard need call void callback to update previous page with project info!
+    // ignore: use_build_context_synchronously
+    Navigator.pushNamed(context, '/dashboard', arguments: dashboardController);
   }
 }
