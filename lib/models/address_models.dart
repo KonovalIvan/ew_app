@@ -4,6 +4,8 @@ part 'address_models.g.dart';
 
 @JsonSerializable()
 class Address {
+  final String? id;
+
   @JsonKey(name: 'address_line_1')
   final String addressLine_1;
 
@@ -16,6 +18,7 @@ class Address {
   final String country;
 
   Address(
+    this.id,
     this.addressLine_2, {
     required this.addressLine_1,
     required this.postCode,

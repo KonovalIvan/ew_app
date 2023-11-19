@@ -48,7 +48,6 @@ class _NewProjectViewState extends State<NewProjectView> {
       extendBodyBehindAppBar: true,
       appBar: AppBarWidget(
         leftIcon: const BackArrowButtonWidget(),
-        rightIconMenu: OptionsButtonWidget(),
         onRightIconPressed: () {
           setState(() {
             _optionsButtonController.updateVisibleMenu();
@@ -72,14 +71,17 @@ class _NewProjectViewState extends State<NewProjectView> {
                       padding: const EdgeInsets.only(top: 100),
                       child: SizedBox(
                         width: 250,
-                        child: Text(
-                          'Project Name',
+                        child: EditableResizedFieldWidget(
+                          textEditingController:
+                              _projectController.nameController,
+                          helpTextSize: 24.0,
+                          inputTextSize: 24.0,
+                          inputTextColor: Colors.white,
                           textAlign: TextAlign.center,
-                          style: SafeGoogleFont(
-                            'Poppins',
-                            fontSize: 24.0,
-                            color: Colors.white,
-                          ),
+                          fieldWidth: 191,
+                          buttonColor: const Color(0x00c4c4c4),
+                          editable: _optionsButtonController.editable,
+                          helpText: 'Project Name',
                         ),
                       ),
                     ),

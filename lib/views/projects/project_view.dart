@@ -53,7 +53,9 @@ class _ProjectViewState extends State<ProjectView> {
       extendBodyBehindAppBar: true,
       appBar: AppBarWidget(
         // TODO: add true if user create or update project, in case when main fields doesnt update - set false.
-        leftIcon: const BackArrowButtonWidget(update: true,),
+        leftIcon: const BackArrowButtonWidget(
+          update: true,
+        ),
         rightIconMenu: OptionsButtonWidget(),
         onRightIconPressed: () {
           setState(() {
@@ -79,14 +81,18 @@ class _ProjectViewState extends State<ProjectView> {
                       child: SizedBox(
                         width: 250,
                         // TODO: add change field as ex. description
-                        child: Text(
-                          project.name,
+                        child: EditableResizedFieldWidget(
+                          textEditingController:
+                          widget.projectController.nameController,
+                          helpTextSize: 24.0,
+                          inputTextSize: 24.0,
+                          inputTextColor: Colors.white,
                           textAlign: TextAlign.center,
-                          style: SafeGoogleFont(
-                            'Poppins',
-                            fontSize: 24.0,
-                            color: Colors.white,
-                          ),
+                          fieldWidth: 191,
+                          buttonColor: const Color(0x00c4c4c4),
+                          editable: _optionsButtonController.editable,
+                          helpText: 'Project Name',
+                          initialText: project.name,
                         ),
                       ),
                     ),
@@ -104,6 +110,7 @@ class _ProjectViewState extends State<ProjectView> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 9),
                                 child: EditableResizedFieldWidget(
+                                  textEditingController: widget.projectController.designerEmailController,
                                   initialText: project.designer?.email ?? '',
                                   fieldWidth: 191,
                                   editable: _optionsButtonController.editable,
@@ -113,7 +120,9 @@ class _ProjectViewState extends State<ProjectView> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 9),
                                 child: EditableResizedFieldWidget(
-                                  initialText: project.buildingMaster?.email ?? '',
+                                  textEditingController: widget.projectController.masterEmailController,
+                                  initialText:
+                                      project.buildingMaster?.email ?? '',
                                   fieldWidth: 191,
                                   editable: _optionsButtonController.editable,
                                   helpText: 'Master email',
@@ -136,6 +145,7 @@ class _ProjectViewState extends State<ProjectView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 33),
                       child: EditableResizedFieldWidget(
+                        textEditingController: widget.projectController.addressController,
                         initialText: _optionsButtonController.editable
                             ? project.address?.addressLine_1 ?? ''
                             : concatenateAddressFields(project.address),
@@ -150,6 +160,7 @@ class _ProjectViewState extends State<ProjectView> {
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
+                              textEditingController: widget.projectController.localController,
                               initialText: project.address?.addressLine_2 ?? '',
                               fieldWidth: double.infinity,
                               editable: _optionsButtonController.editable,
@@ -161,6 +172,7 @@ class _ProjectViewState extends State<ProjectView> {
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
+                              textEditingController: widget.projectController.postCodeController,
                               initialText: project.address?.postCode ?? '',
                               fieldWidth: double.infinity,
                               editable: _optionsButtonController.editable,
@@ -172,6 +184,7 @@ class _ProjectViewState extends State<ProjectView> {
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
+                              textEditingController: widget.projectController.cityController,
                               initialText: project.address?.city ?? '',
                               fieldWidth: double.infinity,
                               editable: _optionsButtonController.editable,
@@ -183,6 +196,7 @@ class _ProjectViewState extends State<ProjectView> {
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
+                              textEditingController: widget.projectController.countryController,
                               initialText: project.address?.country ?? '',
                               fieldWidth: double.infinity,
                               editable: _optionsButtonController.editable,
@@ -193,6 +207,7 @@ class _ProjectViewState extends State<ProjectView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 9),
                       child: EditableResizedFieldWidget(
+                        textEditingController: widget.projectController.descriptionController,
                         initialText: project.description,
                         fieldWidth: double.infinity,
                         editable: _optionsButtonController.editable,
@@ -290,20 +305,21 @@ class _ProjectViewState extends State<ProjectView> {
                             ),
                           )
                         : Container(),
-                    _optionsButtonController.editable
-                        ? MainButtonWidget(
-                            buttonColor: const Color(0x9037E888),
-                            pathToSvg: 'assets/icons/done.svg',
-                            onPressed: () {
-                              setState(() {
-                                _optionsButtonController.updateProject();
-                              });
-                            },
-                          )
-                        : const SizedBox(
-                            width: 0,
-                            height: 0,
-                          )
+                    if (_optionsButtonController.editable)
+                      MainButtonWidget(
+                        buttonColor: const Color(0x9037E888),
+                        pathToSvg: 'assets/icons/done.svg',
+                        onPressed: () async {
+                          _optionsButtonController.editable = await widget.projectController.updateProject();
+                          setState(() {
+                          });
+                        },
+                      )
+                    else
+                      const SizedBox(
+                        width: 0,
+                        height: 0,
+                      )
                   ],
                 ),
               ),
@@ -339,7 +355,10 @@ class _ProjectViewState extends State<ProjectView> {
                       },
                       onPressedYes: () {
                         setState(() {
-                          _optionsButtonController.pressYesDelete(context, apiProjectDeleteUrl, widget.projectController.project.id);
+                          _optionsButtonController.pressYesDelete(
+                              context,
+                              apiProjectDeleteUrl,
+                              widget.projectController.project.id);
                         });
                       },
                     )

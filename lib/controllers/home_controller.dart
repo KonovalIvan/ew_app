@@ -67,8 +67,6 @@ class HomeController {
           await _sendActiveProjectsAndTasksRequest(accessToken);
       activeProjects = activeProjectsAndTasksResponse.activeProjects;
       activeTasks = activeProjectsAndTasksResponse.activeTasks;
-      print(activeProjects);
-      print(activeTasks);
     } catch (error) {
       print(error);
     }

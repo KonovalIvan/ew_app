@@ -167,7 +167,7 @@ class _TaskViewState extends State<TaskView> {
                             pathToSvg: 'assets/icons/done.svg',
                             onPressed: () {
                               setState(() {
-                                _optionsButtonController.updateProject();
+                                // _optionsButtonController.updateProject(context, );
                               });
                             },
                           )

@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+
+import '../../models/project_models.dart';
 
 
 class BackArrowButtonController {
@@ -90,10 +94,10 @@ class OptionsButtonController {
 
     try {
       await _sendDeleteObjectRequest(accessToken, objectId, requestUrl);
+      Navigator.of(context).pop(true);
     } catch (error) {
       // TODO: catch errors!
       print(error);
     }
-    Navigator.of(context).pop(true);
   }
 }

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:ew_app/controllers/projects/projects_list_controller.dart';
 import 'package:ew_app/models/project_models.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +19,48 @@ class ProjectController {
   final TextEditingController cityController = TextEditingController();
   final TextEditingController countryController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+
+  Future<Map<String, dynamic>> createRequestBody({bool create = false}) async {
+    String? addressLine1 =
+        addressController.text.isNotEmpty ? addressController.text : null;
+    String? addressLine2 =
+        localController.text.isNotEmpty ? localController.text : null;
+    String? postCode =
+        postCodeController.text.isNotEmpty ? postCodeController.text : null;
+    String? city = cityController.text.isNotEmpty ? cityController.text : null;
+    String? country =
+        countryController.text.isNotEmpty ? countryController.text : null;
+
+    Map<String, dynamic> requestData = {
+      // TODO: get name from nameController.text
+      "name": nameController.text,
+      "designer_email": designerEmailController.text,
+      "building_master_email": masterEmailController.text,
+      "client_phone": clientPhoneController.text,
+      "description": descriptionController.text,
+    };
+
+    Map<String, dynamic> addressData = {
+      if (addressLine1 != null) "address_line_1": addressLine1,
+      if (addressLine2 != null) "address_line_2": addressLine2,
+      if (postCode != null) "post_code": postCode,
+      if (city != null) "city": city,
+      if (country != null) "country": country,
+      "id": create ? null : project.address?.id,
+    };
+
+    if (addressLine1 != null ||
+        addressLine2 != null ||
+        postCode != null ||
+        city != null ||
+        country != null ||
+        addressData['id'] != null
+    ) {
+      requestData["address"] = addressData;
+    }
+    print(requestData);
+    return requestData;
+  }
 
   Future _sendProjectInfoRequest(String accessToken, String projectId) async {
     final url = Uri.parse(apiProjectInfoUrl.replaceFirst('{id}', projectId));
@@ -49,24 +90,49 @@ class ProjectController {
     }
   }
 
-  Future _sendCreateProjectRequest() async {
-    String? addressLine1 = addressController.text.isNotEmpty ? addressController.text : null;
-    String? addressLine2 = localController.text.isNotEmpty ? localController.text : null;
-    String? postCode = postCodeController.text.isNotEmpty ? postCodeController.text : null;
-    String? city = cityController.text.isNotEmpty ? cityController.text : null;
-    String? country = countryController.text.isNotEmpty ? countryController.text : null;
-
+  Future _sendUpdateProjectRequest() async {
     final prefs = await SharedPreferences.getInstance();
     String accessToken = prefs.getString('accessToken') ?? '';
 
-    Map<String, dynamic> addressData = {
-      if (addressLine1 != null) "address_line_1": addressLine1,
-      if (addressLine2 != null) "address_line_2": addressLine2,
-      if (postCode != null) "post_code": postCode,
-      if (city != null) "city": city,
-      if (country != null) "country": country,
-    };
+    var requestBody = await createRequestBody();
+    // TODO: add changing designer
+    requestBody['designer_email'] = prefs.getString('username');
 
+    var updateUrl =
+        Uri.parse(apiProjectUpdateUrl.replaceFirst('{id}', project.id));
+    final response = await http.put(
+      updateUrl,
+      headers: {
+        'Authorization': 'Token $accessToken',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(requestBody),
+    );
+    final data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return ProjectInfo.fromJson(data);
+    } else {
+      throw Exception(response.body);
+    }
+  }
+
+  Future<bool> updateProject() async {
+    try {
+      project = await _sendUpdateProjectRequest();
+      return false;
+    } catch (error) {
+      // TODO: catch errors!
+      print(error);
+    }
+    return true;
+  }
+
+  Future _sendCreateProjectRequest() async {
+    final prefs = await SharedPreferences.getInstance();
+    String accessToken = prefs.getString('accessToken') ?? '';
+    // TODO: fix updating api/projects/projects-tasks-active/
+    var requestBody = await createRequestBody(create: true);
+    requestBody['designer_email'] = prefs.getString('username');
     var createUrl = Uri.parse(apiProjectCreateUrl);
     final response = await http.post(
       createUrl,
@@ -74,20 +140,11 @@ class ProjectController {
         'Authorization': 'Token $accessToken',
         'Content-Type': 'application/json',
       },
-      body: jsonEncode({
-        // TODO: get name from nameController.text
-        "name": 'Default name',
-        "designer_email": prefs.getString('username'),
-        "building_master_email": masterEmailController.text,
-        "client_phone": clientPhoneController.text,
-        "description": descriptionController.text,
-        if (addressLine1 != null || addressLine2 != null || postCode != null || city != null || country != null) "address": addressData
-      }),
+      body: jsonEncode(requestBody),
     );
     final data = jsonDecode(response.body);
     if (response.statusCode == 201) {
-      final projectInfoResponse = ProjectInfo.fromJson(data);
-      return projectInfoResponse;
+      return ProjectInfo.fromJson(data);
     } else {
       throw Exception;
     }
@@ -98,18 +155,20 @@ class ProjectController {
     VoidCallback voidCallback,
   ) async {
     try {
-      project = await _sendCreateProjectRequest();
+      ProjectInfo createdProject = await _sendCreateProjectRequest();
+      project = createdProject;
+      Navigator.of(context).pop();
+      // TODO: add redirect to project view, (currently problem in arguments self.controller)
+      // Navigator.pushNamed(context, '/project', arguments: this).then((result) {
+      //   if (result == true) {
+      //     voidCallback();
+      //   }
+      // });
     } catch (error) {
       // TODO: catch errors!
+      print('Error in create project');
       print(error);
     }
-    Navigator.of(context).pop();
-    Navigator.pushNamed(context, '/project', arguments: this)
-        .then((result) {
-      if (result == true) {
-        voidCallback();
-      }
-    });
   }
 
   Future<void> openProject(

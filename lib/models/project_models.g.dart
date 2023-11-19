@@ -41,8 +41,8 @@ ProjectInfo _$ProjectInfoFromJson(Map<String, dynamic> json) => ProjectInfo(
       json['image_gallery'] == null
           ? null
           : ImagesList.fromJson(json['image_gallery'] as List<dynamic>),
-      json['description'] as String?,
       json['main_image'] as String?,
+      json['description'] as String?,
       id: json['id'] as String,
       name: json['name'] as String,
       finished: json['finished'] as bool,
@@ -50,12 +50,12 @@ ProjectInfo _$ProjectInfoFromJson(Map<String, dynamic> json) => ProjectInfo(
 
 Map<String, dynamic> _$ProjectInfoToJson(ProjectInfo instance) =>
     <String, dynamic>{
+      'designer': instance.designer,
       'name': instance.name,
       'id': instance.id,
       'description': instance.description,
       'finished': instance.finished,
       'main_image': instance.mainImage,
-      'designer': instance.designer,
       'building_master': instance.buildingMaster,
       'client': instance.client,
       'address': instance.address,
