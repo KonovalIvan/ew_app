@@ -1,6 +1,7 @@
 import 'package:ew_app/constants/styles.dart';
-import 'package:ew_app/controllers/projects/project_controller.dart';
-import 'package:ew_app/models/projects_short_info.dart';
+import 'package:ew_app/controllers/home_controller.dart';
+import 'package:ew_app/controllers/projects/projects_list_controller.dart';
+import 'package:ew_app/models/project_models.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/menu_button_widget.dart';
 import 'package:ew_app/widgets/main_drawer_widget.dart';
@@ -24,8 +25,8 @@ class ProjectsListView extends StatefulWidget {
   final String userFirstName;
   final String userLastName;
   final String email;
-  final int activeProjects;
-  final int activeTasks;
+  int activeProjects;
+  int activeTasks;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -38,6 +39,7 @@ class _ProjectsListViewState extends State<ProjectsListView> {
   final ProjectsListController _projectsListController =
       ProjectsListController();
 
+  // TODO: get only `in progress` projects, and after change filters send one more request
   void updateFilter(String status) {
     setState(() {
       _projectsListController.filterText = status;
@@ -64,16 +66,26 @@ class _ProjectsListViewState extends State<ProjectsListView> {
   @override
   void initState() {
     super.initState();
-    _getProjectsInfo();
+    _getProjectsInfo(true);
   }
 
-  Future<void> _getProjectsInfo() async {
-    await _projectsListController.getProjectsInfo(false);
-    setState(() {
-      showCircularProgressIndicator = false;
-      projects = _projectsListController.projects
-          .where((project) => !project.finished);
-    });
+  Future<void> _getProjectsInfo(bool ignorePrefs) async {
+    await _projectsListController.getProjectsInfo(ignorePrefs);
+    updateFilter(_projectsListController.filterText);
+    showCircularProgressIndicator = false;
+  }
+
+  Future<void> _getUserInfo() async {
+    HomeController controller = HomeController();
+    await controller.getUserInfo();
+    widget.activeProjects = controller.activeProjects;
+    widget.activeTasks = controller.activeTasks;
+  }
+
+  void updateList() {
+    showCircularProgressIndicator = true;
+    _getProjectsInfo(true);
+    _getUserInfo();
   }
 
   @override
@@ -153,7 +165,7 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                         height: 22,
                         child: GestureDetector(
                           onTap: () {
-                            _projectsListController.newProject(context);
+                            _projectsListController.newProject(context, updateList);
                           },
                           child: SvgPicture.asset(
                             'assets/icons/add.svg',
@@ -178,10 +190,12 @@ class _ProjectsListViewState extends State<ProjectsListView> {
                             20,
                           ),
                           child: ProjectWidget(
+                            id: project.id,
                             finished: project.finished,
                             name: project.name,
-                            description: project.description,
+                            description: project.description ?? '',
                             mainImage: project.mainImage,
+                            voidCallback: updateList,
                           ),
                         ),
                   ],

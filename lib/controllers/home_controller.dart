@@ -5,7 +5,7 @@ import 'package:ew_app/models/active_projects_and_task.dart';
 import 'package:ew_app/views/projects/projects_list_view.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ew_app/models/user.dart';
+import 'package:ew_app/models/user_models.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 

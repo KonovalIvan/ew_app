@@ -13,10 +13,11 @@ class EditableResizedFieldWidget extends StatefulWidget {
   final Color? inputTextColor;
   final Color? helpTextColor;
   final String? mainText;
+  final TextEditingController? textEditingController;
 
   final TextAlign? textAlign;
 
-  const EditableResizedFieldWidget({
+  EditableResizedFieldWidget({
     Key? key,
     required this.editable,
     this.helpText,
@@ -29,7 +30,10 @@ class EditableResizedFieldWidget extends StatefulWidget {
     this.fieldWidth = 170,
     this.textAlign,
     this.mainText,
-  }) : super(key: key);
+    TextEditingController? textEditingController,
+  })  : textEditingController =
+            textEditingController ?? TextEditingController(),
+        super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -37,15 +41,30 @@ class EditableResizedFieldWidget extends StatefulWidget {
       _EditableResizedFieldWidgetState();
 }
 
-class _EditableResizedFieldWidgetState extends State<EditableResizedFieldWidget> {
-  final TextEditingController _textEditingController = TextEditingController();
+class _EditableResizedFieldWidgetState
+    extends State<EditableResizedFieldWidget> {
 
   @override
   void initState() {
     super.initState();
-    widget.initialText != null
-        ? _textEditingController.text = widget.initialText!
-        : null;
+    updateTextFieldText();
+  }
+
+  @override
+  void didUpdateWidget(covariant EditableResizedFieldWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialText != widget.initialText ||
+        oldWidget.editable != widget.editable) {
+      updateTextFieldText();
+    }
+  }
+
+  void updateTextFieldText() {
+    if (widget.editable) {
+      widget.textEditingController!.text = widget.initialText ?? '';
+    } else {
+      widget.textEditingController!.text = widget.initialText ?? '';
+    }
   }
 
   @override
@@ -60,7 +79,7 @@ class _EditableResizedFieldWidgetState extends State<EditableResizedFieldWidget>
         ),
         child: AutoSizeTextField(
           textAlign: widget.textAlign ?? TextAlign.center,
-          controller: _textEditingController,
+          controller: widget.textEditingController,
           fullwidth: true,
           maxLines: null,
           style: SafeGoogleFont(

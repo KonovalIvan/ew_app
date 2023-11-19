@@ -1,4 +1,6 @@
 import 'package:ew_app/constants/colors.dart';
+import 'package:ew_app/constants/url.dart';
+import 'package:ew_app/controllers/gallery/gallery_controller.dart';
 import 'package:ew_app/controllers/widgets/buttons_controller.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
@@ -9,7 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:ew_app/widgets/buttons/options_button_widget.dart';
 
 class GalleryView extends StatefulWidget {
-  const GalleryView({Key? key}) : super(key: key);
+  const GalleryView({
+    Key? key,
+    required this.galleryController,
+  }) : super(key: key);
+
+  final GalleryController galleryController;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -19,16 +26,17 @@ class GalleryView extends StatefulWidget {
 class _GalleryViewState extends State<GalleryView> {
   final OptionsButtonController _optionsButtonController =
       OptionsButtonController();
-  final ScrollController _scrollController = ScrollController();
 
-  // TODO: add transferred images list
   // TODO: add button to switching images
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBarWidget(
-        leftIcon: const BackArrowButtonWidget(arrowColor: Colors.black),
+        leftIcon: const BackArrowButtonWidget(
+          arrowColor: Colors.black,
+          update: true,
+        ),
         rightIconMenu: OptionsButtonWidget(optionsColor: Colors.black),
         onRightIconPressed: () {
           setState(() {
@@ -44,14 +52,29 @@ class _GalleryViewState extends State<GalleryView> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            InteractiveViewer(
-              minScale: 0.5,
-              maxScale: 5,
-              child: Image.asset(
-                'assets/images/test_gallery_img.jpg',
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                fit: BoxFit.contain,
+            GestureDetector(
+              onHorizontalDragEnd: (details) {
+                if (details.primaryVelocity! > 0) {
+                  // Right swipe
+                  setState(() {
+                    widget.galleryController.nextImage();
+                  });
+                } else if (details.primaryVelocity! < 0) {
+                  // Left Swipe
+                  setState(() {
+                    widget.galleryController.previousImage();
+                  });
+                }
+              },
+              child: InteractiveViewer(
+                minScale: 0.5,
+                maxScale: 5,
+                child: Image.network(
+                  '$baseUrl${widget.galleryController.imagesList.images[widget.galleryController.imageIndex].image}',
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
             _optionsButtonController.visibleOptionsMenu
@@ -73,7 +96,6 @@ class _GalleryViewState extends State<GalleryView> {
                 : Container(),
             _optionsButtonController.visibleDeleteMenu
                 ? DeleteConfirmButtonWidget(
-                    positionTop: _scrollController.offset,
                     onPressedNo: () {
                       setState(
                         () {
@@ -81,11 +103,15 @@ class _GalleryViewState extends State<GalleryView> {
                         },
                       );
                     },
-                    onPressedYes: () {
+                    onPressedYes: () async {
+                      await widget.galleryController.deleteImage(
+                          context,
+                          widget.galleryController.imagesList
+                              .images[widget.galleryController.imageIndex].id);
+                      _optionsButtonController.visibleDeleteMenu = false;
+                      _optionsButtonController.visibleOptionsMenu = false;
                       setState(
-                        () {
-                          _optionsButtonController.pressYesDelete(context);
-                        },
+                        () {},
                       );
                     },
                   )

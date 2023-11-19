@@ -55,6 +55,7 @@ class _HomeViewState extends State<HomeView> {
           } else {
             return Column(
               children: [
+                // TODO: create updated projects/task in case user back
                 UserCardWidget(
                   activeProjects: _homeController.activeProjects,
                   activeTasks: _homeController.activeTasks,
