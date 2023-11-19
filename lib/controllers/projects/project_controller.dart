@@ -158,6 +158,7 @@ class ProjectController {
       ProjectInfo createdProject = await _sendCreateProjectRequest();
       project = createdProject;
       Navigator.of(context).pop();
+      voidCallback();
       // TODO: add redirect to project view, (currently problem in arguments self.controller)
       // Navigator.pushNamed(context, '/project', arguments: this).then((result) {
       //   if (result == true) {
