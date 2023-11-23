@@ -101,6 +101,7 @@ class OptionsButtonController {
   bool _editable = false;
   bool _visibleOptionsMenu = false;
   bool _visibleDeleteMenu = false;
+  final ScrollController scrollController = ScrollController();
 
   bool get visibleOptionsMenu => _visibleOptionsMenu;
 
@@ -166,7 +167,7 @@ class OptionsButtonController {
 
     try {
       await _sendDeleteObjectRequest(accessToken, objectId, requestUrl);
-      Navigator.of(context).pop(true);
+      Navigator.of(context).pop(objectId);
     } catch (error) {
       // TODO: catch errors!
       print(error);

@@ -196,11 +196,11 @@ class ProjectController {
     VoidCallback voidCallback,
   ) async {
     await getProjectsInfo(projectId);
-    Navigator.pushNamed(context, '/project', arguments: projectController)
-        .then((result) {
-      if (result == true) {
-        voidCallback();
-      }
-    });
+
+    dynamic resultId = await Navigator.pushNamed(context, '/project', arguments: projectController);
+
+    if (resultId != '') {
+      voidCallback();
+    }
   }
 }

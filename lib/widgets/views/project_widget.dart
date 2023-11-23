@@ -149,9 +149,14 @@ class _ProjectWidgetState extends State<ProjectWidget> {
 }
 
 class ProjectDashboardWidget extends StatefulWidget {
-  const ProjectDashboardWidget({super.key, required this.dashboard});
+  const ProjectDashboardWidget({
+    super.key,
+    required this.dashboard,
+    required this.function,
+  });
 
   final DashboardShortInfo dashboard;
+  final Function function;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -168,7 +173,7 @@ class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
       padding: const EdgeInsets.only(bottom: 10),
       child: Container(
         padding: EdgeInsets.zero,
-        height: 33,
+        height: 30,
         width: double.infinity,
         decoration: BoxDecoration(
           color: const Color(0x40FFFFFF),
@@ -176,9 +181,11 @@ class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
         ),
         child: TextButton(
           onPressed: () {
-              const Padding(padding: EdgeInsets.only(top: 100),
-                  child: CircularProgressIndicator());
-              _dashboardController.openDashboard(context, widget.dashboard.id, _dashboardController);
+            const Padding(
+                padding: EdgeInsets.only(top: 100),
+                child: CircularProgressIndicator());
+            _dashboardController.openDashboard(context, widget.dashboard.id,
+                _dashboardController, widget.function);
           },
           style: TextButton.styleFrom(
             visualDensity: VisualDensity.compact,

@@ -5,7 +5,6 @@ import 'package:ew_app/controllers/gallery/gallery_controller.dart';
 import 'package:ew_app/controllers/projects/project_controller.dart';
 import 'package:ew_app/controllers/widgets/buttons_controller.dart';
 import 'package:ew_app/models/project_models.dart';
-import 'package:ew_app/models/user_models.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:ew_app/widgets/buttons/delete_confirm_button_widget.dart';
@@ -46,6 +45,11 @@ class _ProjectViewState extends State<ProjectView> {
   }
 
   void update() {
+    setState(() {});
+  }
+
+  void updateDashboards(String dashboardId) {
+    widget.projectController.project.dashboardsList?.dashboards.removeWhere((dashboard) => dashboard.id == dashboardId);
     setState(() {});
   }
 
@@ -107,6 +111,7 @@ class _ProjectViewState extends State<ProjectView> {
                           buttonColor: const Color(0x00c4c4c4),
                           editable: _optionsButtonController.editable,
                           helpText: 'Project Name',
+                          lines: 3,
                           initialText: project.name,
                         ),
                       ),
@@ -297,7 +302,7 @@ class _ProjectViewState extends State<ProjectView> {
                     ),
                     for (var dashboard in project.dashboardsList!.dashboards)
                       ProjectDashboardWidget(
-                        dashboard: dashboard,
+                        dashboard: dashboard, function: updateDashboards,
                       ),
                     _optionsButtonController.editable
                         ? Padding(
@@ -312,7 +317,10 @@ class _ProjectViewState extends State<ProjectView> {
                               ),
                               child: TextButton(
                                 onPressed: () {
-                                  widget.projectController.createDashboard(context, widget.projectController.project.id, updateDashboards);
+                                  widget.projectController.createDashboard(
+                                      context,
+                                      widget.projectController.project.id,
+                                      update);
                                 },
                                 style: TextButton.styleFrom(
                                   visualDensity: VisualDensity.compact,
@@ -329,21 +337,21 @@ class _ProjectViewState extends State<ProjectView> {
                             ),
                           )
                         : Container(),
-                    if (_optionsButtonController.editable)
-                      MainButtonWidget(
-                        buttonColor: const Color(0x9037E888),
-                        pathToSvg: 'assets/icons/done.svg',
-                        onPressed: () async {
-                          _optionsButtonController.editable =
-                              await widget.projectController.updateProject();
-                          setState(() {});
-                        },
-                      )
-                    else
-                      const SizedBox(
-                        width: 0,
-                        height: 0,
-                      )
+                    _optionsButtonController.editable
+                        ? MainButtonWidget(
+                            buttonColor: const Color(0x9037E888),
+                            pathToSvg: 'assets/icons/done.svg',
+                            onPressed: () async {
+                              _optionsButtonController.editable = await widget
+                                  .projectController
+                                  .updateProject();
+                              setState(() {});
+                            },
+                          )
+                        : const SizedBox(
+                            width: 0,
+                            height: 0,
+                          )
                   ],
                 ),
               ),
@@ -404,15 +412,4 @@ String concatenateAddressFields(Address? address) {
     stringAddress += '${address.addressLine_2}, ';
   }
   return "$stringAddress${address.postCode}, ${address.city}, ${address.country}";
-}
-
-String concatenateUserFields(User user) {
-  var stringUser = '';
-  if (user.firstName != Null) {
-    stringUser += '${user.firstName} ';
-  }
-  if (user.lastName != Null) {
-    stringUser += user.lastName;
-  }
-  return stringUser;
 }

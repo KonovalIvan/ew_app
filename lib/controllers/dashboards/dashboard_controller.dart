@@ -11,12 +11,14 @@ class DashboardController {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   late DashboardInfo dashboard;
+  late String projectId;
 
   Future<Map<String, dynamic>> createRequestBody(
-      {String projectId = ''}) async {
+      {String dashboardId = ''}) async {
     Map<String, dynamic> requestData = {
       "name": nameController.text,
       "description": descriptionController.text,
+      if (dashboardId != '') "id": dashboardId,
       "project_id": projectId,
     };
     return requestData;
@@ -25,8 +27,8 @@ class DashboardController {
   Future _sendCreateDashboardRequest(String projectId) async {
     final prefs = await SharedPreferences.getInstance();
     String accessToken = prefs.getString('accessToken') ?? '';
-
-    var requestBody = await createRequestBody(projectId: projectId);
+    this.projectId = projectId;
+    var requestBody = await createRequestBody();
 
     var createUrl = Uri.parse(apiDashboardCreateUrl);
     final response = await http.post(
@@ -59,6 +61,44 @@ class DashboardController {
     }
   }
 
+  // TODO: All update put method looks the same, create main method in button controller
+  Future _sendUpdateDashboardRequest() async {
+    final prefs = await SharedPreferences.getInstance();
+    String accessToken = prefs.getString('accessToken') ?? '';
+
+    var requestBody = await createRequestBody(dashboardId: dashboard.id);
+
+    var updateUrl =
+        Uri.parse(apiDashboardUpdateUrl.replaceFirst('{id}', dashboard.id));
+    final response = await http.put(
+      updateUrl,
+      headers: {
+        'Authorization': 'Token $accessToken',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(requestBody),
+    );
+    final data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return DashboardShortInfo.fromJson(data);
+    } else {
+      throw Exception(response.body);
+    }
+  }
+
+  Future<bool> updateDashboard() async {
+    try {
+      var result = await _sendUpdateDashboardRequest();
+      dashboard.name = result.name;
+      dashboard.description = result.description;
+      return false;
+    } catch (error) {
+      // TODO: catch errors!
+      print(error);
+    }
+    return true;
+  }
+
   void newTask(BuildContext context) {
     Navigator.pushNamed(context, '/task');
   }
@@ -71,7 +111,8 @@ class DashboardController {
     final prefs = await SharedPreferences.getInstance();
     String accessToken = prefs.getString('accessToken') ?? '';
 
-    final url = Uri.parse(apiDashboardInfoUrl.replaceFirst('{id}', dashboardId));
+    final url =
+        Uri.parse(apiDashboardInfoUrl.replaceFirst('{id}', dashboardId));
 
     final response = await http.get(
       url,
@@ -88,10 +129,20 @@ class DashboardController {
     }
   }
 
-  Future<void> openDashboard(BuildContext context, String dashboardId, DashboardController dashboardController) async {
+  Future<void> openDashboard(
+    BuildContext context,
+    String dashboardId,
+    DashboardController dashboardController,
+    Function function,
+  ) async {
     dashboard = await _getDashboardInfo(dashboardId);
     // TODO: when user edit dashboard need call void callback to update previous page with project info!
     // ignore: use_build_context_synchronously
-    Navigator.pushNamed(context, '/dashboard', arguments: dashboardController);
+    dynamic returnedId = await Navigator.pushNamed(context, '/dashboard',
+        arguments: dashboardController);
+
+    if (returnedId != null) {
+      function(returnedId);
+    }
   }
 }

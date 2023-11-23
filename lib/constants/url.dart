@@ -15,6 +15,8 @@ String apiProjectCreateUrl = "$baseApiUrl$baseProjectsUrl/create/";
 const String baseDashboardUrl = '/dashboard';
 String apiDashboardCreateUrl = "$baseApiUrl$baseDashboardUrl/create/";
 String apiDashboardInfoUrl = "$baseApiUrl$baseDashboardUrl/{id}/";
+String apiDashboardUpdateUrl = "$baseApiUrl$baseDashboardUrl/{id}/";
+String apiDashboardDeleteUrl = "$baseApiUrl$baseDashboardUrl/{id}/";
 
 // Authentication url`s
 const String baseAuthUrl = '/authentication';

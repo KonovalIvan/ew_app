@@ -40,12 +40,12 @@ class DashboardsList {
 @JsonSerializable()
 class DashboardInfo {
   final String id;
-  final String name;
+  String name;
 
   @JsonKey(name: 'project_name')
   final String projectName;
 
-  final String? description;
+  String? description;
 
   @JsonKey(name: 'task')
   final TasksShortInfoList? tasksList;
