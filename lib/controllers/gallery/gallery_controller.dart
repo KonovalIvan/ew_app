@@ -6,14 +6,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ew_app/constants/url.dart';
 
 class GalleryController {
-  late ImagesList imagesList;
+  ImagesList imagesList;
   late int imageIndex = 0;
   late int galleryElementsCount = 0;
 
   late String accessToken;
 
-  GalleryController() {
-    _init();
+  GalleryController({
+    Key? key,
+    required this.imagesList,
+  })  {
+      _init();
   }
 
   Future<void> _init() async {

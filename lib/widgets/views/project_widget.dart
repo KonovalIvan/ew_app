@@ -1,5 +1,7 @@
 import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/controllers/dashboards/dashboard_controller.dart';
+import 'package:ew_app/controllers/gallery/single_image_view.dart';
+import 'package:ew_app/models/gallery_models.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ew_app/controllers/projects/project_controller.dart';
@@ -7,8 +9,7 @@ import 'package:ew_app/controllers/projects/project_controller.dart';
 import 'package:ew_app/constants/url.dart';
 
 class ProjectWidget extends StatefulWidget {
-  const ProjectWidget(
-    {
+  const ProjectWidget({
     Key? key,
     required this.finished,
     required this.name,
@@ -74,18 +75,19 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                         MediaQuery.of(context).size.width / 2.0),
                     child: Stack(
                       children: [
-                        widget.mainImage != null ?
-                        Image.network(
-                          "$baseUrl${widget.mainImage}",
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ) : Image.asset(
-                          "assets/images/base_project.jpg",
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
+                        widget.mainImage != null
+                            ? Image.network(
+                                "$baseUrl${widget.mainImage}",
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                "assets/images/base_project.jpg",
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
                         widget.finished
                             ? Opacity(
                                 opacity: 0.8,
@@ -189,16 +191,67 @@ class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
                   color: Colors.white,
                 ),
               ),
-              // Text(
-              //   '62%',
-              //   style: SafeGoogleFont(
-              //     'Poppins',
-              //     fontSize: 14.0,
-              //     color: Colors.white,
-              //   ),
-              // ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class AttachmentInfoWidget extends StatefulWidget {
+  const AttachmentInfoWidget({
+    super.key,
+    required this.imageShortInfo,
+    required this.voidCallback,
+  });
+
+  final SingleImage imageShortInfo;
+  final Function(String) voidCallback;
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _AttachmentInfoWidgetState createState() => _AttachmentInfoWidgetState();
+}
+
+class _AttachmentInfoWidgetState extends State<AttachmentInfoWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        SingleImageController singleImageController = SingleImageController();
+        singleImageController.image = widget.imageShortInfo;
+        singleImageController.openImage(
+            context, singleImageController, widget.voidCallback);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                widget.imageShortInfo.name,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: SafeGoogleFont(
+                  'Poppins',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Text(
+              ' ${widget.imageShortInfo.size}',
+              style: SafeGoogleFont(
+                'Poppins',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: const Color(0x40FFFFFF),
+              ),
+            ),
+          ],
         ),
       ),
     );

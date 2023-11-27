@@ -58,7 +58,6 @@ class ProjectController {
     ) {
       requestData["address"] = addressData;
     }
-    print(requestData);
     return requestData;
   }
 

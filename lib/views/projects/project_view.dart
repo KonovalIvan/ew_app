@@ -45,6 +45,21 @@ class _ProjectViewState extends State<ProjectView> {
     super.initState();
   }
 
+  void update() {
+    setState(() {});
+  }
+
+  void deleteImage(String imageId) {
+    var imagesList = widget.projectController.project.imagesList!.images;
+    var imageIndex = imagesList.indexWhere((image) => image.id == imageId);
+
+    if (imageIndex != -1) {
+      imagesList.removeAt(imageIndex);
+      setState(() {
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final ProjectInfo project = widget.projectController.project;
@@ -83,7 +98,7 @@ class _ProjectViewState extends State<ProjectView> {
                         // TODO: add change field as ex. description
                         child: EditableResizedFieldWidget(
                           textEditingController:
-                          widget.projectController.nameController,
+                              widget.projectController.nameController,
                           helpTextSize: 24.0,
                           inputTextSize: 24.0,
                           inputTextColor: Colors.white,
@@ -101,8 +116,9 @@ class _ProjectViewState extends State<ProjectView> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // TODO: FIX GALLERY, when update view, gallery is broke
                           SmallGalleryWidget(
-                            galleryController: GalleryController(),
+                            galleryController: GalleryController(imagesList: project.imagesList!),
                             imagesList: project.imagesList,
                           ),
                           Column(
@@ -110,7 +126,9 @@ class _ProjectViewState extends State<ProjectView> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 9),
                                 child: EditableResizedFieldWidget(
-                                  textEditingController: widget.projectController.designerEmailController,
+                                  textEditingController: widget
+                                      .projectController
+                                      .designerEmailController,
                                   initialText: project.designer?.email ?? '',
                                   fieldWidth: 191,
                                   editable: _optionsButtonController.editable,
@@ -120,7 +138,8 @@ class _ProjectViewState extends State<ProjectView> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 9),
                                 child: EditableResizedFieldWidget(
-                                  textEditingController: widget.projectController.masterEmailController,
+                                  textEditingController: widget
+                                      .projectController.masterEmailController,
                                   initialText:
                                       project.buildingMaster?.email ?? '',
                                   fieldWidth: 191,
@@ -145,7 +164,8 @@ class _ProjectViewState extends State<ProjectView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 33),
                       child: EditableResizedFieldWidget(
-                        textEditingController: widget.projectController.addressController,
+                        textEditingController:
+                            widget.projectController.addressController,
                         initialText: _optionsButtonController.editable
                             ? project.address?.addressLine_1 ?? ''
                             : concatenateAddressFields(project.address),
@@ -160,7 +180,8 @@ class _ProjectViewState extends State<ProjectView> {
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
-                              textEditingController: widget.projectController.localController,
+                              textEditingController:
+                                  widget.projectController.localController,
                               initialText: project.address?.addressLine_2 ?? '',
                               fieldWidth: double.infinity,
                               editable: _optionsButtonController.editable,
@@ -172,7 +193,8 @@ class _ProjectViewState extends State<ProjectView> {
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
-                              textEditingController: widget.projectController.postCodeController,
+                              textEditingController:
+                                  widget.projectController.postCodeController,
                               initialText: project.address?.postCode ?? '',
                               fieldWidth: double.infinity,
                               editable: _optionsButtonController.editable,
@@ -184,7 +206,8 @@ class _ProjectViewState extends State<ProjectView> {
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
-                              textEditingController: widget.projectController.cityController,
+                              textEditingController:
+                                  widget.projectController.cityController,
                               initialText: project.address?.city ?? '',
                               fieldWidth: double.infinity,
                               editable: _optionsButtonController.editable,
@@ -196,7 +219,8 @@ class _ProjectViewState extends State<ProjectView> {
                         ? Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: EditableResizedFieldWidget(
-                              textEditingController: widget.projectController.countryController,
+                              textEditingController:
+                                  widget.projectController.countryController,
                               initialText: project.address?.country ?? '',
                               fieldWidth: double.infinity,
                               editable: _optionsButtonController.editable,
@@ -207,7 +231,8 @@ class _ProjectViewState extends State<ProjectView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 9),
                       child: EditableResizedFieldWidget(
-                        textEditingController: widget.projectController.descriptionController,
+                        textEditingController:
+                            widget.projectController.descriptionController,
                         initialText: project.description,
                         fieldWidth: double.infinity,
                         editable: _optionsButtonController.editable,
@@ -217,6 +242,7 @@ class _ProjectViewState extends State<ProjectView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 33, bottom: 17),
                       child: ExpansionTile(
+                        expandedCrossAxisAlignment: CrossAxisAlignment.start,
                         iconColor: const Color(0xFFAC33E5),
                         collapsedIconColor: const Color(0xFF260975),
                         title: Text(
@@ -228,33 +254,29 @@ class _ProjectViewState extends State<ProjectView> {
                           ),
                         ),
                         children: [
-                          ListTile(
-                            title: RichText(
-                              text: TextSpan(
-                                style: SafeGoogleFont(
-                                  'Poppins',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white,
-                                ),
-                                children: [
-                                  // TODO: create N elements with link to attachment
-                                  const TextSpan(text: 'archiver.rar'),
-                                  TextSpan(
-                                    text: ' (14 mb)',
-                                    style: SafeGoogleFont(
-                                      'Poppins',
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: const Color(0x40FFFFFF),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          for (var imageShortInfo in widget
+                              .projectController.project.imagesList!.images)
+                            AttachmentInfoWidget(
+                              imageShortInfo: imageShortInfo,
+                              voidCallback: deleteImage,
                             ),
-                            onTap: () {},
+                          GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AddFileButtonWidget(
+                                    projectController: widget.projectController,
+                                    update: update,
+                                  );
+                                },
+                              );
+                            },
+                            child: AddFileButtonWidget(
+                              projectController: widget.projectController,
+                              update: update,
+                            ),
                           ),
-                          const AddFileButtonWidget(),
                         ],
                       ),
                     ),
@@ -310,9 +332,9 @@ class _ProjectViewState extends State<ProjectView> {
                         buttonColor: const Color(0x9037E888),
                         pathToSvg: 'assets/icons/done.svg',
                         onPressed: () async {
-                          _optionsButtonController.editable = await widget.projectController.updateProject();
-                          setState(() {
-                          });
+                          _optionsButtonController.editable =
+                              await widget.projectController.updateProject();
+                          setState(() {});
                         },
                       )
                     else

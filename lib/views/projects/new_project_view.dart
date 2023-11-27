@@ -9,7 +9,6 @@ import 'package:ew_app/widgets/fields/editable_resized_field_widget.dart';
 import 'package:ew_app/widgets/options_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ew_app/widgets/buttons/add_file_button_widget.dart';
 import 'package:ew_app/widgets/small_gallery_widget.dart';
 
 import 'package:ew_app/widgets/buttons/main_button_widget.dart';
@@ -90,7 +89,7 @@ class _NewProjectViewState extends State<NewProjectView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SmallGalleryWidget(
-                            galleryController: GalleryController(),
+                            galleryController: GalleryController(imagesList: _projectController.project.imagesList!),
                           ),
                           Column(
                             children: [
@@ -237,7 +236,7 @@ class _NewProjectViewState extends State<NewProjectView> {
                             ),
                             onTap: () {},
                           ),
-                          const AddFileButtonWidget(),
+                          // const AddFileButtonWidget(),
                         ],
                       ),
                     ),

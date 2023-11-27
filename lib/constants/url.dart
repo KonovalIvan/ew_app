@@ -21,3 +21,4 @@ String apiAuthVerifyTokenUrl = "$baseApiUrl$baseAuthUrl/verify-token/";
 // Images url`s
 const String baseImageUrl = '/images-asset';
 String apiImageDeleteUrl = "$baseApiUrl$baseImageUrl/{id}/";
+String apiImageCreateUrl = "$baseApiUrl$baseImageUrl/add/";
