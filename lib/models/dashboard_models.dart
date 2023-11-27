@@ -1,38 +1,65 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'task_models.dart';
+
 part 'dashboard_models.g.dart';
 
 @JsonSerializable()
-class Dashboard {
+class DashboardShortInfo {
   final String id;
   final String name;
-  final String description;
+  final String? description;
 
-  // TODO: add progress field
-
-  Dashboard({
+  DashboardShortInfo({
+    this.description,
     required this.id,
     required this.name,
-    required this.description,
   });
 
-  factory Dashboard.fromJson(Map<String, dynamic> json) =>
-      _$DashboardFromJson(json);
+  factory DashboardShortInfo.fromJson(Map<String, dynamic> json) =>
+      _$DashboardShortInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DashboardToJson(this);
+  Map<String, dynamic> toJson() => _$DashboardShortInfoToJson(this);
 }
 
 @JsonSerializable()
 class DashboardsList {
-  final List<Dashboard> dashboards;
+  final List<DashboardShortInfo> dashboards;
 
   DashboardsList({required this.dashboards});
 
   factory DashboardsList.fromJson(List<dynamic> json) {
-    List<Dashboard> dashboardsList = [];
+    List<DashboardShortInfo> dashboardsList = [];
     for (var item in json ?? []) {
-      dashboardsList.add(Dashboard.fromJson(item));
+      dashboardsList.add(DashboardShortInfo.fromJson(item));
     }
     return DashboardsList(dashboards: dashboardsList);
   }
+}
+
+@JsonSerializable()
+class DashboardInfo {
+  final String id;
+  String name;
+
+  @JsonKey(name: 'project_name')
+  final String projectName;
+
+  String? description;
+
+  @JsonKey(name: 'task')
+  final TasksShortInfoList? tasksList;
+
+  DashboardInfo({
+    this.description,
+    this.tasksList,
+    required this.projectName,
+    required this.id,
+    required this.name,
+  });
+
+  factory DashboardInfo.fromJson(Map<String, dynamic> json) =>
+      _$DashboardInfoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DashboardInfoToJson(this);
 }

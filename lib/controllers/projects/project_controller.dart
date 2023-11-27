@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:ew_app/models/project_models.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:ew_app/constants/url.dart';
+
+import 'package:ew_app/views/dashboards/new_dashboard_view.dart';
 
 class ProjectController {
   late ProjectInfo project;
@@ -32,7 +35,6 @@ class ProjectController {
         countryController.text.isNotEmpty ? countryController.text : null;
 
     Map<String, dynamic> requestData = {
-      // TODO: get name from nameController.text
       "name": nameController.text,
       "designer_email": designerEmailController.text,
       "building_master_email": masterEmailController.text,
@@ -87,6 +89,22 @@ class ProjectController {
       // TODO: catch errors!
       print(error);
     }
+  }
+
+  void createDashboard(BuildContext context, String projectId, VoidCallback voidCallback) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => NewDashboardView(
+          projectId: projectId,
+        ),
+      ),
+    ).then((returnedDashboard) {
+      if (returnedDashboard != null) {
+        project.dashboardsList!.dashboards.add(returnedDashboard);
+        voidCallback();
+      }
+    });
   }
 
   Future _sendUpdateProjectRequest() async {
@@ -178,11 +196,11 @@ class ProjectController {
     VoidCallback voidCallback,
   ) async {
     await getProjectsInfo(projectId);
-    Navigator.pushNamed(context, '/project', arguments: projectController)
-        .then((result) {
-      if (result == true) {
-        voidCallback();
-      }
-    });
+
+    dynamic resultId = await Navigator.pushNamed(context, '/project', arguments: projectController);
+
+    if (resultId != '') {
+      voidCallback();
+    }
   }
 }

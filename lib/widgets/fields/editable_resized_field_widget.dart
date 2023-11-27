@@ -6,6 +6,8 @@ class EditableResizedFieldWidget extends StatefulWidget {
   final bool editable;
   final String? helpText;
   final double? helpTextSize;
+  final int? lines;
+  final FontWeight? fontWeight;
   final double? inputTextSize;
   final double? fieldWidth;
   final String? initialText;
@@ -28,6 +30,8 @@ class EditableResizedFieldWidget extends StatefulWidget {
     this.inputTextColor = const Color(0xFFFFFFFF),
     this.buttonColor = const Color(0x50C4C4C4),
     this.fieldWidth = 170,
+    this.lines,
+    this.fontWeight,
     this.textAlign,
     this.mainText,
     TextEditingController? textEditingController,
@@ -60,19 +64,19 @@ class _EditableResizedFieldWidgetState
   }
 
   void updateTextFieldText() {
-    if (widget.editable) {
       widget.textEditingController!.text = widget.initialText ?? '';
-    } else {
-      widget.textEditingController!.text = widget.initialText ?? '';
-    }
   }
 
+  TextEditingController textEditingController = TextEditingController();
+
+  // TODO: add font weight and add display max lines and overflow
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
       ignoring: !widget.editable,
       child: Container(
         width: widget.fieldWidth,
+        height: widget.lines == null ? null: 42,
         decoration: BoxDecoration(
           color: widget.buttonColor,
           borderRadius: BorderRadius.circular(10),
@@ -81,11 +85,14 @@ class _EditableResizedFieldWidgetState
           textAlign: widget.textAlign ?? TextAlign.center,
           controller: widget.textEditingController,
           fullwidth: true,
-          maxLines: null,
+          maxLines: widget.lines,
+          minLines: widget.lines,
+          minFontSize: widget.inputTextSize ?? 12,
           style: SafeGoogleFont(
             'Poppins',
             fontSize: widget.inputTextSize,
             color: widget.inputTextColor,
+            fontWeight: widget.fontWeight,
           ),
           textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(
@@ -94,6 +101,7 @@ class _EditableResizedFieldWidgetState
             hintStyle: TextStyle(
               fontSize: widget.helpTextSize,
               color: widget.helpTextColor,
+              fontWeight: widget.fontWeight,
             ),
             isDense: true,
             contentPadding:

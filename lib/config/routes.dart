@@ -1,6 +1,5 @@
 import 'package:ew_app/controllers/gallery/gallery_controller.dart';
 import 'package:ew_app/controllers/gallery/single_image_view.dart';
-import 'package:ew_app/models/gallery_models.dart';
 import 'package:ew_app/views/404_view.dart';
 import 'package:ew_app/views/auth/additional_information_view.dart';
 import 'package:ew_app/views/auth/almost_done_view.dart';
@@ -24,6 +23,7 @@ import 'package:ew_app/views/tasks/my_task_view.dart';
 
 import 'package:ew_app/controllers/home_controller.dart';
 
+import '../controllers/dashboards/dashboard_controller.dart';
 import '../controllers/projects/project_controller.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -50,9 +50,17 @@ final Map<String, WidgetBuilder> routes = {
       projectController: controller,
     );
   },
-  '/dashboard': (BuildContext context) => const DashboardView(),
+
+  '/dashboard': (BuildContext context) {
+    final DashboardController controller = ModalRoute
+        .of(context)!
+        .settings
+        .arguments as DashboardController;
+    return DashboardView(dashboardController: controller,);
+  },
+
   '/task': (BuildContext context) => const TaskView(),
-  '/my_task': (BuildContext context) => const MyTaskView(),
+  '/my_task': (BuildContext context) => MyTaskView(dashboardController: DashboardController()),
   '/single_image': (BuildContext context) {
     final dynamic arguments = ModalRoute.of(context)!.settings.arguments;
     final SingleImageController controller = arguments.controller;

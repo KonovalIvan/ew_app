@@ -6,13 +6,15 @@ part of 'dashboard_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Dashboard _$DashboardFromJson(Map<String, dynamic> json) => Dashboard(
+DashboardShortInfo _$DashboardShortInfoFromJson(Map<String, dynamic> json) =>
+    DashboardShortInfo(
+      description: json['description'] as String?,
       id: json['id'] as String,
       name: json['name'] as String,
-      description: json['description'] as String,
     );
 
-Map<String, dynamic> _$DashboardToJson(Dashboard instance) => <String, dynamic>{
+Map<String, dynamic> _$DashboardShortInfoToJson(DashboardShortInfo instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
@@ -21,11 +23,31 @@ Map<String, dynamic> _$DashboardToJson(Dashboard instance) => <String, dynamic>{
 DashboardsList _$DashboardsListFromJson(Map<String, dynamic> json) =>
     DashboardsList(
       dashboards: (json['dashboards'] as List<dynamic>)
-          .map((e) => Dashboard.fromJson(e as Map<String, dynamic>))
+          .map((e) => DashboardShortInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$DashboardsListToJson(DashboardsList instance) =>
     <String, dynamic>{
       'dashboards': instance.dashboards,
+    };
+
+DashboardInfo _$DashboardInfoFromJson(Map<String, dynamic> json) =>
+    DashboardInfo(
+      description: json['description'] as String?,
+      tasksList: json['task'] == null
+          ? null
+          : TasksShortInfoList.fromJson(json['task'] as List<dynamic>),
+      projectName: json['project_name'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$DashboardInfoToJson(DashboardInfo instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'project_name': instance.projectName,
+      'description': instance.description,
+      'task': instance.tasksList,
     };

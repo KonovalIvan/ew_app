@@ -2,6 +2,7 @@ import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/controllers/dashboards/dashboard_controller.dart';
 import 'package:ew_app/controllers/gallery/single_image_view.dart';
 import 'package:ew_app/models/gallery_models.dart';
+import 'package:ew_app/models/dashboard_models.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ew_app/controllers/projects/project_controller.dart';
@@ -148,9 +149,15 @@ class _ProjectWidgetState extends State<ProjectWidget> {
 }
 
 class ProjectDashboardWidget extends StatefulWidget {
-  const ProjectDashboardWidget({super.key, required this.name});
+  const ProjectDashboardWidget({
+    super.key,
+    required this.dashboard,
+    required this.function, required this.projectId,
+  });
 
-  final String name;
+  final DashboardShortInfo dashboard;
+  final Function function;
+  final String projectId;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -158,15 +165,23 @@ class ProjectDashboardWidget extends StatefulWidget {
 }
 
 class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
+  @override
+  void initState() {
+    super.initState();
+    _dashboardController.projectId = widget.projectId;
+  }
+
   final DashboardController _dashboardController = DashboardController();
+  bool showCircularProgressIndicator = false;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Container(
+        alignment: Alignment.centerLeft,
         padding: EdgeInsets.zero,
-        height: 33,
+        height: 30,
         width: double.infinity,
         decoration: BoxDecoration(
           color: const Color(0x40FFFFFF),
@@ -174,24 +189,25 @@ class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
         ),
         child: TextButton(
           onPressed: () {
-            _dashboardController.push(context);
+            const Padding(
+                padding: EdgeInsets.only(top: 100),
+                child: CircularProgressIndicator());
+            _dashboardController.openDashboard(context, widget.dashboard.id,
+                _dashboardController, widget.function);
           },
           style: TextButton.styleFrom(
             visualDensity: VisualDensity.compact,
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                widget.name,
+          child: Text(
+                widget.dashboard.name,
                 style: SafeGoogleFont(
                   'Poppins',
                   fontSize: 14.0,
                   color: Colors.white,
                 ),
-              ),
-            ],
+            textAlign: TextAlign.start,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ),
