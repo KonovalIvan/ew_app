@@ -58,7 +58,7 @@ final Map<String, WidgetBuilder> routes = {
   },
 
   '/task': (BuildContext context) => const TaskView(),
-  '/my_task': (BuildContext context) => const MyTaskView(),
+  '/my_task': (BuildContext context) => MyTaskView(dashboardController: DashboardController()),
   '/single_image': (BuildContext context) {
     final dynamic arguments = ModalRoute.of(context)!.settings.arguments;
     final SingleImageController controller = arguments.controller;

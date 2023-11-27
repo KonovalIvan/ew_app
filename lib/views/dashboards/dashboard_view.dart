@@ -33,7 +33,9 @@ class _DashboardViewState extends State<DashboardView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBarWidget(
-        leftIcon: const BackArrowButtonWidget(),
+        leftIcon: const BackArrowButtonWidget(
+          update: true,
+        ),
         rightIconMenu: OptionsButtonWidget(),
         onRightIconPressed: () {
           setState(() {
@@ -68,7 +70,6 @@ class _DashboardViewState extends State<DashboardView> {
                     editable: _optionsButtonController.editable,
                     helpText: 'Project Name',
                     fontWeight: FontWeight.w500,
-                    lines: 3,
                     initialText: widget.dashboardController.dashboard.name,
                   ),
                 ),
@@ -124,6 +125,7 @@ class _DashboardViewState extends State<DashboardView> {
                   onPressedEdit: () {
                     setState(() {
                       _optionsButtonController.updateEditable();
+                      widget.dashboardController.updateProjectView = true;
                     });
                   },
                   onPressedDelete: () {

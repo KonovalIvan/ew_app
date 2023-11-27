@@ -12,6 +12,7 @@ class DashboardController {
   final TextEditingController descriptionController = TextEditingController();
   late DashboardInfo dashboard;
   late String projectId;
+  bool updateProjectView = false;
 
   Future<Map<String, dynamic>> createRequestBody(
       {String dashboardId = ''}) async {
@@ -139,8 +140,16 @@ class DashboardController {
     // TODO: when user edit dashboard need call void callback to update previous page with project info!
     // ignore: use_build_context_synchronously
     dynamic returnedId = await Navigator.pushNamed(context, '/dashboard',
-        arguments: dashboardController);
-
+        arguments: dashboardController).then((result) {
+      if (result == true && updateProjectView == true) {
+        DashboardShortInfo newDashboard = DashboardShortInfo(
+           description: dashboard.description,
+          name: dashboard.name,
+          id: dashboard.id,
+        );
+        function(newDashboard);
+      }
+    });
     if (returnedId != null) {
       function(returnedId);
     }

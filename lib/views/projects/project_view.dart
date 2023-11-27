@@ -21,6 +21,8 @@ import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
 import 'package:ew_app/models/address_models.dart';
 
+import '../../models/dashboard_models.dart';
+
 class ProjectView extends StatefulWidget {
   const ProjectView({
     Key? key,
@@ -48,8 +50,18 @@ class _ProjectViewState extends State<ProjectView> {
     setState(() {});
   }
 
-  void updateDashboards(String dashboardId) {
-    widget.projectController.project.dashboardsList?.dashboards.removeWhere((dashboard) => dashboard.id == dashboardId);
+  void updateDashboards(var dashboardId) {
+    if (dashboardId is String) {
+      widget.projectController.project.dashboardsList?.dashboards.removeWhere((
+          dashboard) => dashboard.id == dashboardId);
+    } else if (dashboardId is DashboardShortInfo) {
+      var index = widget.projectController.project.dashboardsList?.dashboards.indexWhere(
+              (dashboard) => dashboard.id == dashboardId.id);
+
+      if (index != -1 && index != null) {
+        widget.projectController.project.dashboardsList?.dashboards[index] = dashboardId;
+      }
+    }
     setState(() {});
   }
 
@@ -302,7 +314,7 @@ class _ProjectViewState extends State<ProjectView> {
                     ),
                     for (var dashboard in project.dashboardsList!.dashboards)
                       ProjectDashboardWidget(
-                        dashboard: dashboard, function: updateDashboards,
+                        dashboard: dashboard, function: updateDashboards, projectId: widget.projectController.project.id
                       ),
                     _optionsButtonController.editable
                         ? Padding(

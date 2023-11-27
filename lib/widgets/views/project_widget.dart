@@ -152,11 +152,12 @@ class ProjectDashboardWidget extends StatefulWidget {
   const ProjectDashboardWidget({
     super.key,
     required this.dashboard,
-    required this.function,
+    required this.function, required this.projectId,
   });
 
   final DashboardShortInfo dashboard;
   final Function function;
+  final String projectId;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -164,6 +165,12 @@ class ProjectDashboardWidget extends StatefulWidget {
 }
 
 class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
+  @override
+  void initState() {
+    super.initState();
+    _dashboardController.projectId = widget.projectId;
+  }
+
   final DashboardController _dashboardController = DashboardController();
   bool showCircularProgressIndicator = false;
 
@@ -172,6 +179,7 @@ class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Container(
+        alignment: Alignment.centerLeft,
         padding: EdgeInsets.zero,
         height: 30,
         width: double.infinity,
@@ -190,19 +198,16 @@ class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
           style: TextButton.styleFrom(
             visualDensity: VisualDensity.compact,
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
+          child: Text(
                 widget.dashboard.name,
                 style: SafeGoogleFont(
                   'Poppins',
                   fontSize: 14.0,
                   color: Colors.white,
                 ),
-              ),
-            ],
+            textAlign: TextAlign.start,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ),

@@ -64,12 +64,10 @@ class _EditableResizedFieldWidgetState
   }
 
   void updateTextFieldText() {
-    if (widget.editable) {
       widget.textEditingController!.text = widget.initialText ?? '';
-    } else {
-      widget.textEditingController!.text = widget.initialText ?? '';
-    }
   }
+
+  TextEditingController textEditingController = TextEditingController();
 
   // TODO: add font weight and add display max lines and overflow
   @override
