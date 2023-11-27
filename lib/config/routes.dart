@@ -1,4 +1,5 @@
 import 'package:ew_app/controllers/gallery/gallery_controller.dart';
+import 'package:ew_app/controllers/gallery/single_image_view.dart';
 import 'package:ew_app/views/404_view.dart';
 import 'package:ew_app/views/auth/additional_information_view.dart';
 import 'package:ew_app/views/auth/almost_done_view.dart';
@@ -6,6 +7,7 @@ import 'package:ew_app/views/auth/check_email_view.dart';
 import 'package:ew_app/views/auth/forgot_password_view.dart';
 import 'package:ew_app/views/auth/landing_view.dart';
 import 'package:ew_app/views/coming_soon.dart';
+import 'package:ew_app/views/gallery/single_image_view.dart';
 import 'package:ew_app/views/projects/project_view.dart';
 import 'package:flutter/material.dart';
 import 'package:ew_app/views/home_view.dart';
