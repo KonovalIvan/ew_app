@@ -8,7 +8,15 @@ class SingleImage {
   final String id;
   final String image;
 
+  @JsonKey(name: 'image_name')
+  final String name;
+
+  @JsonKey(name: 'image_size')
+  final String size;
+
   SingleImage({
+    required this.name,
+    required this.size,
     required this.id,
     required this.image,
   });

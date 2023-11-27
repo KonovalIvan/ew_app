@@ -7,6 +7,8 @@ part of 'gallery_models.dart';
 // **************************************************************************
 
 SingleImage _$SingleImageFromJson(Map<String, dynamic> json) => SingleImage(
+      name: json['image_name'] as String,
+      size: json['image_size'] as String,
       id: json['id'] as String,
       image: json['image'] as String,
     );
@@ -15,6 +17,8 @@ Map<String, dynamic> _$SingleImageToJson(SingleImage instance) =>
     <String, dynamic>{
       'id': instance.id,
       'image': instance.image,
+      'image_name': instance.name,
+      'image_size': instance.size,
     };
 
 ImagesList _$ImagesListFromJson(Map<String, dynamic> json) => ImagesList(

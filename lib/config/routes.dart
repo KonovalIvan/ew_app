@@ -1,4 +1,5 @@
 import 'package:ew_app/controllers/gallery/gallery_controller.dart';
+import 'package:ew_app/controllers/gallery/single_image_view.dart';
 import 'package:ew_app/models/gallery_models.dart';
 import 'package:ew_app/views/404_view.dart';
 import 'package:ew_app/views/auth/additional_information_view.dart';
@@ -7,6 +8,7 @@ import 'package:ew_app/views/auth/check_email_view.dart';
 import 'package:ew_app/views/auth/forgot_password_view.dart';
 import 'package:ew_app/views/auth/landing_view.dart';
 import 'package:ew_app/views/coming_soon.dart';
+import 'package:ew_app/views/gallery/single_image_view.dart';
 import 'package:ew_app/views/projects/project_view.dart';
 import 'package:flutter/material.dart';
 import 'package:ew_app/views/home_view.dart';
@@ -35,29 +37,34 @@ final Map<String, WidgetBuilder> routes = {
   '/check_email': (BuildContext context) => const CheckEmailView(),
   '/almost_done': (BuildContext context) => const AlmostDoneView(),
   '/additional_information': (BuildContext context) =>
-  const AdditionalInformationView(),
+      const AdditionalInformationView(),
   '/projects_list': (BuildContext context) {
     final controller = HomeController();
     controller.projects(context);
     return const SizedBox();
   },
   '/project': (BuildContext context) {
-    final ProjectController controller = ModalRoute
-        .of(context)!
-        .settings
-        .arguments as ProjectController;
-    return ProjectView(projectController: controller,);
+    final ProjectController controller =
+        ModalRoute.of(context)!.settings.arguments as ProjectController;
+    return ProjectView(
+      projectController: controller,
+    );
   },
-
   '/dashboard': (BuildContext context) => const DashboardView(),
   '/task': (BuildContext context) => const TaskView(),
   '/my_task': (BuildContext context) => const MyTaskView(),
+  '/single_image': (BuildContext context) {
+    final dynamic arguments = ModalRoute.of(context)!.settings.arguments;
+    final SingleImageController controller = arguments.controller;
+    return SingleImageView(
+      singleImageController: controller,
+    );
+  },
   '/gallery': (BuildContext context) {
-    final dynamic arguments = ModalRoute
-        .of(context)!
-        .settings
-        .arguments;
+    final dynamic arguments = ModalRoute.of(context)!.settings.arguments;
     final GalleryController controller = arguments.controller;
-    return GalleryView(galleryController: controller,);
+    return GalleryView(
+      galleryController: controller,
+    );
   },
 };

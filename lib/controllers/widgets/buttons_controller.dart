@@ -1,6 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:ew_app/models/gallery_models.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+
+import '../../constants/url.dart';
+import '../projects/project_controller.dart';
 
 
 class BackArrowButtonController {
@@ -16,8 +24,76 @@ class MenuButtonController {
 }
 
 class AddFileButtonController {
-  void addFile(BuildContext context) {
-    Navigator.pushNamed(context, '/soon');
+  final ImagePicker _picker = ImagePicker();
+  late XFile pickedFile;
+  late String projectId;
+
+  Future _sendCreateImageRequest() async {
+    final prefs = await SharedPreferences.getInstance();
+    String accessToken = prefs.getString('accessToken') ?? '';
+
+    var updateUrl =
+    Uri.parse(apiImageCreateUrl);
+
+    var request = http.MultipartRequest('POST', updateUrl);
+    request.headers['Authorization'] = 'Token $accessToken';
+
+    var file = File(pickedFile.path);
+    var stream = http.ByteStream(file.openRead());
+    var length = await file.length();
+
+    var multipartFile = http.MultipartFile(
+      'image',
+      stream,
+      length,
+      filename: pickedFile.name,
+    );
+    request.files.add(multipartFile);
+    request.fields['project_id'] = projectId;
+    request.fields['image_name'] = pickedFile.name;
+
+    try {
+      var response = await request.send();
+      if (response.statusCode == 201) {
+        var responseData = await response.stream.bytesToString();
+        var data = jsonDecode(responseData);
+        return SingleImage.fromJson(data);
+      } else {
+        throw Exception('Failed to upload image');
+      }
+    } catch (error) {
+      throw Exception('Failed to upload image: $error');
+    }
+  }
+
+  Future<void> addFile(ProjectController projectController) async {
+      try {
+        projectId = projectController.project.id;
+        SingleImage image = await _sendCreateImageRequest();
+        projectController.project.imagesList?.images.add(image);
+      } catch (error) {
+        // TODO: catch errors!
+        print(error);
+        rethrow;
+      }
+    }
+
+   Future<void> getImageFromGallery(ProjectController projectController,) async {
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      this.pickedFile = pickedFile;
+      await addFile(projectController);
+    }
+  }
+
+  Future<void> getImageFromCamera(ProjectController projectController,) async {
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      this.pickedFile = pickedFile;
+      await addFile(projectController);
+    }
   }
 }
 
