@@ -105,6 +105,7 @@ class DashboardController {
   }
 
   void openTask(BuildContext context) {
+
     Navigator.pushNamed(context, '/task');
   }
 
@@ -140,7 +141,7 @@ class DashboardController {
     // TODO: when user edit dashboard need call void callback to update previous page with project info!
     // ignore: use_build_context_synchronously
     dynamic returnedId = await Navigator.pushNamed(context, '/dashboard',
-        arguments: dashboardController).then((result) {
+        arguments: DashboardArguments(dashboardController, function)).then((result) {
       if (result == true && updateProjectView == true) {
         DashboardShortInfo newDashboard = DashboardShortInfo(
            description: dashboard.description,
@@ -154,4 +155,11 @@ class DashboardController {
       function(returnedId);
     }
   }
+}
+
+class DashboardArguments {
+  final DashboardController dashboardController;
+  final Function updateDashboards;
+
+  DashboardArguments(this.dashboardController, this.updateDashboards);
 }

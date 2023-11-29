@@ -1,7 +1,8 @@
 import 'package:ew_app/constants/colors.dart';
-import 'package:ew_app/constants/styles.dart';
 import 'package:ew_app/controllers/gallery/gallery_controller.dart';
+import 'package:ew_app/models/gallery_models.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
+import 'package:ew_app/widgets/buttons/add_file_button_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:ew_app/widgets/fields/editable_resized_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -27,12 +28,19 @@ class NewProjectView extends StatefulWidget {
 
 class _NewProjectViewState extends State<NewProjectView> {
   final ProjectController _projectController = ProjectController();
-  final ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
+  ImagesList imagesList = ImagesList(images: []);
 
   @override
   void initState() {
     super.initState();
   }
+
+  // TODO: add adding images to not created project in backend
+  // void addImage(SingleImage image) {
+  //   imagesList.images.add(image);
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +54,7 @@ class _NewProjectViewState extends State<NewProjectView> {
         height: double.infinity,
         decoration: backgroundDecorationGradient,
         child: SingleChildScrollView(
-          controller: scrollController,
+          controller: _scrollController,
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -78,7 +86,7 @@ class _NewProjectViewState extends State<NewProjectView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SmallGalleryWidget(
-                            galleryController: GalleryController(imagesList: _projectController.project.imagesList!),
+                            galleryController: GalleryController(imagesList: imagesList),
                           ),
                           Column(
                             children: [
@@ -175,50 +183,6 @@ class _NewProjectViewState extends State<NewProjectView> {
                         fieldWidth: double.infinity,
                         editable: true,
                         helpText: 'Description',
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 33, bottom: 17),
-                      child: ExpansionTile(
-                        iconColor: const Color(0xFFAC33E5),
-                        collapsedIconColor: const Color(0xFF260975),
-                        title: Text(
-                          'Attachments',
-                          style: SafeGoogleFont(
-                            'Poppins',
-                            fontSize: 24.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        children: [
-                          ListTile(
-                            title: RichText(
-                              text: TextSpan(
-                                style: SafeGoogleFont(
-                                  'Poppins',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white,
-                                ),
-                                children: [
-                                  // TODO: create N elements with link to attachment
-                                  const TextSpan(text: 'archiver.rar'),
-                                  TextSpan(
-                                    text: ' (14 mb)',
-                                    style: SafeGoogleFont(
-                                      'Poppins',
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: const Color(0x40FFFFFF),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            onTap: () {},
-                          ),
-                          // const AddFileButtonWidget(),
-                        ],
                       ),
                     ),
                     MainButtonWidget(

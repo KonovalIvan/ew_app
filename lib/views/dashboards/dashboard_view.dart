@@ -14,10 +14,14 @@ import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 import 'package:ew_app/widgets/views/task_short_description_widget.dart';
 
 class DashboardView extends StatefulWidget {
-  const DashboardView({Key? key, required this.dashboardController})
-      : super(key: key);
+  const DashboardView({
+    Key? key,
+    required this.dashboardController,
+    required this.updateDashboards,
+  }) : super(key: key);
 
   final DashboardController dashboardController;
+  final Function updateDashboards;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -90,7 +94,6 @@ class _DashboardViewState extends State<DashboardView> {
                               done: task.finished,
                               projectName: widget
                                   .dashboardController.dashboard.projectName,
-                              // "$baseApiUrl$baseAuthUrl/user-details/"
                               lastActivity:
                                   "${task.updateDate.hour}:${task.updateDate.minute}",
                             ),
@@ -143,10 +146,17 @@ class _DashboardViewState extends State<DashboardView> {
                     });
                   },
                   onPressedYes: () async {
-                    await _optionsButtonController.pressYesDelete(
-                        context,
-                        apiDashboardDeleteUrl,
-                        widget.dashboardController.dashboard.id);
+                    await _optionsButtonController
+                        .pressYesDelete(
+                      context,
+                      apiDashboardDeleteUrl,
+                      widget.dashboardController.dashboard.id,
+                    )
+                        .then((result) {
+                      widget.updateDashboards(
+                        widget.dashboardController.dashboard.id,
+                      );
+                    });
                   },
                 )
               : Container(),

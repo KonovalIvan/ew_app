@@ -52,11 +52,10 @@ final Map<String, WidgetBuilder> routes = {
   },
 
   '/dashboard': (BuildContext context) {
-    final DashboardController controller = ModalRoute
-        .of(context)!
-        .settings
-        .arguments as DashboardController;
-    return DashboardView(dashboardController: controller,);
+    final dynamic arguments = ModalRoute.of(context)!.settings.arguments;
+    final DashboardController controller = arguments.dashboardController;
+    final Function updateDashboards = arguments.updateDashboards;
+    return DashboardView(dashboardController: controller, updateDashboards: updateDashboards);
   },
 
   '/task': (BuildContext context) => const TaskView(),

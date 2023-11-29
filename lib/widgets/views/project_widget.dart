@@ -152,7 +152,8 @@ class ProjectDashboardWidget extends StatefulWidget {
   const ProjectDashboardWidget({
     super.key,
     required this.dashboard,
-    required this.function, required this.projectId,
+    required this.function,
+    required this.projectId,
   });
 
   final DashboardShortInfo dashboard;
@@ -178,36 +179,34 @@ class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
-      child: Container(
-        alignment: Alignment.centerLeft,
-        padding: EdgeInsets.zero,
-        height: 30,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: const Color(0x40FFFFFF),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: TextButton(
-          onPressed: () {
-            const Padding(
-                padding: EdgeInsets.only(top: 100),
-                child: CircularProgressIndicator());
-            _dashboardController.openDashboard(context, widget.dashboard.id,
-                _dashboardController, widget.function);
-          },
-          style: TextButton.styleFrom(
-            visualDensity: VisualDensity.compact,
+      child: GestureDetector(
+        onTap: () {
+          const CircularProgressIndicator();
+          _dashboardController.openDashboard(context, widget.dashboard.id,
+              _dashboardController, widget.function);
+        },
+        child: Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.zero,
+          height: 30,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: const Color(0x40FFFFFF),
+            borderRadius: BorderRadius.circular(10),
           ),
-          child: Text(
-                widget.dashboard.name,
-                style: SafeGoogleFont(
-                  'Poppins',
-                  fontSize: 14.0,
-                  color: Colors.white,
-                ),
-            textAlign: TextAlign.start,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          child: Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: Text(
+              widget.dashboard.name,
+              style: SafeGoogleFont(
+                'Poppins',
+                fontSize: 14.0,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.start,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
       ),

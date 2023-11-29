@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:ew_app/controllers/projects/project_controller.dart';
 
 class AddFileButtonWidget extends StatefulWidget {
-  const AddFileButtonWidget({super.key, required this.projectController, required this.update});
+  const AddFileButtonWidget({
+    super.key,
+    required this.projectController,
+    required this.update,
+  });
 
   final ProjectController projectController;
   final Function update;
@@ -16,42 +20,6 @@ class AddFileButtonWidget extends StatefulWidget {
 }
 
 class _AddFileButtonWidgetState extends State<AddFileButtonWidget> {
-  final AddFileButtonController _addFileButtonController =
-  AddFileButtonController();
-
-  void _showImagePicker(BuildContext context) {
-    // TODO: think how can i use showModalBottomSheet in options (edit delete) menu
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: Wrap(
-            children: [
-              ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Gallery'),
-                onTap: () async {
-                  await _addFileButtonController.getImageFromGallery(widget.projectController);
-                  widget.update();
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.camera_alt),
-                title: const Text('Camera'),
-                onTap: () async {
-                  await _addFileButtonController.getImageFromCamera(widget.projectController);
-                  widget.update();
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,7 +31,7 @@ class _AddFileButtonWidgetState extends State<AddFileButtonWidget> {
       ),
       child: TextButton(
         onPressed: () {
-          _showImagePicker(context);
+          showImagePicker(context, widget.update, widget.projectController);
         },
         child: Text(
           'Tap to add Files',
@@ -77,4 +45,45 @@ class _AddFileButtonWidgetState extends State<AddFileButtonWidget> {
       ),
     );
   }
+}
+
+void showImagePicker(
+  BuildContext context,
+  Function update,
+  ProjectController projectController,
+) {
+  final AddFileButtonController _addFileButtonController =
+      AddFileButtonController();
+
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Gallery'),
+              onTap: () async {
+                await _addFileButtonController
+                    .getImageFromGallery(projectController);
+                update();
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Camera'),
+              onTap: () async {
+                await _addFileButtonController
+                    .getImageFromCamera(projectController);
+                update();
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
