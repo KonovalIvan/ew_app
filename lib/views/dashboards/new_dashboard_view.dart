@@ -7,7 +7,7 @@ import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
 import 'package:ew_app/widgets/fields/editable_resized_field_widget.dart';
 
-//
+
 class NewDashboardView extends StatefulWidget {
   const NewDashboardView({
     Key? key,

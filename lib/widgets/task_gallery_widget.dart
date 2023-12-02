@@ -1,10 +1,12 @@
+import 'package:ew_app/widgets/buttons/add_file_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class TaskGalleryWidget extends StatefulWidget {
   final int galleryCountElements;
+  final Function updateImagesList;
 
-  const TaskGalleryWidget({super.key, required this.galleryCountElements});
+  const TaskGalleryWidget({super.key, required this.galleryCountElements, required this.updateImagesList});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -72,7 +74,8 @@ class _TaskGalleryWidgetState extends State<TaskGalleryWidget> {
                     } else {
                       return GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, '/soon');
+                          showImagePicker(context, widget.updateImagesList, null, true);
+                          // Navigator.pushNamed(context, '/soon');
                         },
                         child:
                             galleryIcon(context, 'assets/icons/add_image.svg'),

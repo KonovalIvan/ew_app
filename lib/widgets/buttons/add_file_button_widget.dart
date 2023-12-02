@@ -3,6 +3,7 @@ import 'package:ew_app/controllers/widgets/buttons_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ew_app/controllers/projects/project_controller.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddFileButtonWidget extends StatefulWidget {
   const AddFileButtonWidget({
@@ -31,7 +32,7 @@ class _AddFileButtonWidgetState extends State<AddFileButtonWidget> {
       ),
       child: TextButton(
         onPressed: () {
-          showImagePicker(context, widget.update, widget.projectController);
+          showImagePicker(context, widget.update, widget.projectController, null);
         },
         child: Text(
           'Tap to add Files',
@@ -50,7 +51,8 @@ class _AddFileButtonWidgetState extends State<AddFileButtonWidget> {
 void showImagePicker(
   BuildContext context,
   Function update,
-  ProjectController projectController,
+  ProjectController? projectController,
+  bool? updateImageList,
 ) {
   final AddFileButtonController _addFileButtonController =
       AddFileButtonController();
@@ -65,9 +67,9 @@ void showImagePicker(
               leading: const Icon(Icons.photo_library),
               title: const Text('Gallery'),
               onTap: () async {
-                await _addFileButtonController
-                    .getImageFromGallery(projectController);
-                update();
+                XFile? xfile = await _addFileButtonController
+                    .getImageFromGallery(projectController, updateImageList ?? false);
+                update(xfile);
                 Navigator.pop(context);
               },
             ),
@@ -76,7 +78,7 @@ void showImagePicker(
               title: const Text('Camera'),
               onTap: () async {
                 await _addFileButtonController
-                    .getImageFromCamera(projectController);
+                    .getImageFromCamera(projectController, updateImageList ?? false);
                 update();
                 Navigator.pop(context);
               },

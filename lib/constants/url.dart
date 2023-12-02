@@ -18,6 +18,13 @@ String apiDashboardInfoUrl = "$baseApiUrl$baseDashboardUrl/{id}/";
 String apiDashboardUpdateUrl = "$baseApiUrl$baseDashboardUrl/{id}/";
 String apiDashboardDeleteUrl = "$baseApiUrl$baseDashboardUrl/{id}/";
 
+// Tasks url`s
+const String baseTaskUrl = '/task';
+String apiTaskCreateUrl = "$baseApiUrl$baseTaskUrl/create/";
+// String apiTaskCreateInfoUrl = "$baseApiUrl$baseDashboardUrl/{id}/";
+// String apiTaskCreateUpdateUrl = "$baseApiUrl$baseDashboardUrl/{id}/";
+// String apiTaskCreateDeleteUrl = "$baseApiUrl$baseDashboardUrl/{id}/";
+
 // Authentication url`s
 const String baseAuthUrl = '/authentication';
 String apiAuthLoginUrl = "$baseApiUrl$baseAuthUrl/login/";

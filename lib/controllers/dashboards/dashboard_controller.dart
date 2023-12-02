@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ew_app/models/dashboard_models.dart';
+import 'package:ew_app/views/tasks/new_task_view.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -100,8 +101,20 @@ class DashboardController {
     return true;
   }
 
-  void newTask(BuildContext context) {
-    Navigator.pushNamed(context, '/task');
+  void newTask(BuildContext context, String dashboardId, VoidCallback voidCallback) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => NewTaskView(
+          dashboardId: dashboardId,
+        ),
+      ),
+    ).then((returnedDashboard) {
+      // if (returnedDashboard != null) {
+      //   project.dashboardsList!.dashboards.add(returnedDashboard);
+      //   voidCallback();
+      // }
+    });
   }
 
   void openTask(BuildContext context) {

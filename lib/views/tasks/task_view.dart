@@ -102,10 +102,10 @@ class _TaskViewState extends State<TaskView> {
                               ' projektu, dlatego liczymy na Państwa zaangażowanie'
                               ' i profesjonalizm w działaniu.'),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 1),
-                      child: TaskGalleryWidget(galleryCountElements: 21),
-                    ),
+                    // const Padding(
+                    //   padding: EdgeInsets.only(top: 1),
+                    //   child: TaskGalleryWidget(galleryCountElements: 21),
+                    // ),
                     const Padding(
                       padding: EdgeInsets.only(top: 18),
                       child: CommentWidget(),

@@ -66,11 +66,14 @@ class AddFileButtonController {
     }
   }
 
-  Future<void> addFile(ProjectController projectController) async {
+  Future<void> addFile(ProjectController? projectController) async {
       try {
-        projectId = projectController.project.id;
         SingleImage image = await _sendCreateImageRequest();
-        projectController.project.imagesList?.images.add(image);
+
+        if (projectController != null) {
+          projectId = projectController.project.id;
+        }
+        projectController!.project.imagesList?.images.add(image);
       } catch (error) {
         // TODO: catch errors!
         print(error);
@@ -78,22 +81,30 @@ class AddFileButtonController {
       }
     }
 
-   Future<void> getImageFromGallery(ProjectController projectController,) async {
+   Future<XFile?> getImageFromGallery(ProjectController? projectController, bool returnXFile) async {
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
+      if (returnXFile) {
+        return pickedFile;
+      }
       this.pickedFile = pickedFile;
       await addFile(projectController);
     }
+    return null;
   }
 
-  Future<void> getImageFromCamera(ProjectController projectController,) async {
+  Future<XFile?> getImageFromCamera(ProjectController? projectController, bool returnXFile) async {
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
+      if (returnXFile) {
+        return pickedFile;
+      }
       this.pickedFile = pickedFile;
       await addFile(projectController);
     }
+    return null;
   }
 }
 

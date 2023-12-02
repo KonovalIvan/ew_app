@@ -32,6 +32,10 @@ class _DashboardViewState extends State<DashboardView> {
   final OptionsButtonController _optionsButtonController =
       OptionsButtonController();
 
+  void updateTasks() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +109,7 @@ class _DashboardViewState extends State<DashboardView> {
                 _optionsButtonController.editable == false
                     ? MainButtonWidget(
                         onPressed: () {
-                          widget.dashboardController.newTask(context);
+                          widget.dashboardController.newTask(context, widget.dashboardController.dashboard.id, updateTasks);
                         },
                         buttonColor: const Color(0x9037E888),
                         buttonText: 'New',
