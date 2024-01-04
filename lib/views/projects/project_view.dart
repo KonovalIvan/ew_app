@@ -23,6 +23,8 @@ import 'package:ew_app/models/address_models.dart';
 
 import 'package:ew_app/models/dashboard_models.dart';
 
+import '../../models/gallery_models.dart';
+
 class ProjectView extends StatefulWidget {
   const ProjectView({
     Key? key,
@@ -46,6 +48,9 @@ class _ProjectViewState extends State<ProjectView> {
     super.initState();
   }
 
+  void updateImageList(SingleImage singleImage) {
+    setState(() {});
+  }
   void update() {
     setState(() {});
   }
@@ -133,7 +138,6 @@ class _ProjectViewState extends State<ProjectView> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // TODO: FIX GALLERY, when update view, gallery is broke
                           SmallGalleryWidget(
                             galleryController: GalleryController(imagesList: project.imagesList!),
                             imagesList: project.imagesList,
@@ -274,7 +278,7 @@ class _ProjectViewState extends State<ProjectView> {
                           for (var imageShortInfo in widget
                               .projectController.project.imagesList!.images)
                             AttachmentInfoWidget(
-                              imageShortInfo: imageShortInfo,
+                              singleImage: imageShortInfo,
                               deleteImageVoid: deleteImage,
                             ),
                           GestureDetector(
@@ -284,14 +288,14 @@ class _ProjectViewState extends State<ProjectView> {
                                 builder: (BuildContext context) {
                                   return AddFileButtonWidget(
                                     projectController: widget.projectController,
-                                    update: update,
+                                    update: updateImageList,
                                   );
                                 },
                               );
                             },
                             child: AddFileButtonWidget(
                               projectController: widget.projectController,
-                              update: update,
+                              update: updateImageList,
                             ),
                           ),
                         ],

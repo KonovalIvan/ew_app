@@ -1,3 +1,4 @@
+import 'package:ew_app/constants/url.dart';
 import 'package:ew_app/widgets/fields/editable_resized_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,13 +8,14 @@ class AddCommentFieldWidget extends StatefulWidget {
   final Function sendComment;
   final Function updateTaskView;
   final String? commentId;
+  final String? userAvatarUrl;
 
   const AddCommentFieldWidget({
     super.key,
     this.fieldWidth = 170,
     required this.sendComment,
     this.commentId,
-    required this.updateTaskView,
+    required this.updateTaskView, this.userAvatarUrl,
   });
 
   @override
@@ -26,6 +28,7 @@ class _AddCommentFieldWidgetState extends State<AddCommentFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.userAvatarUrl);
     return Container(
       width: widget.fieldWidth,
       decoration: BoxDecoration(
@@ -45,12 +48,29 @@ class _AddCommentFieldWidgetState extends State<AddCommentFieldWidget> {
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 4),
-            child: Image.asset(
-              'assets/images/base_user_profile.png',
-              width: 23,
-              height: 23,
-              fit: BoxFit.fill,
+            child: ClipOval(
+              child: Visibility(
+                visible: widget.userAvatarUrl != null,
+                replacement: Image.asset(
+                  'assets/images/base_user_profile.png',
+                  width: 23,
+                  height: 23,
+                  fit: BoxFit.fill,
+                ),
+                child: Image.network(
+                  '$baseUrl${widget.userAvatarUrl}',
+                  width: 23,
+                  height: 23,
+                  fit: BoxFit.fill,
+                ),
+              ),
             ),
+            // child: Image.asset(
+            //   'assets/images/base_user_profile.png',
+            //   width: 23,
+            //   height: 23,
+            //   fit: BoxFit.fill,
+            // ),
           ),
           Expanded(
             child: EditableResizedFieldWidget(

@@ -14,11 +14,13 @@ class CommentWidget extends StatefulWidget {
     required this.comment,
     required this.sendComment,
     required this.updateTaskView,
+    this.userAvatarUrl,
   });
 
   final Comment comment;
   final Function sendComment;
   final Function updateTaskView;
+  final String? userAvatarUrl;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -184,6 +186,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                   updateTaskView: widget.updateTaskView,
                                   commentId: widget.comment.id,
                                   fieldWidth: double.infinity,
+                                  userAvatarUrl: widget.userAvatarUrl,
                                 ),
                               ),
                             ],

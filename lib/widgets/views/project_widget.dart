@@ -217,11 +217,11 @@ class _ProjectDashboardWidgetState extends State<ProjectDashboardWidget> {
 class AttachmentInfoWidget extends StatefulWidget {
   const AttachmentInfoWidget({
     super.key,
-    required this.imageShortInfo,
+    required this.singleImage,
     required this.deleteImageVoid,
   });
 
-  final SingleImage imageShortInfo;
+  final SingleImage singleImage;
   final Function(String) deleteImageVoid;
 
   @override
@@ -235,7 +235,8 @@ class _AttachmentInfoWidgetState extends State<AttachmentInfoWidget> {
     return GestureDetector(
       onTap: () {
         SingleImageController singleImageController = SingleImageController();
-        singleImageController.image = widget.imageShortInfo as SingleImageShortInfo;
+        SingleImageShortInfo singleImageShortInfo = SingleImageShortInfo(id: widget.singleImage.id, image: widget.singleImage.image);
+        singleImageController.image = singleImageShortInfo;
         singleImageController.openImage(
             context, singleImageController, widget.deleteImageVoid);
       },
@@ -245,7 +246,7 @@ class _AttachmentInfoWidgetState extends State<AttachmentInfoWidget> {
           children: [
             Expanded(
               child: Text(
-                widget.imageShortInfo.name,
+                widget.singleImage.name,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 style: SafeGoogleFont(
@@ -258,7 +259,7 @@ class _AttachmentInfoWidgetState extends State<AttachmentInfoWidget> {
             ),
             const SizedBox(width: 10),
             Text(
-              ' ${widget.imageShortInfo.size}',
+              ' ${widget.singleImage.size}',
               style: SafeGoogleFont(
                 'Poppins',
                 fontSize: 14,

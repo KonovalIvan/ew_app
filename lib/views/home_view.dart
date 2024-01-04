@@ -17,6 +17,11 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final HomeController _homeController = HomeController();
 
+  void updateView() {
+    print(_homeController.user.avatar);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +31,7 @@ class _HomeViewState extends State<HomeView> {
       ),
       drawer: const MainDrawer(),
       body: FutureBuilder<void>(
-        future: _homeController.getUserInfo(),
+        future: _homeController.getUserInfo(null),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // TODO: In future projects in view i can add bool, and if true use
@@ -46,8 +51,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                 ),
-                const Center(
-                    child: CircularProgressIndicator()),
+                const Center(child: CircularProgressIndicator()),
               ],
             );
           } else if (snapshot.hasError) {
@@ -55,12 +59,10 @@ class _HomeViewState extends State<HomeView> {
           } else {
             return Column(
               children: [
-                // TODO: create updated projects/task in case user back
                 UserCardWidget(
-                  activeProjects: _homeController.activeProjects,
-                  activeTasks: _homeController.activeTasks,
-                  userFirstName: _homeController.userFirstName,
-                  email: _homeController.email,
+                  user: _homeController.user,
+                  activeProjectsAndTasks:
+                      _homeController.activeProjectsAndTasks,
                 ),
                 Container(
                   padding: const EdgeInsets.only(top: 28.0),
@@ -84,7 +86,7 @@ class _HomeViewState extends State<HomeView> {
                           textColor: Colors.white,
                           buttonText: 'Projects',
                           onPressed: () {
-                            _homeController.projects(context);
+                            _homeController.projects(context, updateView);
                           },
                         ),
                       ),

@@ -57,7 +57,6 @@ class LoginController {
       final loginResponse = await _sendLoginRequest();
       prefs.setString('accessToken', loginResponse.accessToken);
       prefs.setString('refreshToken', loginResponse.refreshToken);
-      prefs.setString('username', email);
       Navigator.pushNamed(context, '/home');
     } catch (error) {
       showError = true;

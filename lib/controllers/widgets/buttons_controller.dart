@@ -10,9 +10,8 @@ import 'package:http/http.dart' as http;
 import '../../constants/url.dart';
 import '../projects/project_controller.dart';
 
-
 class BackArrowButtonController {
-  void back(BuildContext context, bool update) {
+  void back(BuildContext context, Object update) {
     Navigator.of(context).pop(update);
   }
 }
@@ -26,15 +25,14 @@ class MenuButtonController {
 class AddFileButtonController {
   final ImagePicker _picker = ImagePicker();
   late XFile pickedFile;
-  late String projectId;
-  late String? taskId;
+  String? projectId;
+  String? taskId;
 
   Future _sendCreateImageRequest() async {
     final prefs = await SharedPreferences.getInstance();
     String accessToken = prefs.getString('accessToken') ?? '';
 
-    var updateUrl =
-    Uri.parse(apiImageCreateUrl);
+    var updateUrl = Uri.parse(apiImageCreateUrl);
 
     var request = http.MultipartRequest('POST', updateUrl);
     request.headers['Authorization'] = 'Token $accessToken';
@@ -50,8 +48,10 @@ class AddFileButtonController {
       filename: pickedFile.name,
     );
     request.files.add(multipartFile);
-    request.fields['project_id'] = projectId;
     request.fields['image_name'] = pickedFile.name;
+    if (projectId != null) {
+      request.fields['project_id'] = projectId!;
+    }
     if (taskId != null) {
       request.fields['task_id'] = taskId!;
     }
@@ -71,23 +71,29 @@ class AddFileButtonController {
   }
 
   Future<SingleImage> addFile(ProjectController? projectController) async {
-      try {
-        SingleImage image = await _sendCreateImageRequest();
-
-        if (projectController != null) {
-          projectId = projectController.project.id;
-          projectController.project.imagesList?.images.add(image);
-        }
-        return image;
-      } catch (error) {
-        // TODO: catch errors!
-        print(error);
-        rethrow;
+    try {
+      if (projectController != null) {
+        print('asd');
+        projectId = projectController.project.id;
       }
-    }
+      print(projectId);
 
-   Future<Object?> getImageFromGallery(ProjectController? projectController, bool returnXFile) async {
-    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      SingleImage image = await _sendCreateImageRequest();
+
+      projectController?.project.imagesList?.images.add(image);
+
+      return image;
+    } catch (error) {
+      // TODO: catch errors!
+      print(error);
+      rethrow;
+    }
+  }
+
+  Future<Object?> getImageFromGallery(
+      ProjectController? projectController, bool returnXFile) async {
+    final XFile? pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       if (returnXFile) {
@@ -100,8 +106,10 @@ class AddFileButtonController {
     return null;
   }
 
-  Future<Object?> getImageFromCamera(ProjectController? projectController, bool returnXFile) async {
-    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
+  Future<Object?> getImageFromCamera(
+      ProjectController? projectController, bool returnXFile) async {
+    final XFile? pickedFile =
+        await _picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
       if (returnXFile) {
@@ -151,7 +159,6 @@ class OptionsButtonController {
   void updateVisibleMenu() {
     _visibleOptionsMenu = !_visibleOptionsMenu;
   }
-
 
   void pressNoDelete() {
     visibleDeleteMenu = false;

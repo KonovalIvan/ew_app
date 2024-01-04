@@ -1,18 +1,19 @@
 import 'package:ew_app/constants/styles.dart';
+import 'package:ew_app/models/active_projects_and_task.dart';
+import 'package:ew_app/models/user_models.dart';
 import 'package:flutter/material.dart';
 
-class UserCardWidget extends StatefulWidget {
-  const UserCardWidget(
-      {super.key,
-      required this.activeProjects,
-      required this.activeTasks,
-      required this.userFirstName,
-      required this.email});
+import '../../constants/url.dart';
 
-  final int activeProjects;
-  final int activeTasks;
-  final String userFirstName;
-  final String email;
+class UserCardWidget extends StatefulWidget {
+  const UserCardWidget({
+    super.key,
+    required this.activeProjectsAndTasks,
+    required this.user,
+  });
+
+  final ActiveProjectsAndTasks activeProjectsAndTasks;
+  final User user;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -60,7 +61,7 @@ class _UserCardWidgetState extends State<UserCardWidget> {
                   fontWeight: FontWeight.w400,
                   color: Colors.white,
                 ),
-                widget.activeProjects.toString(),
+                widget.activeProjectsAndTasks.activeProjects.toString(),
               ),
               Text(
                 style: SafeGoogleFont(
@@ -82,19 +83,29 @@ class _UserCardWidgetState extends State<UserCardWidget> {
                 Container(
                   width: 100,
                   height: 100,
-                  margin: EdgeInsets.only(bottom: 22, top: 50),
+                  margin: const EdgeInsets.only(
+                    bottom: 22,
+                    top: 50,
+                  ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.width / 2.0),
+                      MediaQuery.of(context).size.width / 2.0,
+                    ),
                   ),
                   // TODO: add progress bar
-                  child: Image.asset(
-                    // TODO: add server image send and show
-                    'assets/images/base_user_profile.png',
-                  ),
+                  child: widget.user.avatar == ''
+                      ? Image.asset(
+                          'assets/images/base_user_profile.png',
+                        )
+                      : ClipOval(
+                          child: Image.network(
+                            '$baseUrl${widget.user.avatar}',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
                 ),
                 Text(
-                  widget.userFirstName,
+                  '${widget.user.firstName} ${widget.user.lastName}',
                   style: SafeGoogleFont(
                     'Poppins',
                     fontSize: 18,
@@ -111,7 +122,7 @@ class _UserCardWidgetState extends State<UserCardWidget> {
                       fontWeight: FontWeight.w400,
                       color: Colors.white,
                     ),
-                    widget.email,
+                    widget.user.email,
                   ),
                 ),
               ],
@@ -127,7 +138,7 @@ class _UserCardWidgetState extends State<UserCardWidget> {
                   fontWeight: FontWeight.w400,
                   color: Colors.white,
                 ),
-                widget.activeTasks.toString(),
+                widget.activeProjectsAndTasks.activeTasks.toString(),
               ),
               Text(
                 style: SafeGoogleFont(

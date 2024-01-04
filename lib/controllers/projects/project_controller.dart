@@ -63,15 +63,17 @@ class ProjectController {
     return requestData;
   }
 
-  Future _sendProjectInfoRequest(String accessToken, String projectId) async {
+  Future _sendProjectInfoRequest(String projectId) async {
+    final prefs = await SharedPreferences.getInstance();
+    String accessToken = prefs.getString('accessToken') ?? '';
+
     final url = Uri.parse(apiProjectInfoUrl.replaceFirst('{id}', projectId));
     final response =
         await http.get(url, headers: {'Authorization': 'Token $accessToken'});
     final data = jsonDecode(response.body);
-    // TODO: Fix gallery
+    print(data);
     if (response.statusCode == 200) {
-      final projectInfoResponse = ProjectInfo.fromJson(data);
-      return projectInfoResponse;
+      return ProjectInfo.fromJson(data);
     } else {
       // TODO: add custom exception here and everywhere we use throw!
       throw Exception;
@@ -79,12 +81,9 @@ class ProjectController {
   }
 
   Future<void> getProjectsInfo(String projectId) async {
-    final prefs = await SharedPreferences.getInstance();
-    String accessToken = prefs.getString('accessToken') ?? '';
-
     try {
       final projectInfoResponse =
-          await _sendProjectInfoRequest(accessToken, projectId);
+          await _sendProjectInfoRequest(projectId);
       project = projectInfoResponse;
     } catch (error) {
       // TODO: catch errors!
@@ -114,7 +113,7 @@ class ProjectController {
 
     var requestBody = await createRequestBody();
     // TODO: add changing designer
-    requestBody['designer_email'] = prefs.getString('username');
+    requestBody['designer_email'] = 'ivank';
 
     var updateUrl =
         Uri.parse(apiProjectUpdateUrl.replaceFirst('{id}', project.id));
@@ -150,7 +149,9 @@ class ProjectController {
     String accessToken = prefs.getString('accessToken') ?? '';
     // TODO: fix updating api/projects/projects-tasks-active/
     var requestBody = await createRequestBody(create: true);
-    requestBody['designer_email'] = prefs.getString('username');
+    //TODO: change designer email
+    requestBody['designer_email'] = 'ivank';
+
     var createUrl = Uri.parse(apiProjectCreateUrl);
     final response = await http.post(
       createUrl,
@@ -162,7 +163,9 @@ class ProjectController {
     );
     final data = jsonDecode(response.body);
     if (response.statusCode == 201) {
-      return ProjectInfo.fromJson(data);
+      ProjectInfo projectInfo = ProjectInfo.fromJson(data);
+      // prefs.setInt('activeProjects', prefs.getInt('activeProjects')! + 1);
+      return projectInfo;
     } else {
       throw Exception;
     }
