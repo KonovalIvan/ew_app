@@ -22,15 +22,30 @@ class UserPart {
 }
 
 @JsonSerializable()
+class UserAvatar {
+  final String? avatar;
+
+  UserAvatar(this.avatar);
+
+  factory UserAvatar.fromJson(Map<String, dynamic> json) =>
+      _$UserAvatarFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserAvatarToJson(this);
+}
+
+@JsonSerializable()
 class User extends UserPart {
   final String username;
   final String email;
+
+  final String? avatar;
 
   User(
     String? firstName,
     String? lastName, {
     required this.username,
     required this.email,
+    required this.avatar,
   }) : super(firstName ?? '', lastName ?? '');
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

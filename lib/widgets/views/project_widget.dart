@@ -218,11 +218,11 @@ class AttachmentInfoWidget extends StatefulWidget {
   const AttachmentInfoWidget({
     super.key,
     required this.imageShortInfo,
-    required this.voidCallback,
+    required this.deleteImageVoid,
   });
 
   final SingleImage imageShortInfo;
-  final Function(String) voidCallback;
+  final Function(String) deleteImageVoid;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -235,9 +235,9 @@ class _AttachmentInfoWidgetState extends State<AttachmentInfoWidget> {
     return GestureDetector(
       onTap: () {
         SingleImageController singleImageController = SingleImageController();
-        singleImageController.image = widget.imageShortInfo;
+        singleImageController.image = widget.imageShortInfo as SingleImageShortInfo;
         singleImageController.openImage(
-            context, singleImageController, widget.voidCallback);
+            context, singleImageController, widget.deleteImageVoid);
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10),

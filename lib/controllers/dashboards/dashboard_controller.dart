@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ew_app/models/dashboard_models.dart';
+import 'package:ew_app/views/tasks/new_task_view.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -48,13 +49,12 @@ class DashboardController {
     }
   }
 
-  Future<DashboardShortInfo> createDashboard(
+  Future<void> createDashboard(
       BuildContext context, String projectId) async {
     try {
       DashboardShortInfo dashboard =
           await _sendCreateDashboardRequest(projectId);
       Navigator.pop(context, dashboard);
-      return dashboard;
     } catch (error) {
       // TODO: catch errors!
       print(error);
@@ -100,13 +100,19 @@ class DashboardController {
     return true;
   }
 
-  void newTask(BuildContext context) {
-    Navigator.pushNamed(context, '/task');
-  }
-
-  void openTask(BuildContext context) {
-
-    Navigator.pushNamed(context, '/task');
+  void newTask(BuildContext context, String dashboardId, Function voidCallback) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => NewTaskView(
+          dashboardId: dashboardId,
+        ),
+      ),
+    ).then((returnedTask) {
+      if (returnedTask != null) {
+        voidCallback(returnedTask);
+      }
+    });
   }
 
   Future<DashboardInfo> _getDashboardInfo(String dashboardId) async {

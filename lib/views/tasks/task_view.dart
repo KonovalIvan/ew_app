@@ -1,12 +1,15 @@
 import 'package:ew_app/constants/colors.dart';
 import 'package:ew_app/constants/styles.dart';
+import 'package:ew_app/constants/url.dart';
 import 'package:ew_app/controllers/widgets/buttons_controller.dart';
+import 'package:ew_app/models/gallery_models.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/back_arrow_button_widget.dart';
 import 'package:ew_app/widgets/buttons/delete_confirm_button_widget.dart';
 import 'package:ew_app/widgets/fields/add_comment_field_widget.dart';
 import 'package:ew_app/widgets/fields/editable_resized_field_widget.dart';
 import 'package:ew_app/widgets/options_widget.dart';
+import 'package:ew_app/widgets/task_gallery_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ew_app/widgets/buttons/options_button_widget.dart';
@@ -14,10 +17,14 @@ import 'package:ew_app/widgets/buttons/options_button_widget.dart';
 import 'package:ew_app/controllers/tasks/task_controller.dart';
 import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 import 'package:ew_app/widgets/comment_widget.dart';
-import 'package:ew_app/widgets/task_gallery_widget.dart';
 
 class TaskView extends StatefulWidget {
-  const TaskView({Key? key}) : super(key: key);
+  final TaskController taskController;
+
+  const TaskView({
+    Key? key,
+    required this.taskController,
+  }) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -27,17 +34,29 @@ class TaskView extends StatefulWidget {
 class _TaskViewState extends State<TaskView> {
   final OptionsButtonController _optionsButtonController =
       OptionsButtonController();
-  final TaskController _taskController = TaskController();
   final ScrollController _scrollController = ScrollController();
 
   void updateVisibleStatusList(String status) {
     setState(() {
-      _taskController.updateVisibleStatusList(status: status);
+      widget.taskController.updateVisibleStatusList(status: status);
     });
+  }
+
+  void updateImageList(SingleImage singleImage) {
+    SingleImageShortInfo singleImageShortInfo =
+        SingleImageShortInfo(id: singleImage.id, image: singleImage.image);
+    widget.taskController.taskFullInfo.gallery!.images
+        .add(singleImageShortInfo);
+    updateView();
+  }
+
+  void updateView() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    final task = widget.taskController.taskFullInfo;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBarWidget(
@@ -58,25 +77,34 @@ class _TaskViewState extends State<TaskView> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 14.0,
-                  right: 14.0,
-                  top: 100.0,
+              Container(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height,
                 ),
-                child: Column(
-                  children: [
-                    EditableResizedFieldWidget(
-                      editable: _optionsButtonController.editable,
-                      helpText: 'New task',
-                      helpTextSize: 20,
-                      inputTextSize: 20,
-                      buttonColor: const Color(0x00FFFFFF),
-                      fieldWidth: 330,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 28),
-                      child: EditableResizedFieldWidget(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 14.0,
+                    right: 14.0,
+                    top: 100.0,
+                  ),
+                  child: Column(
+                    children: [
+                      EditableResizedFieldWidget(
+                        textEditingController:
+                            widget.taskController.nameController,
+                        editable: _optionsButtonController.editable,
+                        initialText: task.name,
+                        helpText: 'Task name',
+                        helpTextSize: 20,
+                        inputTextSize: 20,
+                        buttonColor: const Color(0x00FFFFFF),
+                        fieldWidth: 330,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 28),
+                        child: EditableResizedFieldWidget(
+                          textEditingController:
+                              widget.taskController.descriptionController,
                           editable: _optionsButtonController.editable,
                           helpText: 'Description',
                           helpTextSize: 15,
@@ -85,103 +113,100 @@ class _TaskViewState extends State<TaskView> {
                           inputTextColor: const Color(0xFF000000),
                           buttonColor: const Color(0xFFDFDCE5),
                           fieldWidth: 330,
-                          initialText:
-                              'Projekt budowlany "Nowa Siedziba Firmy XYZ"'
-                              ' wymaga natychmiastowej uwagi w związku z widocznymi'
-                              ' opóźnieniami w pracach montażowych dotyczących'
-                              ' stropu. Klient zgłasza, że proces montażu nie'
-                              ' przebiega zgodnie z planem i może to wpłynąć na '
-                              'termin realizacji całego projektu. Prosimy o '
-                              'bezzwłoczne działania w celu zidentyfikowania '
-                              'przyczyny opóźnień oraz podjęcia środków naprawczych'
-                              ' w celu usprawnienia procesu montażu. W razie'
-                              ' potrzeby prosimy o skonsultowanie się z'
-                              ' odpowiednimi specjalistami i zarządem projektu w'
-                              ' celu znalezienia optymalnych rozwiązań. Terminowość'
-                              ' i jakość realizacji są kluczowe dla sukcesu tego'
-                              ' projektu, dlatego liczymy na Państwa zaangażowanie'
-                              ' i profesjonalizm w działaniu.'),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 1),
-                      child: TaskGalleryWidget(galleryCountElements: 21),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 18),
-                      child: CommentWidget(),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 18),
-                      child: CommentWidget(),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 18),
-                      child: AddCommentFieldWidget(fieldWidth: 312),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 30),
-                      width: 312,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _taskController.visibleStatusList == false
-                              ? GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _taskController.updateVisibleStatusList();
-                                    });
-                                  },
-                                  child: taskStatusView(
-                                      _taskController.taskStatus),
-                                )
-                              : taskStatusListView(updateVisibleStatusList),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                'Created by Ivan',
-                                style: SafeGoogleFont(
-                                  'Poppins',
-                                  fontSize: 13.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              Text(
-                                '27.05.23',
-                                style: SafeGoogleFont(
-                                  'Poppins',
-                                  fontSize: 13.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
+                          initialText: task.description,
+                        ),
                       ),
-                    ),
-                    _optionsButtonController.editable
-                        ? MainButtonWidget(
-                            buttonColor: const Color(0x9037E888),
-                            pathToSvg: 'assets/icons/done.svg',
-                            onPressed: () {
-                              setState(() {
-                                // _optionsButtonController.updateProject(context, );
-                              });
-                            },
-                          )
-                        : const SizedBox(
-                            width: 0,
-                            height: 0,
-                          )
-                  ],
+                      // TODO: change open single image after tap on image to open gallery
+                      Padding(
+                        padding: const EdgeInsets.only(top: 1),
+                        child: TaskGalleryWidget(
+                          galleryElements:
+                              widget.taskController.taskFullInfo.gallery,
+                          updateImagesList: updateImageList,
+                          projectId:
+                              widget.taskController.taskFullInfo.projectId,
+                          taskId: widget.taskController.taskFullInfo.id,
+                        ),
+                      ),
+                      if (task.comments != null)
+                        for (var comment in task.comments!)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 18),
+                            child: CommentWidget(
+                              comment: comment,
+                              updateTaskView: updateView,
+                              sendComment: widget.taskController.sendComment,
+                            ),
+                          ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        child: AddCommentFieldWidget(
+                          fieldWidth: 312,
+                          updateTaskView: updateView,
+                          sendComment: widget.taskController.sendComment,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        width: 312,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            widget.taskController.visibleStatusList == false
+                                ? GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        widget.taskController
+                                            .updateVisibleStatusList();
+                                      });
+                                    },
+                                    child: taskStatusView(
+                                        widget.taskController.taskStatus),
+                                  )
+                                : taskStatusListView(updateVisibleStatusList),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Created at ${widget.taskController.taskFullInfo.createDate}',
+                                  style: SafeGoogleFont(
+                                    'Poppins',
+                                    fontSize: 13.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      _optionsButtonController.editable
+                          ? MainButtonWidget(
+                              buttonColor: const Color(0x9037E888),
+                              pathToSvg: 'assets/icons/done.svg',
+                              onPressed: () async {
+                                widget.taskController.updateTaskView = true;
+                                _optionsButtonController.editable =
+                                    await widget.taskController.updateTask();
+                                setState(() {
+                                });
+                              },
+                            )
+                          : const SizedBox(
+                              width: 0,
+                              height: 0,
+                            )
+                    ],
+                  ),
                 ),
               ),
               _optionsButtonController.visibleOptionsMenu
                   ? Positioned.fill(
                       child: Container(
                         color: const Color(0x70000000),
+                        height: double.infinity,
+                        width: double.infinity,
                       ),
                     )
                   : Container(),
@@ -214,7 +239,10 @@ class _TaskViewState extends State<TaskView> {
                       onPressedYes: () {
                         setState(
                           () {
-                            // _optionsButtonController.pressYesDelete(context);
+                            _optionsButtonController.pressYesDelete(
+                                context,
+                                apiTaskDeleteUrl,
+                                widget.taskController.taskFullInfo.id);
                           },
                         );
                       },

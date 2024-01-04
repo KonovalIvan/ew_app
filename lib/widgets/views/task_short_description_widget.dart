@@ -1,23 +1,24 @@
+import 'package:ew_app/controllers/tasks/task_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:ew_app/constants/styles.dart';
 
+import 'package:ew_app/models/task_models.dart';
+
 class TaskShortDescriptionWidget extends StatefulWidget {
-  const TaskShortDescriptionWidget(
-      {Key? key,
-        required this.done,
-        required this.taskName,
-        required this.projectName,
-        required this.lastActivity, required this.onPressed})
-      : super(key: key);
+  const TaskShortDescriptionWidget({
+    Key? key,
+    required this.projectName,
+    required this.taskShortInfo,
+    required this.deleteTaskFunction,
+    required this.updateTaskListFunction,
+  }) : super(key: key);
 
-  final String taskName;
   final String projectName;
-  final String lastActivity;
-  final VoidCallback onPressed;
-  final bool done;
-
+  final TaskShortInfo taskShortInfo;
+  final Function deleteTaskFunction;
+  final Function updateTaskListFunction;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -27,12 +28,18 @@ class TaskShortDescriptionWidget extends StatefulWidget {
 
 class _TaskShortDescriptionWidgetState
     extends State<TaskShortDescriptionWidget> {
+  TaskController taskController = TaskController();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        widget.onPressed();
+        taskController.openTask(
+            context,
+            widget.taskShortInfo.id,
+            taskController,
+            widget.deleteTaskFunction,
+            widget.updateTaskListFunction);
       },
       child: Container(
         padding: const EdgeInsets.only(bottom: 7),
@@ -42,7 +49,7 @@ class _TaskShortDescriptionWidgetState
             Padding(
               padding: const EdgeInsets.only(right: 6, top: 6),
               child: SvgPicture.asset(
-                widget.done == true
+                widget.taskShortInfo.finished == true
                     ? 'assets/icons/done.svg'
                     : 'assets/icons/accept_ring.svg',
                 width: 20,
@@ -55,13 +62,16 @@ class _TaskShortDescriptionWidgetState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.taskName,
+                    widget.taskShortInfo.name,
                     style: SafeGoogleFont('Poppins',
                         fontSize: 20.0,
-                        color: widget.done ? const Color(0x80FFFFFF) : Colors.white,
+                        color: widget.taskShortInfo.finished
+                            ? const Color(0x80FFFFFF)
+                            : Colors.white,
                         fontWeight: FontWeight.w400,
-                        decoration:
-                        widget.done ? TextDecoration.lineThrough : null,
+                        decoration: widget.taskShortInfo.finished
+                            ? TextDecoration.lineThrough
+                            : null,
                         decorationThickness: 2.0),
                     textAlign: TextAlign.left,
                     maxLines: 3,
@@ -92,7 +102,7 @@ class _TaskShortDescriptionWidgetState
                             fit: BoxFit.fill,
                           ),
                           Text(
-                            widget.lastActivity,
+                            widget.taskShortInfo.updateDate,
                             style: SafeGoogleFont(
                               'Poppins',
                               fontSize: 15.0,

@@ -2,6 +2,22 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'gallery_models.g.dart';
 
+@JsonSerializable()
+class SingleImageShortInfo {
+  final String id;
+  final String image;
+
+
+  SingleImageShortInfo({
+    required this.id,
+    required this.image,
+  });
+
+  factory SingleImageShortInfo.fromJson(Map<String, dynamic> json) =>
+      _$SingleImageShortInfoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SingleImageShortInfoToJson(this);
+}
 
 @JsonSerializable()
 class SingleImage {
@@ -27,6 +43,20 @@ class SingleImage {
   Map<String, dynamic> toJson() => _$SingleImageToJson(this);
 }
 
+@JsonSerializable()
+class ImageShortInfoList {
+  final List<SingleImageShortInfo> images;
+
+  ImageShortInfoList({required this.images});
+
+  factory ImageShortInfoList.fromJson(List<dynamic> json) {
+    List<SingleImageShortInfo> imagesList = [];
+    for (var item in json ?? []) {
+      imagesList.add(SingleImageShortInfo.fromJson(item));
+    }
+    return ImageShortInfoList(images: imagesList);
+  }
+}
 
 @JsonSerializable()
 class ImagesList {

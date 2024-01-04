@@ -25,6 +25,7 @@ import 'package:ew_app/controllers/home_controller.dart';
 
 import '../controllers/dashboards/dashboard_controller.dart';
 import '../controllers/projects/project_controller.dart';
+import '../controllers/tasks/task_controller.dart';
 
 final Map<String, WidgetBuilder> routes = {
   '/': (BuildContext context) => const LandingView(),
@@ -58,7 +59,11 @@ final Map<String, WidgetBuilder> routes = {
     return DashboardView(dashboardController: controller, updateDashboards: updateDashboards);
   },
 
-  '/task': (BuildContext context) => const TaskView(),
+  '/task': (BuildContext context) {
+    final dynamic arguments = ModalRoute.of(context)!.settings.arguments;
+    final TaskController controller = arguments.taskController;
+    return TaskView(taskController: controller);
+  },
   '/my_task': (BuildContext context) => MyTaskView(dashboardController: DashboardController()),
   '/single_image': (BuildContext context) {
     final dynamic arguments = ModalRoute.of(context)!.settings.arguments;

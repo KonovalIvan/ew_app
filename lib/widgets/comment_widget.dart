@@ -1,12 +1,24 @@
 import 'package:ew_app/constants/styles.dart';
+import 'package:ew_app/constants/url.dart';
 import 'package:ew_app/widgets/fields/add_comment_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:ew_app/controllers/tasks/comment_controller.dart';
 
+import '../models/comments_models.dart';
+
 class CommentWidget extends StatefulWidget {
-  const CommentWidget({super.key});
+  const CommentWidget({
+    super.key,
+    required this.comment,
+    required this.sendComment,
+    required this.updateTaskView,
+  });
+
+  final Comment comment;
+  final Function sendComment;
+  final Function updateTaskView;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -26,7 +38,6 @@ class _CommentWidgetState extends State<CommentWidget> {
       },
       child: Container(
         width: 312,
-        // height: 100,
         decoration: BoxDecoration(
           color: const Color(0x80C4C4C4),
           borderRadius: BorderRadius.circular(10),
@@ -43,11 +54,22 @@ class _CommentWidgetState extends State<CommentWidget> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                'assets/images/base_user_profile.png',
-                width: 25,
-                height: 25,
-                fit: BoxFit.fill,
+              ClipOval(
+                child: Visibility(
+                  visible: widget.comment.avatar != null,
+                  replacement: Image.asset(
+                    'assets/images/base_user_profile.png',
+                    width: 25,
+                    height: 25,
+                    fit: BoxFit.fill,
+                  ),
+                  child: Image.network(
+                    '$baseUrl${widget.comment.avatar}',
+                    width: 25,
+                    height: 25,
+                    fit: BoxFit.fill,
+                  ),
+                ),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -55,8 +77,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Widoczne opóźnienia w pracach związanych z montażem stropu. '
-                      'Proszę podjąć działania w celu usprawnienia procesu montażu)',
+                      widget.comment.description,
                       style: SafeGoogleFont(
                         'Poppins',
                         fontSize: 14,
@@ -67,7 +88,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: Text(
-                        '27.05.2023',
+                        widget.comment.updateDate,
                         style: SafeGoogleFont(
                           'Poppins',
                           fontSize: 14,
@@ -91,8 +112,82 @@ class _CommentWidgetState extends State<CommentWidget> {
                           )
                         : Container(),
                     _commentController.showHistory == true
-                        ? const AddCommentFieldWidget(
-                            fieldWidth: double.infinity)
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (widget.comment.replies != null)
+                                for (var reply in widget.comment.replies!)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 20),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                reply.description,
+                                                style: SafeGoogleFont(
+                                                  'Poppins',
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5),
+                                                child: Text(
+                                                  reply.updateDate,
+                                                  style: SafeGoogleFont(
+                                                    'Poppins',
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: ClipOval(
+                                            child: Visibility(
+                                              visible: reply.avatar != null,
+                                              replacement: Image.asset(
+                                                'assets/images/base_user_profile.png',
+                                                width: 25,
+                                                height: 25,
+                                                fit: BoxFit.fill,
+                                              ),
+                                              child: Image.network(
+                                                '$baseUrl${reply.avatar}',
+                                                width: 25,
+                                                height: 25,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20),
+                                child: AddCommentFieldWidget(
+                                  sendComment: widget.sendComment,
+                                  updateTaskView: widget.updateTaskView,
+                                  commentId: widget.comment.id,
+                                  fieldWidth: double.infinity,
+                                ),
+                              ),
+                            ],
+                          )
                         : Container(),
                   ],
                 ),
@@ -104,4 +199,3 @@ class _CommentWidgetState extends State<CommentWidget> {
     );
   }
 }
-

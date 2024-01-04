@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ew_app/models/gallery_models.dart';
 
 class SingleImageController {
-  late SingleImage image;
+  late SingleImageShortInfo image;
 
   Future _sendImageDeleteRequest(String imageId) async {
     final prefs = await SharedPreferences.getInstance();

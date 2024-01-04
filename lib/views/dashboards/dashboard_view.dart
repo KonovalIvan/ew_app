@@ -13,6 +13,8 @@ import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
 import 'package:ew_app/widgets/views/task_short_description_widget.dart';
 
+import 'package:ew_app/models/task_models.dart';
+
 class DashboardView extends StatefulWidget {
   const DashboardView({
     Key? key,
@@ -31,6 +33,32 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   final OptionsButtonController _optionsButtonController =
       OptionsButtonController();
+
+  void addTaskToList(TaskShortInfo taskShortInfo) {
+    widget.dashboardController.dashboard.tasksList!.tasks.add(taskShortInfo);
+    updateDashboardView();
+  }
+
+  void removeTaskFromList(String taskId) {
+    widget.dashboardController.dashboard.tasksList!.tasks
+        .removeWhere((task) => task.id == taskId);
+    updateDashboardView();
+  }
+
+  void updateTaskInList(TaskShortInfo taskShortInfo) {
+    var index = widget.dashboardController.dashboard.tasksList?.tasks
+        .indexWhere((task) => task.id == taskShortInfo.id);
+
+    if (index != -1 && index != null) {
+      widget.dashboardController.dashboard.tasksList?.tasks[index] =
+          taskShortInfo;
+    }
+    updateDashboardView();
+  }
+
+  void updateDashboardView() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,15 +115,11 @@ class _DashboardViewState extends State<DashboardView> {
                           for (var task in widget
                               .dashboardController.dashboard.tasksList!.tasks)
                             TaskShortDescriptionWidget(
-                              onPressed: () {
-                                widget.dashboardController.openTask(context);
-                              },
-                              taskName: task.name,
-                              done: task.finished,
+                              taskShortInfo: task,
                               projectName: widget
                                   .dashboardController.dashboard.projectName,
-                              lastActivity:
-                                  "${task.updateDate.hour}:${task.updateDate.minute}",
+                              deleteTaskFunction: removeTaskFromList,
+                              updateTaskListFunction: updateTaskInList,
                             ),
                         ],
                       ),
@@ -105,7 +129,10 @@ class _DashboardViewState extends State<DashboardView> {
                 _optionsButtonController.editable == false
                     ? MainButtonWidget(
                         onPressed: () {
-                          widget.dashboardController.newTask(context);
+                          widget.dashboardController.newTask(
+                              context,
+                              widget.dashboardController.dashboard.id,
+                              addTaskToList);
                         },
                         buttonColor: const Color(0x9037E888),
                         buttonText: 'New',
