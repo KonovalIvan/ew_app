@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:ew_app/controllers/home_controller.dart';
+import 'package:ew_app/models/active_projects_and_task.dart';
 import 'package:ew_app/models/project_models.dart';
+import 'package:ew_app/models/user_models.dart';
 import 'package:ew_app/views/projects/new_project_view.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,17 +49,17 @@ class ProjectsListController {
     }
   }
 
-  Future<void> getProjectsInfo(bool ignorePrefs) async {
+  Future<void> getProjectsInfo(bool? ignorePrefs) async {
     final prefs = await SharedPreferences.getInstance();
     String accessToken = prefs.getString('accessToken') ?? '';
     String projectsShortInfoList =
         prefs.getString('projectsShortInfoList') ?? '';
-    if (projectsShortInfoList.isNotEmpty && !ignorePrefs) {
+    if (projectsShortInfoList.isNotEmpty && !ignorePrefs!) {
       List<dynamic> jsonList = jsonDecode(projectsShortInfoList);
       projects = ProjectsShortInfoList.fromJson(jsonList).projects.toList();
     }
 
-    if (projectsShortInfoList.isEmpty || ignorePrefs) {
+    if (projectsShortInfoList.isEmpty || ignorePrefs!) {
       try {
         final projectsShortInfoListResponse =
             await _sendProjectsShortInfoListRequest(accessToken, prefs);
@@ -67,4 +70,12 @@ class ProjectsListController {
       }
     }
   }
+
+  Future<(User, ActiveProjectsAndTasks)> refreshProjectListPage() async {
+    HomeController controller = HomeController();
+    await controller.getUserInfo(true);
+    await getProjectsInfo(true);
+    return (controller.user, controller.activeProjectsAndTasks);
+  }
+
 }

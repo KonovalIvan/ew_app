@@ -35,7 +35,6 @@ class UserAvatar {
 
 @JsonSerializable()
 class User extends UserPart {
-  final String username;
   final String email;
 
   final String? avatar;
@@ -43,7 +42,6 @@ class User extends UserPart {
   User(
     String? firstName,
     String? lastName, {
-    required this.username,
     required this.email,
     required this.avatar,
   }) : super(firstName ?? '', lastName ?? '');

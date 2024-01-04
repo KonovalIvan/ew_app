@@ -3,7 +3,6 @@ import 'package:ew_app/controllers/widgets/buttons_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ew_app/controllers/projects/project_controller.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AddFileButtonWidget extends StatefulWidget {
   final ProjectController projectController;
@@ -34,6 +33,7 @@ class _AddFileButtonWidgetState extends State<AddFileButtonWidget> {
         onPressed: () {
           showImagePicker(
               context, widget.update, null, widget.projectController, null);
+
         },
         child: Text(
           'Tap to add Files',

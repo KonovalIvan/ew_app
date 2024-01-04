@@ -10,11 +10,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController {
-  late String userFirstName;
-  late String userLastName;
-  late String email;
-  int activeProjects = 0;
-  int activeTasks = 0;
+  // TODO: change user and activeProjectsAndTasks to one model
+  late User user;
+  late ActiveProjectsAndTasks activeProjectsAndTasks;
 
   Future _sendUserDetailRequest(String accessToken) async {
     final url = Uri.parse(apiAuthUserDetailUrl);
@@ -44,31 +42,48 @@ class HomeController {
     }
   }
 
-  Future<void> getUserInfo() async {
+  Future<void> getUserInfo(bool? forceUpdate) async {
     final prefs = await SharedPreferences.getInstance();
-    userFirstName = prefs.getString('userFirstName') ?? '';
-    userLastName = prefs.getString('userLastName') ?? '';
-    email = prefs.getString('email') ?? '';
-    String accessToken = prefs.getString('accessToken') ?? '';
+    String? userFirstName = prefs.getString('userFirstName');
+    String? userLastName = prefs.getString('userLastName');
+    String email = prefs.getString('email') ?? '';
+    String? userAvatar = prefs.getString('userAvatar');
 
-    if (userFirstName.isEmpty || userLastName.isEmpty || email.isEmpty) {
+    if (email.isEmpty || forceUpdate == true) {
       try {
-        final userDetailResponse = await _sendUserDetailRequest(accessToken);
-        prefs.setString('userFirstName', userDetailResponse.firstName);
-        prefs.setString('userLastName', userDetailResponse.lastName);
-        prefs.setString('email', userDetailResponse.email);
+        String accessToken = prefs.getString('accessToken') ?? '';
+        user = await _sendUserDetailRequest(accessToken);
+
+        prefs.setString('userFirstName', user.firstName);
+        prefs.setString('userLastName', user.lastName);
+        prefs.setString('email', user.email);
+        prefs.setString('userAvatar', user.avatar ?? '');
       } catch (error) {
         print(error);
       }
+    } else {
+      user =
+          User(userFirstName, userLastName, email: email, avatar: userAvatar);
     }
+
     // TODO: catch errors! In case we get 401 redirect user to login view
-    try {
-      final activeProjectsAndTasksResponse =
-          await _sendActiveProjectsAndTasksRequest(accessToken);
-      activeProjects = activeProjectsAndTasksResponse.activeProjects;
-      activeTasks = activeProjectsAndTasksResponse.activeTasks;
-    } catch (error) {
-      print(error);
+    int? activeTasks = prefs.getInt('activeTasks');
+    int? activeProjects = prefs.getInt('activeProjects');
+
+    if (activeTasks == null || activeProjects == null || forceUpdate == true) {
+      try {
+        String accessToken = prefs.getString('accessToken') ?? '';
+        final activeProjectsAndTasksResponse =
+            await _sendActiveProjectsAndTasksRequest(accessToken);
+        activeProjectsAndTasks = activeProjectsAndTasksResponse;
+        prefs.setInt('activeTasks', activeProjectsAndTasks.activeTasks);
+        prefs.setInt('activeProjects', activeProjectsAndTasks.activeProjects);
+      } catch (error) {
+        print(error);
+      }
+    } else {
+      activeProjectsAndTasks = ActiveProjectsAndTasks(
+          activeTasks: activeTasks, activeProjects: activeProjects);
     }
   }
 
@@ -76,21 +91,26 @@ class HomeController {
     Navigator.pushNamed(context, '/my_task');
   }
 
-  Future<void> projects(BuildContext context) async {
-    await getUserInfo();
+  Future<void> projects(BuildContext context, Function? updateHomeView) async {
+    await getUserInfo(null);
     // ignore: use_build_context_synchronously
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ProjectsListView(
-          activeProjects: activeProjects,
-          activeTasks: activeTasks,
-          userFirstName: userFirstName,
-          email: email,
-          userLastName: userLastName,
+          user: user,
+          activeProjectsAndTasks: activeProjectsAndTasks,
         ),
       ),
-    );
+    ).then((result) {
+      if (result is (User, ActiveProjectsAndTasks) && updateHomeView != null) {
+        var (returnedUser, returnedActiveProjectsAndTasks) = result;
+        user = returnedUser;
+        print(user.avatar);
+        activeProjectsAndTasks = returnedActiveProjectsAndTasks;
+        updateHomeView();
+      }
+    });
   }
 
   void calculator(BuildContext context) {

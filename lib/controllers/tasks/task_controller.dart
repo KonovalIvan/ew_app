@@ -12,6 +12,8 @@ class TaskController {
   bool visibleStatusList = false;
   String taskStatus = 'In progress';
 
+
+  String userAvatar = '';
   late TaskFullInfo taskFullInfo;
   late String dashboardId;
   bool updateTaskView = false;
@@ -128,10 +130,7 @@ class TaskController {
     }
   }
 
-  Future<TaskFullInfo> _getTaskInfo(String taskId) async {
-    final prefs = await SharedPreferences.getInstance();
-    String accessToken = prefs.getString('accessToken') ?? '';
-
+  Future<TaskFullInfo> _getTaskInfo(String taskId, String accessToken) async {
     final url = Uri.parse(apiTaskInfoUrl.replaceFirst('{id}', taskId));
 
     final response = await http.get(
@@ -156,7 +155,12 @@ class TaskController {
     Function deleteTaskFromList,
     Function updateTaskList,
   ) async {
-    taskFullInfo = await _getTaskInfo(taskId);
+    final prefs = await SharedPreferences.getInstance();
+    String accessToken = prefs.getString('accessToken') ?? '';
+
+    taskFullInfo = await _getTaskInfo(taskId, accessToken);
+    userAvatar = prefs.getString('userAvatar') ?? '';
+
     // ignore: use_build_context_synchronously
     dynamic resultId = await Navigator.pushNamed(context, '/task',
         arguments: TaskArguments(taskController));

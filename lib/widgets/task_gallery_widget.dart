@@ -11,14 +11,12 @@ import '../controllers/gallery/single_image_view.dart';
 class TaskGalleryWidget extends StatefulWidget {
   final ImageShortInfoList? galleryElements;
   final Function updateImagesList;
-  final String projectId;
   final String taskId;
 
   const TaskGalleryWidget({
     super.key,
     required this.galleryElements,
     required this.updateImagesList,
-    required this.projectId,
     required this.taskId,
   });
 
@@ -40,7 +38,6 @@ class _TaskGalleryWidgetState extends State<TaskGalleryWidget> {
   @override
   Widget build(BuildContext context) {
     int elementCount = widget.galleryElements?.images.length ?? 0;
-    addFileButtonController.projectId = widget.projectId;
     addFileButtonController.taskId = widget.taskId;
 
     final itemCount = _showAllContainers

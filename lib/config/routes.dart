@@ -41,7 +41,7 @@ final Map<String, WidgetBuilder> routes = {
       const AdditionalInformationView(),
   '/projects_list': (BuildContext context) {
     final controller = HomeController();
-    controller.projects(context);
+    controller.projects(context, null);
     return const SizedBox();
   },
   '/project': (BuildContext context) {

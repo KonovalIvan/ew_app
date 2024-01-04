@@ -123,8 +123,6 @@ class _TaskViewState extends State<TaskView> {
                           galleryElements:
                               widget.taskController.taskFullInfo.gallery,
                           updateImagesList: updateImageList,
-                          projectId:
-                              widget.taskController.taskFullInfo.projectId,
                           taskId: widget.taskController.taskFullInfo.id,
                         ),
                       ),
@@ -136,6 +134,7 @@ class _TaskViewState extends State<TaskView> {
                               comment: comment,
                               updateTaskView: updateView,
                               sendComment: widget.taskController.sendComment,
+                              userAvatarUrl: widget.taskController.userAvatar,
                             ),
                           ),
                       Padding(
@@ -144,6 +143,7 @@ class _TaskViewState extends State<TaskView> {
                           fieldWidth: 312,
                           updateTaskView: updateView,
                           sendComment: widget.taskController.sendComment,
+                          userAvatarUrl: widget.taskController.userAvatar,
                         ),
                       ),
                       Container(

@@ -14,7 +14,7 @@ class BackArrowButtonWidget extends StatefulWidget {
   final double fieldHeight;
   final double fieldWidth;
   final Color arrowColor;
-  final bool update;
+  final Object update;
 
   @override
   // ignore: library_private_types_in_public_api

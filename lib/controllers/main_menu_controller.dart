@@ -48,14 +48,13 @@ class MainMenuController {
     Navigator.pushNamed(context, '/soon');
   }
 
-  Future<void> _removeAccessTokens() async {
+  Future<void> _removeCashe() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('accessToken', '');
-    prefs.setString('refreshToken', '');
+    prefs.clear();
   }
 
   Future<void> logOut(BuildContext context) async {
-    _removeAccessTokens();
+    _removeCashe();
     Navigator.pushNamed(context, '/');
   }
 }
