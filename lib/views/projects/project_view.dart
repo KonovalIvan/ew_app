@@ -21,7 +21,7 @@ import 'package:ew_app/widgets/buttons/main_button_widget.dart';
 
 import 'package:ew_app/models/address_models.dart';
 
-import '../../models/dashboard_models.dart';
+import 'package:ew_app/models/dashboard_models.dart';
 
 class ProjectView extends StatefulWidget {
   const ProjectView({
@@ -275,7 +275,7 @@ class _ProjectViewState extends State<ProjectView> {
                               .projectController.project.imagesList!.images)
                             AttachmentInfoWidget(
                               imageShortInfo: imageShortInfo,
-                              voidCallback: deleteImage,
+                              deleteImageVoid: deleteImage,
                             ),
                           GestureDetector(
                             onTap: () {

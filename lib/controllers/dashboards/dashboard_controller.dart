@@ -49,13 +49,12 @@ class DashboardController {
     }
   }
 
-  Future<DashboardShortInfo> createDashboard(
+  Future<void> createDashboard(
       BuildContext context, String projectId) async {
     try {
       DashboardShortInfo dashboard =
           await _sendCreateDashboardRequest(projectId);
       Navigator.pop(context, dashboard);
-      return dashboard;
     } catch (error) {
       // TODO: catch errors!
       print(error);
@@ -101,7 +100,7 @@ class DashboardController {
     return true;
   }
 
-  void newTask(BuildContext context, String dashboardId, VoidCallback voidCallback) {
+  void newTask(BuildContext context, String dashboardId, Function voidCallback) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -109,17 +108,11 @@ class DashboardController {
           dashboardId: dashboardId,
         ),
       ),
-    ).then((returnedDashboard) {
-      // if (returnedDashboard != null) {
-      //   project.dashboardsList!.dashboards.add(returnedDashboard);
-      //   voidCallback();
-      // }
+    ).then((returnedTask) {
+      if (returnedTask != null) {
+        voidCallback(returnedTask);
+      }
     });
-  }
-
-  void openTask(BuildContext context) {
-
-    Navigator.pushNamed(context, '/task');
   }
 
   Future<DashboardInfo> _getDashboardInfo(String dashboardId) async {

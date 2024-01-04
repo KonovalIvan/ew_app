@@ -79,10 +79,10 @@ class _NewTaskViewState extends State<NewTaskView> {
                     fieldWidth: 330,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 1),
-                  child: TaskGalleryWidget(galleryCountElements: imageList.length, updateImagesList: updateImageList,),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 1),
+                //   child: TaskGalleryWidget(galleryCountElements: imageList.length, updateImagesList: updateImageList,),
+                // ),
                 MainButtonWidget(
                   buttonColor: const Color(0x9037E888),
                   pathToSvg: 'assets/icons/done.svg',

@@ -40,33 +40,6 @@ class _MyTaskViewState extends State<MyTaskView> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              TaskShortDescriptionWidget(
-                onPressed: () {
-                  widget.dashboardController.openTask(context);
-                },
-                taskName: 'Zaprojektowanie układu pomieszczeń',
-                done: false,
-                projectName: 'Nowa Siedziba Firmy XYZ',
-                lastActivity: '10:00',
-              ),
-              TaskShortDescriptionWidget(
-                onPressed: () {
-                  widget.dashboardController.openTask(context);
-                },
-                taskName: 'Zaprojektowanie układu pomieszczeń',
-                done: false,
-                projectName: 'Nowa Siedziba Firmy XYZ',
-                lastActivity: '10:00',
-              ),
-              TaskShortDescriptionWidget(
-                onPressed: () {
-                  widget.dashboardController.openTask(context);
-                },
-                taskName: 'Zaprojektowanie układu pomieszczeń',
-                done: false,
-                projectName: 'Nowa Siedziba Firmy XYZ',
-                lastActivity: '10:00',
-              ),
             ],
           ),
         ),

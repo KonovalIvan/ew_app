@@ -6,14 +6,14 @@ import 'package:ew_app/controllers/projects/project_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddFileButtonWidget extends StatefulWidget {
+  final ProjectController projectController;
+  final Function update;
+
   const AddFileButtonWidget({
     super.key,
     required this.projectController,
     required this.update,
   });
-
-  final ProjectController projectController;
-  final Function update;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -32,7 +32,8 @@ class _AddFileButtonWidgetState extends State<AddFileButtonWidget> {
       ),
       child: TextButton(
         onPressed: () {
-          showImagePicker(context, widget.update, widget.projectController, null);
+          showImagePicker(
+              context, widget.update, null, widget.projectController, null);
         },
         child: Text(
           'Tap to add Files',
@@ -51,11 +52,12 @@ class _AddFileButtonWidgetState extends State<AddFileButtonWidget> {
 void showImagePicker(
   BuildContext context,
   Function update,
+  AddFileButtonController? addFileButtonController,
   ProjectController? projectController,
   bool? updateImageList,
 ) {
   final AddFileButtonController _addFileButtonController =
-      AddFileButtonController();
+      addFileButtonController ?? AddFileButtonController();
 
   showModalBottomSheet(
     context: context,
@@ -67,9 +69,10 @@ void showImagePicker(
               leading: const Icon(Icons.photo_library),
               title: const Text('Gallery'),
               onTap: () async {
-                XFile? xfile = await _addFileButtonController
-                    .getImageFromGallery(projectController, updateImageList ?? false);
-                update(xfile);
+                var file =
+                    await _addFileButtonController.getImageFromGallery(
+                        projectController, updateImageList ?? false);
+                update(file);
                 Navigator.pop(context);
               },
             ),
@@ -77,9 +80,9 @@ void showImagePicker(
               leading: const Icon(Icons.camera_alt),
               title: const Text('Camera'),
               onTap: () async {
-                await _addFileButtonController
-                    .getImageFromCamera(projectController, updateImageList ?? false);
-                update();
+                var file = await _addFileButtonController.getImageFromCamera(
+                    projectController, updateImageList ?? false);
+                update(file);
                 Navigator.pop(context);
               },
             ),

@@ -27,6 +27,7 @@ class AddFileButtonController {
   final ImagePicker _picker = ImagePicker();
   late XFile pickedFile;
   late String projectId;
+  late String? taskId;
 
   Future _sendCreateImageRequest() async {
     final prefs = await SharedPreferences.getInstance();
@@ -51,6 +52,9 @@ class AddFileButtonController {
     request.files.add(multipartFile);
     request.fields['project_id'] = projectId;
     request.fields['image_name'] = pickedFile.name;
+    if (taskId != null) {
+      request.fields['task_id'] = taskId!;
+    }
 
     try {
       var response = await request.send();
@@ -66,14 +70,15 @@ class AddFileButtonController {
     }
   }
 
-  Future<void> addFile(ProjectController? projectController) async {
+  Future<SingleImage> addFile(ProjectController? projectController) async {
       try {
         SingleImage image = await _sendCreateImageRequest();
 
         if (projectController != null) {
           projectId = projectController.project.id;
+          projectController.project.imagesList?.images.add(image);
         }
-        projectController!.project.imagesList?.images.add(image);
+        return image;
       } catch (error) {
         // TODO: catch errors!
         print(error);
@@ -81,7 +86,7 @@ class AddFileButtonController {
       }
     }
 
-   Future<XFile?> getImageFromGallery(ProjectController? projectController, bool returnXFile) async {
+   Future<Object?> getImageFromGallery(ProjectController? projectController, bool returnXFile) async {
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
@@ -89,12 +94,13 @@ class AddFileButtonController {
         return pickedFile;
       }
       this.pickedFile = pickedFile;
-      await addFile(projectController);
+      SingleImage image = await addFile(projectController);
+      return image;
     }
     return null;
   }
 
-  Future<XFile?> getImageFromCamera(ProjectController? projectController, bool returnXFile) async {
+  Future<Object?> getImageFromCamera(ProjectController? projectController, bool returnXFile) async {
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
@@ -102,7 +108,8 @@ class AddFileButtonController {
         return pickedFile;
       }
       this.pickedFile = pickedFile;
-      await addFile(projectController);
+      SingleImage image = await addFile(projectController);
+      return image;
     }
     return null;
   }
@@ -145,10 +152,6 @@ class OptionsButtonController {
     _visibleOptionsMenu = !_visibleOptionsMenu;
   }
 
-  void updateProject() {
-    // TODO: send saved project to backend
-    _editable = false;
-  }
 
   void pressNoDelete() {
     visibleDeleteMenu = false;

@@ -1,28 +1,53 @@
+import 'package:ew_app/controllers/widgets/buttons_controller.dart';
 import 'package:ew_app/widgets/buttons/add_file_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class TaskGalleryWidget extends StatefulWidget {
-  final int galleryCountElements;
-  final Function updateImagesList;
+import 'package:ew_app/constants/url.dart';
+import 'package:ew_app/models/gallery_models.dart';
 
-  const TaskGalleryWidget({super.key, required this.galleryCountElements, required this.updateImagesList});
+import '../controllers/gallery/single_image_view.dart';
+
+class TaskGalleryWidget extends StatefulWidget {
+  final ImageShortInfoList? galleryElements;
+  final Function updateImagesList;
+  final String projectId;
+  final String taskId;
+
+  const TaskGalleryWidget({
+    super.key,
+    required this.galleryElements,
+    required this.updateImagesList,
+    required this.projectId,
+    required this.taskId,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
   _TaskGalleryWidgetState createState() => _TaskGalleryWidgetState();
 }
 
+// TODO: FIX: currently for all images send 1, 2, 3 and more requests. Add get images to one request
 class _TaskGalleryWidgetState extends State<TaskGalleryWidget> {
   bool _showAllContainers = false;
+  AddFileButtonController addFileButtonController = AddFileButtonController();
+
+  void deleteImage(String imageId) {
+    widget.galleryElements?.images.removeWhere((image) => image.id == imageId);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
+    int elementCount = widget.galleryElements?.images.length ?? 0;
+    addFileButtonController.projectId = widget.projectId;
+    addFileButtonController.taskId = widget.taskId;
+
     final itemCount = _showAllContainers
-        ? widget.galleryCountElements + 1
-        : widget.galleryCountElements >= 4
+        ? elementCount + 1
+        : elementCount >= 4
             ? 4
-            : widget.galleryCountElements + 1;
+            : elementCount + 1;
 
     return Container(
       width: 313,
@@ -65,8 +90,8 @@ class _TaskGalleryWidgetState extends State<TaskGalleryWidget> {
                                   _showAllContainers = true;
                                 });
                               },
-                              child: galleryIcon(
-                                  context, 'assets/icons/gallery_expand.svg'),
+                              child: galleryIcon(context, false,
+                                  'assets/icons/gallery_expand.svg'),
                             ),
                           ),
                         ],
@@ -74,34 +99,46 @@ class _TaskGalleryWidgetState extends State<TaskGalleryWidget> {
                     } else {
                       return GestureDetector(
                         onTap: () {
-                          showImagePicker(context, widget.updateImagesList, null, true);
-                          // Navigator.pushNamed(context, '/soon');
+                          showImagePicker(
+                              context, widget.updateImagesList, addFileButtonController, null, false);
                         },
-                        child:
-                            galleryIcon(context, 'assets/icons/add_image.svg'),
+                        child: galleryIcon(
+                            context, false, 'assets/icons/add_image.svg'),
                       );
                     }
                   } else if (_showAllContainers) {
                     return GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/soon');
+                        showImagePicker(
+                            context, widget.updateImagesList, addFileButtonController, null, false);
                       },
-                      child: galleryIcon(context, 'assets/icons/add_image.svg'),
+                      child: galleryIcon(
+                          context, false, 'assets/icons/add_image.svg'),
                     );
                   } else {
+                    String? imageUrl =
+                        widget.galleryElements?.images[index].image;
                     return GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/gallery');
+                        SingleImageController singleImageController = SingleImageController();
+                        singleImageController.image = widget.galleryElements!.images[index];
+                        singleImageController.openImage(
+                            context, singleImageController, deleteImage);
                       },
-                      child: galleryIcon(context),
+                      child: galleryIcon(context, true, imageUrl),
                     );
                   }
                 } else {
+                  String? imageUrl =
+                      widget.galleryElements?.images[index].image;
                   return GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/gallery');
+                      SingleImageController singleImageController = SingleImageController();
+                      singleImageController.image = widget.galleryElements!.images[index];
+                      singleImageController.openImage(
+                          context, singleImageController, deleteImage);
                     },
-                    child: galleryIcon(context),
+                    child: galleryIcon(context, true, imageUrl),
                   );
                 }
               }),
@@ -111,7 +148,11 @@ class _TaskGalleryWidgetState extends State<TaskGalleryWidget> {
   }
 }
 
-Widget galleryIcon(BuildContext context, [String? iconSrc = '']) {
+Widget galleryIcon(
+  BuildContext context,
+  bool networkImage,
+  String? imagePath,
+) {
   return Container(
     width: MediaQuery.of(context).size.width * 0.25,
     height: MediaQuery.of(context).size.width * 0.25,
@@ -128,14 +169,23 @@ Widget galleryIcon(BuildContext context, [String? iconSrc = '']) {
       ],
     ),
     alignment: Alignment.center,
-    child: iconSrc == ''
-        ? const Text(
-            'Container',
-            style: TextStyle(color: Colors.white),
-          )
-        : SvgPicture.asset(
-            iconSrc!,
-            fit: BoxFit.fill,
-          ),
+    child: ClipOval(
+      child: Visibility(
+        visible: networkImage,
+        replacement: SvgPicture.asset(
+          imagePath!,
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.fill,
+        ),
+        child: Image.network(
+          '$baseUrl$imagePath',
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.fill,
+        ),
+      ),
+    ),
   );
 }
+

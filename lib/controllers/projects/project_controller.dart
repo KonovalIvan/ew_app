@@ -68,6 +68,7 @@ class ProjectController {
     final response =
         await http.get(url, headers: {'Authorization': 'Token $accessToken'});
     final data = jsonDecode(response.body);
+    // TODO: Fix gallery
     if (response.statusCode == 200) {
       final projectInfoResponse = ProjectInfo.fromJson(data);
       return projectInfoResponse;
