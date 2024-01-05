@@ -1,4 +1,5 @@
 import 'package:ew_app/controllers/home_controller.dart';
+import 'package:ew_app/controllers/projects/projects_list_controller.dart';
 import 'package:ew_app/widgets/appbar_widget.dart';
 import 'package:ew_app/widgets/buttons/menu_button_widget.dart';
 import 'package:ew_app/widgets/buttons/home_button_widget.dart';
@@ -22,9 +23,19 @@ class _HomeViewState extends State<HomeView> {
     setState(() {});
   }
 
+  Future<void> _refresh() async {
+    var (user, tasks) = await ProjectsListController().refreshProjectListPage();
+    _homeController.user = user;
+    _homeController.activeProjectsAndTasks = tasks;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    // TODO: fix refresh in view
+    return RefreshIndicator(
+        onRefresh: _refresh,
+        child: Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const AppBarWidget(
         rightIconMenu: MenuButtonWidget(),
@@ -105,7 +116,7 @@ class _HomeViewState extends State<HomeView> {
             );
           }
         },
-      ),
+      ),),
     );
   }
 }
