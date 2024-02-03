@@ -132,7 +132,6 @@ class TaskController {
 
   Future<TaskFullInfo> _getTaskInfo(String taskId, String accessToken) async {
     final url = Uri.parse(apiTaskInfoUrl.replaceFirst('{id}', taskId));
-
     final response = await http.get(
       url,
       headers: {

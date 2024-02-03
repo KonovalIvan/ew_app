@@ -18,7 +18,6 @@ class _HomeViewState extends State<HomeView> {
   final HomeController _homeController = HomeController();
 
   void updateView() {
-    print(_homeController.user.avatar);
     setState(() {});
   }
 

@@ -95,7 +95,7 @@ class _NewProjectViewState extends State<NewProjectView> {
                                 child: EditableResizedFieldWidget(
                                   textEditingController: _projectController
                                       .designerEmailController,
-                                  fieldWidth: 191,
+                                  fieldWidth: 164,
                                   editable: true,
                                   helpText: 'Designer email',
                                 ),
@@ -105,7 +105,7 @@ class _NewProjectViewState extends State<NewProjectView> {
                                 child: EditableResizedFieldWidget(
                                   textEditingController:
                                       _projectController.masterEmailController,
-                                  fieldWidth: 191,
+                                  fieldWidth: 164,
                                   editable: true,
                                   helpText: 'Master email',
                                 ),
@@ -115,7 +115,7 @@ class _NewProjectViewState extends State<NewProjectView> {
                                 child: EditableResizedFieldWidget(
                                   textEditingController:
                                       _projectController.clientPhoneController,
-                                  fieldWidth: 191,
+                                  fieldWidth: 164,
                                   editable: true,
                                   helpText: 'Client phone number',
                                 ),

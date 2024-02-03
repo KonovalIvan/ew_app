@@ -112,8 +112,6 @@ class ProjectController {
     String accessToken = prefs.getString('accessToken') ?? '';
 
     var requestBody = await createRequestBody();
-    // TODO: add changing designer
-    requestBody['designer_email'] = 'ivank';
 
     var updateUrl =
         Uri.parse(apiProjectUpdateUrl.replaceFirst('{id}', project.id));
@@ -150,7 +148,7 @@ class ProjectController {
     // TODO: fix updating api/projects/projects-tasks-active/
     var requestBody = await createRequestBody(create: true);
     //TODO: change designer email
-    requestBody['designer_email'] = 'ivank';
+    requestBody['designer_email'] = prefs.getString('email');
 
     var createUrl = Uri.parse(apiProjectCreateUrl);
     final response = await http.post(

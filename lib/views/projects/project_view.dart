@@ -124,7 +124,7 @@ class _ProjectViewState extends State<ProjectView> {
                           inputTextSize: 24.0,
                           inputTextColor: Colors.white,
                           textAlign: TextAlign.center,
-                          fieldWidth: 191,
+                          fieldWidth: 164,
                           buttonColor: const Color(0x00c4c4c4),
                           editable: _optionsButtonController.editable,
                           helpText: 'Project Name',
@@ -151,7 +151,7 @@ class _ProjectViewState extends State<ProjectView> {
                                       .projectController
                                       .designerEmailController,
                                   initialText: project.designer?.email ?? '',
-                                  fieldWidth: 191,
+                                  fieldWidth: 164,
                                   editable: _optionsButtonController.editable,
                                   helpText: 'Designer email',
                                 ),
@@ -163,7 +163,7 @@ class _ProjectViewState extends State<ProjectView> {
                                       .projectController.masterEmailController,
                                   initialText:
                                       project.buildingMaster?.email ?? '',
-                                  fieldWidth: 191,
+                                  fieldWidth: 164,
                                   editable: _optionsButtonController.editable,
                                   helpText: 'Master email',
                                 ),
@@ -172,7 +172,7 @@ class _ProjectViewState extends State<ProjectView> {
                                 padding: const EdgeInsets.only(top: 9),
                                 child: EditableResizedFieldWidget(
                                   initialText: project.client,
-                                  fieldWidth: 191,
+                                  fieldWidth: 164,
                                   editable: _optionsButtonController.editable,
                                   helpText: 'Client phone',
                                 ),

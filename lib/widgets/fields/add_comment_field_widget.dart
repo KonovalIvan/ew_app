@@ -25,7 +25,6 @@ class AddCommentFieldWidget extends StatefulWidget {
 
 class _AddCommentFieldWidgetState extends State<AddCommentFieldWidget> {
   final TextEditingController descriptionController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     print(widget.userAvatarUrl);
@@ -50,7 +49,7 @@ class _AddCommentFieldWidgetState extends State<AddCommentFieldWidget> {
             padding: const EdgeInsets.only(right: 4),
             child: ClipOval(
               child: Visibility(
-                visible: widget.userAvatarUrl != null,
+                visible: widget.userAvatarUrl != '',
                 replacement: Image.asset(
                   'assets/images/base_user_profile.png',
                   width: 23,
@@ -65,12 +64,6 @@ class _AddCommentFieldWidgetState extends State<AddCommentFieldWidget> {
                 ),
               ),
             ),
-            // child: Image.asset(
-            //   'assets/images/base_user_profile.png',
-            //   width: 23,
-            //   height: 23,
-            //   fit: BoxFit.fill,
-            // ),
           ),
           Expanded(
             child: EditableResizedFieldWidget(

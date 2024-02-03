@@ -36,15 +36,15 @@ class UserAvatar {
 @JsonSerializable()
 class User extends UserPart {
   final String email;
-
-  final String? avatar;
+  final String avatar;
 
   User(
     String? firstName,
     String? lastName, {
     required this.email,
-    required this.avatar,
-  }) : super(firstName ?? '', lastName ?? '');
+    String? avatar,
+  })  : avatar = avatar ?? "",
+        super(firstName ?? '', lastName ?? '') {}
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

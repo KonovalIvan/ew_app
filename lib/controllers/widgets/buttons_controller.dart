@@ -73,10 +73,8 @@ class AddFileButtonController {
   Future<SingleImage> addFile(ProjectController? projectController) async {
     try {
       if (projectController != null) {
-        print('asd');
         projectId = projectController.project.id;
       }
-      print(projectId);
 
       SingleImage image = await _sendCreateImageRequest();
 

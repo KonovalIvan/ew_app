@@ -1,5 +1,5 @@
 const String appName = 'ew_app';
-const String baseUrl = 'http://ewbackendik.duckdns.org';
+const String baseUrl = 'http://192.168.1.17:8000';
 const String baseApiUrl = '$baseUrl/api';
 
 // Projects url`s

@@ -19,6 +19,7 @@ class HomeController {
     final response =
         await http.get(url, headers: {'Authorization': 'Token $accessToken'});
     final data = jsonDecode(response.body);
+    print(data);
     if (response.statusCode == 200) {
       final userDetailResponse = User.fromJson(data);
       return userDetailResponse;
@@ -106,7 +107,6 @@ class HomeController {
       if (result is (User, ActiveProjectsAndTasks) && updateHomeView != null) {
         var (returnedUser, returnedActiveProjectsAndTasks) = result;
         user = returnedUser;
-        print(user.avatar);
         activeProjectsAndTasks = returnedActiveProjectsAndTasks;
         updateHomeView();
       }
